@@ -8,7 +8,7 @@ interface IDictionary<T = any> {
 /**
  * A numeric Javascript array
  */
-interface INumericArray<T> {
+interface INumericArray<T = any> {
   [key: number]: T;
 }
 
