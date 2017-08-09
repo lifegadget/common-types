@@ -13,6 +13,9 @@ export interface INumericArray<T = any> {
   [key: number]: T;
 }
 
+/** A function for sorting JS arrays */
+export type SortingFunction = (a: any, b: any) => number;
+
 /** a string of the format: "YYYY-MM-DD" */
 export type datestring = string;
 /** a string of the format: "HH:mm:ss" */
@@ -23,3 +26,14 @@ export type timezone = string;
 export type datetime = string;
 /** unix epoch datetime format (aka, seconds since 1970) */
 export type epoch = number;
+
+export enum STAGE {
+  prod = 'prod',
+  stage = 'stage',
+  test = 'test',
+  dev = 'dev',
+  production = prod,
+  staging = stage,
+  testing = test,
+  development = dev
+}
