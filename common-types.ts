@@ -37,3 +37,11 @@ export enum STAGE {
   testing = test,
   development = dev
 }
+
+export enum FirebaseEvent {
+  value = 'value',
+  child_added = 'child_added',
+  child_moved = 'child_moved',
+  child_removed = 'child_removed',
+  child_changed = 'child_changed'
+};
