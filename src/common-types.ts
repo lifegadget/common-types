@@ -45,10 +45,3 @@ export enum FirebaseEvent {
   child_removed = 'child_removed',
   child_changed = 'child_changed'
 };
-
-/**
- * This is a bizarre work-around to allow for the
- * importation of enumerations. For more details 
- * see: http://bit.ly/2vZ697Z
- */
-export class __workaround__ {}
