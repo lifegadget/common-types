@@ -7,7 +7,7 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "outDir": "./lib",
-    "removeComments": true,
+    "removeComments": false,
     "typeRoots": [
       "./node_modules/@types"
     ]
