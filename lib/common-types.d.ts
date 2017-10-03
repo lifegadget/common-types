@@ -39,3 +39,50 @@ export declare enum FirebaseEvent {
     child_removed = "child_removed",
     child_changed = "child_changed",
 }
+/** A decorator signature for a class property */
+export declare type PropertyDecorator = (target: any, key: string | symbol) => void;
+/** A decorator signature for a class */
+export declare type ClassDecorator = <TFunction extends Function>(target: TFunction) => TFunction | void;
+export interface IVerboseError {
+    /** A short and unique identifier for the error; typically would not have any spaces in it */
+    code: string;
+    /** A user-friendly description of the error message */
+    message: string;
+    module?: string;
+    function?: string;
+    fileName?: string;
+    stackFrames?: any[];
+}
+export declare type LazyString = () => string;
+export interface IStackFrame {
+    getTypeName: LazyString;
+    getFunctionName: LazyString;
+    getMethodName: LazyString;
+    getFileName: LazyString;
+    getLineNumber: LazyString;
+    getColumnNumber: LazyString;
+    isNative: LazyString | string;
+}
+export declare class VerboseError extends Error implements IVerboseError {
+    private static stackParser(err);
+    /**
+     * If you want to use a library like stack-trace(node) or stacktrace-js(client) add in the "get"
+     * function that they provide
+     */
+    static setStackParser(fn: (err: IVerboseError) => any): void;
+    static useColor: true;
+    static filePathDepth: 3;
+    code: string;
+    message: string;
+    module?: string;
+    function?: string;
+    stackFrames?: IStackFrame[];
+    constructor(err: IVerboseError, ...args: any[]);
+    toString(): string;
+    toJSON(): string;
+    toObject(): {
+        code: string;
+        message: string;
+        module: string;
+    };
+}
