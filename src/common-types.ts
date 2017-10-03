@@ -122,7 +122,6 @@ export class VerboseError extends Error implements IVerboseError {
         const details = isNative 
           ? '( native function )' 
           : `[ line ${frame.getLineNumber()}, col ${frame.getColumnNumber()} in ${fileName} ]`;
-        console.log(colorize(`\t at ${classAndFunction} ${details}`));
         
         return colorize(`\t at ${classAndFunction} ${details}`);
       }).join("\n");
