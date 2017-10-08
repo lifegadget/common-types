@@ -27,6 +27,11 @@ export type datetime = string;
 /** unix epoch datetime format (aka, seconds since 1970) */
 export type epoch = number;
 
+/** foreign key reference */
+export type fk = string;
+/** primary key reference */
+export type pk = string;
+
 export enum STAGE {
   prod = 'prod',
   stage = 'stage',

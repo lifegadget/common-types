@@ -22,6 +22,10 @@ export declare type timezone = string;
 export declare type datetime = string;
 /** unix epoch datetime format (aka, seconds since 1970) */
 export declare type epoch = number;
+/** foreign key reference */
+export declare type fk = string;
+/** primary key reference */
+export declare type pk = string;
 export declare enum STAGE {
     prod = "prod",
     stage = "stage",
