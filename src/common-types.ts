@@ -57,6 +57,13 @@ export enum FirebaseEvent {
 export type PropertyDecorator = (target: any, key: string | symbol) => void;
 /** A decorator signature for a class */
 export type ClassDecorator = <TFunction extends Function>(target: TFunction) => TFunction | void;
+export interface ReflectionProperty<T> {
+  get: () => T;
+  set: (value: any) => void;
+  enumerable: boolean;
+  configurable: boolean;
+}
+
 
 // ERRORS
 export interface IVerboseError {
