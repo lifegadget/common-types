@@ -1,5 +1,5 @@
-import chalk = require('chalk');
-/** 
+import chalk = require("chalk");
+/**
  * A Javascript hash which allows for any set of keys
  */
 export interface IDictionary<T = any> {
@@ -33,10 +33,10 @@ export type fk = string;
 export type pk = string;
 
 export enum STAGE {
-  prod = 'prod',
-  stage = 'stage',
-  test = 'test',
-  dev = 'dev',
+  prod = "prod",
+  stage = "stage",
+  test = "test",
+  dev = "dev",
   production = prod,
   staging = stage,
   testing = test,
@@ -44,26 +44,39 @@ export enum STAGE {
 }
 
 export enum FirebaseEvent {
-  value = 'value',
-  child_added = 'child_added',
-  child_moved = 'child_moved',
-  child_removed = 'child_removed',
-  child_changed = 'child_changed'
-};
+  value = "value",
+  child_added = "child_added",
+  child_moved = "child_moved",
+  child_removed = "child_removed",
+  child_changed = "child_changed"
+}
+
+export type LAMBDA_CALLBACK = (
+  error: any,
+  response: IAWSGatewayResponse
+) => void;
+export interface IAWSGatewayResponse {
+  statusCode: number;
+  headers?: IDictionary<string>;
+
+  body?: string;
+  error?: string;
+}
 
 // DECORATORS
 
 /** A decorator signature for a class property */
 export type PropertyDecorator = (target: any, key: string | symbol) => void;
 /** A decorator signature for a class */
-export type ClassDecorator = <TFunction extends Function>(target: TFunction) => TFunction | void;
+export type ClassDecorator = <TFunction extends Function>(
+  target: TFunction
+) => TFunction | void;
 export interface ReflectionProperty<T> {
   get: () => T;
-  set: (value: any) => void;
+  set: (value?: any) => void;
   enumerable: boolean;
   configurable: boolean;
 }
-
 
 // ERRORS
 export interface IVerboseError {
@@ -78,7 +91,7 @@ export interface IVerboseError {
 }
 
 export type LazyString = () => string;
-export interface IStackFrame  {
+export interface IStackFrame {
   getTypeName: LazyString;
   getFunctionName: LazyString;
   getMethodName: LazyString;
@@ -94,7 +107,7 @@ export class VerboseError extends Error implements IVerboseError {
   }
   /**
    * If you want to use a library like stack-trace(node) or stacktrace-js(client) add in the "get"
-   * function that they provide 
+   * function that they provide
    */
   public static setStackParser(fn: (err: IVerboseError) => any) {
     VerboseError.stackParser = fn;
@@ -115,30 +128,50 @@ export class VerboseError extends Error implements IVerboseError {
     this.module = err.module;
     this.function = err.function;
     const stackFrames = VerboseError.stackParser(this);
-    if(stackFrames) {
-      this.stackFrames = stackFrames
-        .filter(frame => (frame.getFileName() || '').indexOf('common-types') === -1);
+    if (stackFrames) {
+      this.stackFrames = stackFrames.filter(
+        frame => (frame.getFileName() || "").indexOf("common-types") === -1
+      );
       this.function = stackFrames[0].getMethodName();
-      this.stack = this.message + "\n\n" + this.stackFrames.map(frame => {
-        const isNative = typeof frame.isNative === 'function' ? frame.isNative() : frame.isNative;
-        const colorize = (content: string) => VerboseError.useColor && isNative ? chalk.grey.italic(content) : content;
-        const className = frame.getTypeName() ? frame.getTypeName() + ' → ' : '';
-        const functionName = frame.getMethodName() || frame.getFunctionName() || '<anonymous>';
-        const classAndFunction = VerboseError.useColor
-          ? chalk.bold(`${className}${functionName}`)
-          : `${className}${functionName}`;
-        const fileName = (frame.getFileName() || '')
-          .split('/')
-          .slice(-1 * VerboseError.filePathDepth)
-          .join('/');
-        const details = isNative 
-          ? '( native function )' 
-          : `[ line ${frame.getLineNumber()}, col ${frame.getColumnNumber()} in ${fileName} ]`;
-        
-        return colorize(`\t at ${classAndFunction} ${details}`);
-      }).join("\n");
+      this.stack =
+        this.message +
+        "\n\n" +
+        this.stackFrames
+          .map(frame => {
+            const isNative =
+              typeof frame.isNative === "function"
+                ? frame.isNative()
+                : frame.isNative;
+            const colorize = (content: string) =>
+              VerboseError.useColor && isNative
+                ? chalk.grey.italic(content)
+                : content;
+            const className = frame.getTypeName()
+              ? frame.getTypeName() + " → "
+              : "";
+            const functionName =
+              frame.getMethodName() || frame.getFunctionName() || "<anonymous>";
+            const classAndFunction = VerboseError.useColor
+              ? chalk.bold(`${className}${functionName}`)
+              : `${className}${functionName}`;
+            const fileName = (frame.getFileName() || "")
+              .split("/")
+              .slice(-1 * VerboseError.filePathDepth)
+              .join("/");
+            const details = isNative
+              ? "( native function )"
+              : `[ line ${frame.getLineNumber()}, col ${frame.getColumnNumber()} in ${
+                  fileName
+                } ]`;
+
+            return colorize(`\t at ${classAndFunction} ${details}`);
+          })
+          .join("\n");
     } else {
-      this.stack = this.stack.split("\n").filter(line => line.indexOf('VerboseError') === -1).join("\n");
+      this.stack = this.stack
+        .split("\n")
+        .filter(line => line.indexOf("VerboseError") === -1)
+        .join("\n");
     }
   }
 
@@ -154,7 +187,7 @@ export class VerboseError extends Error implements IVerboseError {
     return {
       code: this.code,
       message: this.message,
-      module: this.module,
+      module: this.module
     };
   }
 }

@@ -43,13 +43,20 @@ export declare enum FirebaseEvent {
     child_removed = "child_removed",
     child_changed = "child_changed",
 }
+export declare type LAMBDA_CALLBACK = (error: any, response: IAWSGatewayResponse) => void;
+export interface IAWSGatewayResponse {
+    statusCode: number;
+    headers?: IDictionary<string>;
+    body?: string;
+    error?: string;
+}
 /** A decorator signature for a class property */
 export declare type PropertyDecorator = (target: any, key: string | symbol) => void;
 /** A decorator signature for a class */
 export declare type ClassDecorator = <TFunction extends Function>(target: TFunction) => TFunction | void;
 export interface ReflectionProperty<T> {
     get: () => T;
-    set: (value: any) => void;
+    set: (value?: any) => void;
     enumerable: boolean;
     configurable: boolean;
 }
