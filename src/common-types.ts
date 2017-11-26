@@ -51,7 +51,7 @@ export enum FirebaseEvent {
   child_changed = "child_changed"
 }
 
-export type LAMBDA_CALLBACK = (
+export type LambdaCallback = (
   error: any,
   response: IAWSGatewayResponse
 ) => void;
