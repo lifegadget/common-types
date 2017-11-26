@@ -43,7 +43,7 @@ export declare enum FirebaseEvent {
     child_removed = "child_removed",
     child_changed = "child_changed",
 }
-export declare type LambdaCallback = (error: any, response: IAWSGatewayResponse) => void;
+export declare type AWSGatewayCallback<T = IAWSGatewayResponse> = (error: any, response: T) => void;
 export interface IAWSGatewayResponse {
     statusCode: number;
     headers?: IDictionary<string>;

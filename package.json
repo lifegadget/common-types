@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "description": "Common types not included in Typescript",
   "main": "lib/common-types.js",
   "types": "lib/common-types.d.ts",

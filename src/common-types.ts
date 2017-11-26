@@ -5,7 +5,6 @@ import chalk = require("chalk");
 export interface IDictionary<T = any> {
   [key: string]: T;
 }
-
 /**
  * A numeric Javascript array
  */
@@ -51,9 +50,9 @@ export enum FirebaseEvent {
   child_changed = "child_changed"
 }
 
-export type LambdaCallback = (
+export type AWSGatewayCallback<T = IAWSGatewayResponse> = (
   error: any,
-  response: IAWSGatewayResponse
+  response: T
 ) => void;
 export interface IAWSGatewayResponse {
   statusCode: number;
