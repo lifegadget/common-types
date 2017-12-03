@@ -50,6 +50,23 @@ export interface IAWSGatewayResponse {
     body?: string;
     error?: string;
 }
+export interface IAWSGatewayRequest {
+    callbackWaitsForEmptyEventLoop?: boolean;
+    done?: () => void;
+    succeed?: () => void;
+    fail?: () => void;
+    logGroupName?: string;
+    logStreamName?: string;
+    functionName?: string;
+    memoryLimitInMB?: string;
+    functionVersion?: string;
+    getRemainingTimeInMillis?: string;
+    invokeid?: string;
+    awsRequestId?: string;
+    invokedFunctionArn?: string;
+    stage?: "dev" | "stage" | "prod";
+    parentRequestId?: string;
+}
 /** A decorator signature for a class property */
 export declare type PropertyDecorator = (target: any, key: string | symbol) => void;
 /** A decorator signature for a class */

@@ -54,12 +54,33 @@ export type AWSGatewayCallback<T = IAWSGatewayResponse> = (
   error: any,
   response: T
 ) => void;
+
 export interface IAWSGatewayResponse {
   statusCode: number;
   headers?: IDictionary<string>;
 
   body?: string;
   error?: string;
+}
+
+export interface IAWSGatewayRequest {
+  callbackWaitsForEmptyEventLoop?: boolean;
+  done?: () => void;
+  succeed?: () => void;
+  fail?: () => void;
+  logGroupName?: string;
+  logStreamName?: string;
+  functionName?: string;
+  memoryLimitInMB?: string;
+  functionVersion?: string;
+  getRemainingTimeInMillis?: string;
+  invokeid?: string;
+  awsRequestId?: string;
+  invokedFunctionArn?: string;
+  /* passed explicitly from parent Lambda to child */
+  stage?: "dev" | "stage" | "prod";
+  /* the parent Lambda's request Id */
+  parentRequestId?: string;
 }
 
 // DECORATORS
