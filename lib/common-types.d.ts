@@ -22,6 +22,10 @@ export declare type timezone = string;
 export declare type datetime = string;
 /** unix epoch datetime format (aka, seconds since 1970) */
 export declare type epoch = number;
+/** a string representing a URL resource */
+export declare type url = string;
+/** a string representing a URI resource */
+export declare type uri = string;
 /** foreign key reference */
 export declare type fk = string;
 /** primary key reference */
