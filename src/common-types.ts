@@ -1,4 +1,4 @@
-import chalk = require("chalk");
+import chalk from "chalk";
 /**
  * A Javascript hash which allows for any set of keys
  */
@@ -180,9 +180,7 @@ export class VerboseError extends Error implements IVerboseError {
               .join("/");
             const details = isNative
               ? "( native function )"
-              : `[ line ${frame.getLineNumber()}, col ${frame.getColumnNumber()} in ${
-                  fileName
-                } ]`;
+              : `[ line ${frame.getLineNumber()}, col ${frame.getColumnNumber()} in ${fileName} ]`;
 
             return colorize(`\t at ${classAndFunction} ${details}`);
           })
