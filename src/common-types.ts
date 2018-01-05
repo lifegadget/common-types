@@ -35,23 +35,26 @@ export type url = string;
 /** universal resource indicator */
 export type uri = string;
 
-export enum STAGE {
-  prod = "prod",
-  stage = "stage",
-  test = "test",
-  dev = "dev",
-  production = prod,
-  staging = stage,
-  testing = test,
-  development = dev
-}
+export const STAGE_MAP: IDictionary<string> = {
+  prod: "prod",
+  stage: "stage",
+  test: "test",
+  dev: "dev",
+  production: "prod",
+  staging: "stage",
+  testing: "test",
+  development: "dev"
+};
 
-export enum FirebaseEvent {
-  value = "value",
-  child_added = "child_added",
-  child_moved = "child_moved",
-  child_removed = "child_removed",
-  child_changed = "child_changed"
+export function STAGE(stage: string) {
+  if (new Set(Object.keys(STAGE_MAP)).has(stage)) {
+    return STAGE_MAP[stage];
+  } else {
+    console.warn(
+      `An invalid stage was passed in: "${stage}"; will use "dev" as default`
+    );
+    return "dev";
+  }
 }
 
 export type AWSGatewayCallback<T = IAWSGatewayResponse> = (

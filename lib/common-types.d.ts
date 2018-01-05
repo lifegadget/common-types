@@ -30,23 +30,8 @@ export declare type pk = string;
 export declare type url = string;
 /** universal resource indicator */
 export declare type uri = string;
-export declare enum STAGE {
-    prod = "prod",
-    stage = "stage",
-    test = "test",
-    dev = "dev",
-    production = "prod",
-    staging = "stage",
-    testing = "test",
-    development = "dev",
-}
-export declare enum FirebaseEvent {
-    value = "value",
-    child_added = "child_added",
-    child_moved = "child_moved",
-    child_removed = "child_removed",
-    child_changed = "child_changed",
-}
+export declare const STAGE_MAP: IDictionary<string>;
+export declare function STAGE(stage: string): string;
 export declare type AWSGatewayCallback<T = IAWSGatewayResponse> = (error: any, response: T) => void;
 export interface IAWSGatewayResponse {
     statusCode: number;
