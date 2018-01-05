@@ -26,6 +26,10 @@ export declare type epoch = number;
 export declare type fk = string;
 /** primary key reference */
 export declare type pk = string;
+/** universal resource locator */
+export declare type url = string;
+/** universal resource indicator */
+export declare type uri = string;
 export declare enum STAGE {
     prod = "prod",
     stage = "stage",
