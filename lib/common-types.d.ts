@@ -30,23 +30,12 @@ export declare type uri = string;
 export declare type fk = string;
 /** primary key reference */
 export declare type pk = string;
-export declare enum STAGE {
-    prod = "prod",
-    stage = "stage",
-    test = "test",
-    dev = "dev",
-    production = "prod",
-    staging = "stage",
-    testing = "test",
-    development = "dev",
-}
-export declare enum FirebaseEvent {
-    value = "value",
-    child_added = "child_added",
-    child_moved = "child_moved",
-    child_removed = "child_removed",
-    child_changed = "child_changed",
-}
+/** universal resource locator */
+export declare type url = string;
+/** universal resource indicator */
+export declare type uri = string;
+export declare const STAGE_MAP: IDictionary<string>;
+export declare function STAGE(stage: string): string;
 export declare type AWSGatewayCallback<T = IAWSGatewayResponse> = (error: any, response: T) => void;
 export interface IAWSGatewayResponse {
     statusCode: number;
@@ -80,47 +69,4 @@ export interface ReflectionProperty<T> {
     set: (value?: any) => void;
     enumerable: boolean;
     configurable: boolean;
-}
-export interface IVerboseError {
-    /** A short and unique identifier for the error; typically would not have any spaces in it */
-    code: string;
-    /** A user-friendly description of the error message */
-    message: string;
-    module?: string;
-    function?: string;
-    fileName?: string;
-    stackFrames?: any[];
-}
-export declare type LazyString = () => string;
-export interface IStackFrame {
-    getTypeName: LazyString;
-    getFunctionName: LazyString;
-    getMethodName: LazyString;
-    getFileName: LazyString;
-    getLineNumber: LazyString;
-    getColumnNumber: LazyString;
-    isNative: LazyString | string;
-}
-export declare class VerboseError extends Error implements IVerboseError {
-    private static stackParser(err);
-    /**
-     * If you want to use a library like stack-trace(node) or stacktrace-js(client) add in the "get"
-     * function that they provide
-     */
-    static setStackParser(fn: (err: IVerboseError) => any): void;
-    static useColor: true;
-    static filePathDepth: 3;
-    code: string;
-    message: string;
-    module?: string;
-    function?: string;
-    stackFrames?: IStackFrame[];
-    constructor(err: IVerboseError, ...args: any[]);
-    toString(): string;
-    toJSON(): string;
-    toObject(): {
-        code: string;
-        message: string;
-        module: string;
-    };
 }
