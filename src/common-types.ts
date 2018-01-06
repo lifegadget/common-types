@@ -1,4 +1,3 @@
-// import chalk from "chalk";
 /**
  * A Javascript hash which allows for any set of keys
  */
@@ -25,10 +24,6 @@ export type timezone = string;
 export type datetime = string;
 /** unix epoch datetime format (aka, seconds since 1970) */
 export type epoch = number;
-/** a string representing a URL resource */
-export type url = string;
-/** a string representing a URI resource */
-export type uri = string;
 
 /** foreign key reference */
 export type fk = string;
