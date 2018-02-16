@@ -1,13 +1,13 @@
 {
   "name": "common-types",
-  "version": "1.5.2",
+  "version": "1.5.4",
   "description": "Common types not included in Typescript",
   "main": "lib/common-types.js",
   "types": "lib/common-types.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "publish": "node run build && npm publish"
+    "publish": "npm run build && npm publish"
   },
   "author": "Ken Snyder <ken@ken.net>",
   "license": "MIT",
