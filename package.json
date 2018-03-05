@@ -1,13 +1,14 @@
 {
   "name": "common-types",
-  "version": "1.5.7",
+  "version": "1.6.5",
   "description": "Common types not included in Typescript",
+  "respository": "https://github.com/lifegadget/common-types",
   "main": "lib/common-types.js",
   "types": "lib/common-types.d.ts",
+  "files": ["lib/common-types.js", "lib/common-types.d.ts", "lib/common-types.js.map"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
-    "publish": "npm run build && npm publish"
+    "build": "tsc"
   },
   "author": "Ken Snyder <ken@ken.net>",
   "license": "MIT",
