@@ -55,6 +55,7 @@ export function STAGE(stage: string) {
 }
 
 export type AWSGatewayCallback<T = IAWSGatewayResponse> = (error: any, response: T) => void;
+export type AWSLambaCallback<T = IDictionary> = (error: any, response: T) => void;
 
 export interface IAWSGatewayResponse {
   statusCode: number;
