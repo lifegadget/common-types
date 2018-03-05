@@ -32,8 +32,17 @@ export declare type url = string;
 export declare type uri = string;
 export declare const STAGE_MAP: IDictionary<string>;
 export declare function STAGE(stage: string): string;
+export interface ILambdaErrorResponse<T = any> {
+    errorCode: string | number;
+    message?: string;
+    errors?: T[];
+    stackTrace?: string[];
+}
 export declare type AWSGatewayCallback<T = IAWSGatewayResponse> = (error: any, response: T) => void;
-export declare type AWSLambaCallback<T = IDictionary> = (error: any, response: T) => void;
+/** A Lambda function called to indicate the end-state of a lambda function */
+export declare type LambdaSuccessCallback<T = IDictionary> = (error: null, response: T) => void;
+export declare type LambdaFailureCallback<T = ILambdaErrorResponse> = (error: string | object, response: T) => void;
+export declare type LambdaCallback<T = IDictionary, E = ILambdaErrorResponse> = LambdaSuccessCallback<T> | LambdaFailureCallback<E>;
 export interface IAWSGatewayResponse {
     statusCode: number;
     headers?: IDictionary<string>;

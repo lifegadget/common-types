@@ -54,8 +54,23 @@ export function STAGE(stage: string) {
   }
 }
 
+export interface ILambdaErrorResponse<T = any> {
+  errorCode: string | number;
+  message?: string;
+  errors?: T[];
+  stackTrace?: string[];
+}
+
 export type AWSGatewayCallback<T = IAWSGatewayResponse> = (error: any, response: T) => void;
-export type AWSLambaCallback<T = IDictionary> = (error: any, response: T) => void;
+/** A Lambda function called to indicate the end-state of a lambda function */
+export type LambdaSuccessCallback<T = IDictionary> = (error: null, response: T) => void;
+export type LambdaFailureCallback<T = ILambdaErrorResponse> = (
+  error: string | object,
+  response: T
+) => void;
+export type LambdaCallback<T = IDictionary, E = ILambdaErrorResponse> =
+  | LambdaSuccessCallback<T>
+  | LambdaFailureCallback<E>;
 
 export interface IAWSGatewayResponse {
   statusCode: number;
