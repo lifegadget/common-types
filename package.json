@@ -2,7 +2,7 @@
   "name": "common-types",
   "version": "1.6.8",
   "description": "Common types not included in Typescript",
-  "respository": "https://github.com/lifegadget/common-types",
+  "repository": "https://github.com/lifegadget/common-types",
   "main": "lib/common-types.js",
   "types": "lib/common-types.d.ts",
   "files": ["lib/common-types.js", "lib/common-types.d.ts", "lib/common-types.js.map"],
