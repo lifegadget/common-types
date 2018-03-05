@@ -33,6 +33,7 @@ export declare type uri = string;
 export declare const STAGE_MAP: IDictionary<string>;
 export declare function STAGE(stage: string): string;
 export declare type AWSGatewayCallback<T = IAWSGatewayResponse> = (error: any, response: T) => void;
+export declare type AWSLambaCallback<T = IDictionary> = (error: any, response: T) => void;
 export interface IAWSGatewayResponse {
     statusCode: number;
     headers?: IDictionary<string>;
