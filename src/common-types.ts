@@ -61,7 +61,6 @@ export interface ILambdaErrorResponse<T = any> {
   stackTrace?: string[];
 }
 
-export type AWSGatewayCallback<T = IAWSGatewayResponse> = (error: any, response: T) => void;
 /** A Lambda function called to indicate the end-state of a lambda function */
 export type LambdaSuccessCallback<T = IDictionary> = (error: null, response: T) => void;
 export type LambdaFailureCallback<T = ILambdaErrorResponse> = (
