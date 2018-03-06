@@ -33,6 +33,8 @@ export type pk = string;
 export type url = string;
 /** universal resource indicator */
 export type uri = string;
+/** a string which represents zipped content run through a base64 conversion process to a string */
+export type Base64Zip = string;
 
 export const STAGE_MAP: IDictionary<string> = {
   prod: "prod",
