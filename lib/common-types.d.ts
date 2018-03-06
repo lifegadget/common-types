@@ -30,6 +30,8 @@ export declare type pk = string;
 export declare type url = string;
 /** universal resource indicator */
 export declare type uri = string;
+/** a string which represents zipped content run through a base64 conversion process to a string */
+export declare type Base64Zip = string;
 export declare const STAGE_MAP: IDictionary<string>;
 export declare function STAGE(stage: string): string;
 export interface ILambdaErrorResponse<T = any> {
