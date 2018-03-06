@@ -1,4 +1,4 @@
-#Common Types
+# Common Types
 
 This is a tiny library of simple Typescript _typings_ which are highly reusable. Things such as:
 
