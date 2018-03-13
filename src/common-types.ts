@@ -58,7 +58,7 @@ export function STAGE(stage: string) {
 
 export interface ILambdaErrorResponse<T = any> {
   errorCode?: string | number;
-  message?: string;
+  errorMessage?: string;
   errors?: T[];
   stackTrace?: string[];
 }

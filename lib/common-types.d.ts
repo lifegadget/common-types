@@ -36,7 +36,7 @@ export declare const STAGE_MAP: IDictionary<string>;
 export declare function STAGE(stage: string): string;
 export interface ILambdaErrorResponse<T = any> {
     errorCode?: string | number;
-    message?: string;
+    errorMessage?: string;
     errors?: T[];
     stackTrace?: string[];
 }
