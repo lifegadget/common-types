@@ -59,6 +59,7 @@ export function STAGE(stage: string) {
 export interface ILambdaErrorResponse<T = any> {
   errorCode?: string | number;
   errorMessage?: string;
+  errorType: "Error";
   errors?: T[];
   stackTrace?: string[];
 }
@@ -68,7 +69,7 @@ export interface ILambdaSuccessCallback<T = IDictionary> {
 }
 /** A Lambda function called to indicate a FAILED end-state of a lambda function */
 export interface ILambdaFailureCallback<E = ILambdaErrorResponse> {
-  (error: string | number, response: E): void;
+  (error: E | Error): void;
 }
 /** A Lambda function called to indicate the end-state of a lambda function */
 export type LambdaCallback<T = IDictionary, E = ILambdaErrorResponse> = ILambdaSuccessCallback<T> &
