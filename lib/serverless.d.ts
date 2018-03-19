@@ -12,17 +12,30 @@ export interface IServerlessConfig {
     };
     provider?: {
         name: string;
-        runtime: "nodejs6.10" | "node4" | "java8" | "go";
+        runtime: "nodejs6.10" | "node4" | "java8" | "python2.7" | "python3.6" | "go1.x";
         profile?: string;
         stage?: string;
         region?: string;
         iamRoleStatements: any[];
     };
     stepFunctions?: {
-        stateMachines: IStateMachine[];
+        stateMachines: IDictionary<IStateMachine>;
     };
+    functions?: IDictionary<IServerlessFunction>;
 }
-export declare type ServerlessEvent = IServerlessEventScheduleShortForm | IServerlessEventScheduleLongForm;
+export interface IServerlessFunction {
+    environment?: string;
+    description?: string;
+    handler: string;
+    timeout?: number;
+    memorySize: number;
+    package: {
+        exclude: string[];
+        include: string[];
+    };
+    events?: ServerlessEvent[];
+}
+export declare type ServerlessEvent = IServerlessEventScheduleShortForm | IServerlessEventScheduleLongForm | IServerlessEventHttp;
 export interface IServerlessEventScheduleShortForm {
     /** in the format of rate(10 minutes) or cron(0 12 * * ? *) */
     schedule: string;
@@ -36,24 +49,29 @@ export interface IServerlessEventScheduleLongForm {
         inputPath: string;
     };
 }
+export interface IServerlessEventHttp {
+    http: {
+        method: "get" | "put" | "post" | "delete";
+        path: string;
+        cors?: boolean;
+    };
+}
 /** of the format of arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-FUNCTION */
 export declare type AwsFunctionArn = string;
 export declare type StepFunctionBuiltinStates = "States.Timeout" | "States.ALL" | "States.TaskFailed" | "States.Permissions";
 export interface IStateMachine {
-    [stateMachineName: string]: {
-        /** Schedule or HTTP events which trigger the step function */
-        events?: [ServerlessEvent];
-        /** optionally override the default role used to execute this step-function */
-        role?: string;
-        /** The definition of the State Machine */
-        definition?: {
-            /** Prose description of what this Step is about */
-            Comment?: string;
-            /** A pointer to one of the defined states in the States block which will be the starting point for execution */
-            StartAt: keyof StepFunctionState;
-            /** The available states to this state machine */
-            States: IDictionary<StepFunctionState>;
-        };
+    /** Schedule or HTTP events which trigger the step function */
+    events?: [ServerlessEvent];
+    /** optionally override the default role used to execute this step-function */
+    role?: string;
+    /** The definition of the State Machine */
+    definition?: {
+        /** Prose description of what this Step is about */
+        Comment?: string;
+        /** A pointer to one of the defined states in the States block which will be the starting point for execution */
+        StartAt: string;
+        /** The available states to this state machine */
+        States: IDictionary<StepFunctionState>;
     };
 }
 export declare type StepFunctionState = IStepFunctionTask & IStepFunctionChoice & IStepFunctionWait & IStepFunctionParallel & IStepFunctionPass & IStepFunctionSucceed;

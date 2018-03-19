@@ -35,3 +35,5 @@ export declare type uri = string;
 export declare type Base64Zip = string;
 export declare const STAGE_MAP: IDictionary<string>;
 export declare function STAGE(stage: string): string;
+
+export type booleanAsString = "true" | "false";
