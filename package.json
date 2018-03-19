@@ -1,11 +1,11 @@
 {
   "name": "common-types",
-  "version": "1.6.16",
+  "version": "1.6.21",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
-  "main": "lib/common-types.js",
-  "types": "lib/common-types.d.ts",
-  "files": ["lib/common-types.js", "lib/common-types.d.ts", "lib/common-types.js.map"],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": ["lib/*.js", "lib/*.ts", "lib/*.map"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
