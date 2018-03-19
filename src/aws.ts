@@ -1,4 +1,4 @@
-import { IDictionary } from "./basics";
+import { IDictionary, booleanAsString } from "./basics";
 export interface ILambdaErrorResponse<T = any> {
   errorCode?: string | number;
   errorMessage?: string;
@@ -27,6 +27,70 @@ export interface IAWSGatewayResponse {
   body?: string;
   error?: string;
 }
+
+export type REST_Methods = "GET" | "POST" | "PUT" | "DELETE";
+
+/**
+ * When a Lambda function is executed by API Gateway, the default option is
+ * to turn on "Lambda Proxy Integration" which provides a lot of meta data
+ * regarding the request. When this is on, the message payload will be found
+ * in the "body" attribute as a JSON string.
+ */
+export interface IAWSLambdaProxyIntegrationRequest {
+  resource: string;
+  path: string;
+  httpMethod: REST_Methods;
+  headers: {
+    Accept: string;
+    ["Accept-Encoding"]: string;
+    ["cache-control"]: string;
+    ["CloudFront-Forwarded-Proto"]: booleanAsString;
+    ["CloudFront-Is-Desktop-Viewer"]: booleanAsString;
+    ["CloudFront-Is-Mobile-Viewer"]: booleanAsString;
+    ["CloudFront-Is-SmartTV-Viewer"]: booleanAsString;
+    ["CloudFront-Is-Tablet-Viewer"]: booleanAsString;
+    ["CloudFront-Viewer-Country"]: string;
+    ["Content-Type"]: string;
+    ["Host"]: string;
+    ["User-Agent"]: string;
+    ["Via"]: string;
+    ["X-Amz-Cf-Id"]: string;
+    ["X-Amzn-Trace-Id"]: string;
+    ["X-Forwarded-For"]: string;
+    ["X-Forwarded-Proto"]: string;
+  };
+  queryStringParameters?: any;
+  pathParameters?: any;
+  requestContext: {
+    requestTime: string;
+    path: string;
+    accountId: string;
+    protocol: string;
+    resourceId: string;
+    stage: string;
+    requestTimeEpoch: number;
+    requestId: string;
+    identity: {
+      cognitoIdentityPoolId?: string;
+      accountId?: string;
+      cognitoIdentityId: string;
+      caller: string;
+      sourceIp: string;
+      accessKey: string;
+      cognitoAuthenticationType: string;
+      cognitoAuthenticationProvider: string;
+      userArn: string;
+      userAgent: string;
+      user: string;
+    };
+    resourcePath: string;
+    httpMethod: REST_Methods;
+    apiId: string;
+  };
+  body: string;
+  isBase64Encoded: boolean;
+}
+
 export interface IAWSLambaContext {
   /** The default value is true. This property is useful only to modify the default behavior of the callback. By default, the callback will wait until the Node.js runtime event loop is empty before freezing the process and returning the results to the caller. You can set this property to false to request AWS Lambda to freeze the process soon after the callback is called, even if there are events in the event loop. AWS Lambda will freeze the process, any state data and the events in the Node.js event loop (any remaining events in the event loop processed when the Lambda function is called next and if AWS Lambda chooses to use the frozen process). For more information about callback, see Using the Callback Parameter. */
   callbackWaitsForEmptyEventLoop?: boolean;
