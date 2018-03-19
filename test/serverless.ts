@@ -126,7 +126,7 @@ const parallel: IDictionary<IStepFunctionParallel> = {
         States: {
           first: {
             Type: "Pass",
-            End: true
+            Next: "second"
           }
         }
       },
@@ -140,7 +140,7 @@ const parallel: IDictionary<IStepFunctionParallel> = {
           },
           b: {
             Type: "Pass",
-            End: true
+            Next: "c"
           }
         }
       }
@@ -151,5 +151,8 @@ const parallel: IDictionary<IStepFunctionParallel> = {
 const mixedBag: IDictionary<StepFunctionState> = {
   ...task,
   ...choice,
-  ...wait
+  ...wait,
+  ...succeed,
+  ...pass,
+  ...parallel
 };

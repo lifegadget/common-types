@@ -20,6 +20,7 @@ export interface IServerlessConfig {
   };
   stepFunctions?: {
     stateMachines: IDictionary<IStateMachine>;
+    activities: string[];
   };
   functions?: IDictionary<IServerlessFunction>;
 }
@@ -87,12 +88,13 @@ export interface IStateMachine {
     States: IDictionary<StepFunctionState>;
   };
 }
-export declare type StepFunctionState = IStepFunctionTask &
-  IStepFunctionChoice &
-  IStepFunctionWait &
-  IStepFunctionParallel &
-  IStepFunctionPass &
-  IStepFunctionSucceed;
+export declare type StepFunctionState =
+  | IStepFunctionTask
+  | IStepFunctionChoice
+  | IStepFunctionWait
+  | IStepFunctionParallel
+  | IStepFunctionPass
+  | IStepFunctionSucceed;
 export declare type IStepFunctionType =
   | "Task"
   | "Wait"
