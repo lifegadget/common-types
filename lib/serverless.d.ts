@@ -1,4 +1,4 @@
-import { IDictionary } from "./basics";
+import { IDictionary, datetime } from "./basics";
 /** A typing for the serverless framework's "serverless.yml" file */
 export interface IServerlessConfig {
     service: string;
@@ -79,8 +79,16 @@ export declare type StepFunctionState = IStepFunctionTask | IStepFunctionChoice 
 export declare type IStepFunctionType = "Task" | "Wait" | "Parallel" | "Choice" | "Succeed" | "Pass";
 export interface IStepFunctionBaseState {
     Type: IStepFunctionType;
+    /** A human readable description of the state */
+    Comment?: string;
 }
-export interface IStepFunctionTask extends IStepFunctionBaseState {
+export interface IStepFunctionBaseWithPathMapping extends IStepFunctionBaseState {
+    /** A path that selects a portion of the state's input to be passed to the state's task for processing. If omitted, it has the value $ which designates the entire input. For more information, see Input and Output Processing). */
+    InputPath?: string;
+    /** A path that selects a portion of the state's input to be passed to the state's output. If omitted, it has the value $ which designates the entire input. For more information, see Input and Output Processing. */
+    OutputPath?: string;
+}
+export interface IStepFunctionTask extends IStepFunctionBaseWithPathMapping {
     Type: "Task";
     /** of the format arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-FUNCTION_NAME */
     Resource: AwsFunctionArn;
@@ -96,6 +104,10 @@ export interface IStepFunctionTask extends IStepFunctionBaseState {
         ErrorEquals: string[];
         Next: string;
     }];
+    /** If the task runs longer than the specified seconds, then this state fails with a States.Timeout Error Name. Must be a positive, non-zero integer. If not provided, the default value is 99999999. */
+    TimeoutSeconds?: number;
+    /** If more time than the specified seconds elapses between heartbeats from the task, then this state fails with an States.Timeout Error Name. Must be a positive, non-zero integer less than the number of seconds specified in the TimeoutSeconds field. If not provided, the default value is 99999999. */
+    HeartbeatSeconds?: number;
 }
 export interface IStepFunctionChoice extends IStepFunctionBaseState {
     Type: "Choice";
@@ -112,7 +124,12 @@ export interface IStepFunctionChoice extends IStepFunctionBaseState {
 }
 export interface IStepFunctionWait extends IStepFunctionBaseState {
     Type: "Wait";
-    Seconds: number;
+    /** A time, in seconds, to wait before beginning the state specified in the Next field. */
+    Seconds?: number;
+    /** An absolute time to wait until before beginning the state specified in the Next field. Timestamps must conform to the RFC3339 profile of ISO 8601, with the further restrictions that an uppercase T must separate the date and time portions, and an uppercase Z must denote that a numeric time zone offset is not present, for example, 2016-08-18T17:33:00Z.*/
+    Timestamp?: datetime;
+    SecondsPAth?: string;
+    TimestampPath?: string;
     Next: AwsFunctionArn;
 }
 export interface IStepFunctionSucceed extends IStepFunctionBaseState {
@@ -121,6 +138,7 @@ export interface IStepFunctionSucceed extends IStepFunctionBaseState {
 export interface IStepFunctionPass extends IStepFunctionBaseState {
     Type: "Pass";
     Result?: any;
+    /** Specifies where (in the input) to place the "output" of the virtual task specified in Result. The input is further filtered as prescribed by the OutputPath field (if present) before being used as the state's output. */
     ResultPath?: string;
     Next: string;
 }
