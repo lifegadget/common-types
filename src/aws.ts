@@ -31,6 +31,31 @@ export interface IAWSGatewayResponse {
 export type REST_Methods = "GET" | "POST" | "PUT" | "DELETE";
 
 /**
+ * Provides a logical test to see if the passed in event is a LambdaProxy request or just a
+ * straight JS object response. This is useful when you have both an HTTP event and a Lambda-to-Lambda
+ * or Step-Function-to-Lambda interaction.
+ *
+ * @param message the body of the request (which is either of type T or a LambdaProxy event)
+ */
+export function isLambdaProxyRequest<T>(
+  message: T | IAWSLambdaProxyIntegrationRequest
+): message is IAWSLambdaProxyIntegrationRequest {
+  return (message as IAWSLambdaProxyIntegrationRequest).headers !== undefined;
+}
+
+/**
+ * Returns the message body regardless of whether Lambda was called by API Gateway's LambdaProxy
+ * or from another Lambda function.
+ *
+ * @param input either the LambdaProxy object or type T
+ */
+export function getBodyFromPossibleLambdaProxyRequest<T>(
+  input: T | IAWSLambdaProxyIntegrationRequest
+): T {
+  return isLambdaProxyRequest<T>(input) ? (JSON.parse(input.body) as T) : (input as T);
+}
+
+/**
  * When a Lambda function is executed by API Gateway, the default option is
  * to turn on "Lambda Proxy Integration" which provides a lot of meta data
  * regarding the request. When this is on, the message payload will be found
