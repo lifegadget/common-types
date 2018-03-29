@@ -1,1 +1,1 @@
-{"version":3,"file":"aws.js","sourceRoot":"","sources":["../src/aws.ts"],"names":[],"mappings":""}
+{"version":3,"file":"aws.js","sourceRoot":"","sources":["../src/aws.ts"],"names":[],"mappings":";;AAgCA;;;;;;GAMG;AACH,8BACE,OAA8C;IAE9C,MAAM,CAAE,OAA6C,CAAC,OAAO,KAAK,SAAS,CAAC;AAC9E,CAAC;AAJD,oDAIC;AAED;;;;;GAKG;AACH,+CACE,KAA4C;IAE5C,MAAM,CAAC,oBAAoB,CAAI,KAAK,CAAC,CAAC,CAAC,CAAE,IAAI,CAAC,KAAK,CAAC,KAAK,CAAC,IAAI,CAAO,CAAC,CAAC,CAAE,KAAW,CAAC;AACvF,CAAC;AAJD,sFAIC"}
