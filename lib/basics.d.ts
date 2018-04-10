@@ -4,7 +4,6 @@
 export interface IDictionary<T = any> {
     [key: string]: T;
 }
-/** Allows the creation of a dictionary structure but specify a set of known keys  */
 /**
  * A numeric Javascript array
  */

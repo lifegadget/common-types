@@ -1,10 +1,10 @@
 /**
  * A Javascript hash which allows for any set of keys
  */
-export interface IDictionary<T = any> {
-  [key: string]: T;
-}
-/** Allows the creation of a dictionary structure but specify a set of known keys  */
+    export interface IDictionary<T = any> {
+      [key: string]: T;
+    }
+
 /**
  * A numeric Javascript array
  */
