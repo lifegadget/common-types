@@ -1,13 +1,13 @@
-export function createError(code: string, messageOrPrior: string | Error) {
+export function createError(code: string, message: string, priorError?: Error) {
   const messagePrefix = `[${code}]: `;
   const e = new AppError(
-    typeof messageOrPrior === "string"
-      ? messagePrefix + messageOrPrior
-      : messagePrefix + messageOrPrior.message
+    priorError ? messagePrefix + message : messagePrefix + priorError.message + message
   );
-  e.name = typeof messageOrPrior === "string" ? "AppError" : messageOrPrior.name;
+  e.name = priorError ? priorError.name : "AppError";
   e.code = code;
-  e.stack = typeof messageOrPrior === "string" ? e.stack : messageOrPrior.stack || e.stack;
+  e.stack = priorError ? priorError.stack || e.stack : e.stack;
+
+  return e;
 }
 
 export class AppError extends Error {
