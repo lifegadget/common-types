@@ -91,12 +91,13 @@ export interface IStepFunction {
   States: IDictionary<StepFunctionState>;
 }
 
-export declare type StepFunctionState =
-  | IStepFunctionTask
-  | IStepFunctionChoice
-  | IStepFunctionWait
-  | IStepFunctionParallel
-  | IStepFunctionPass
+export declare type StepFunctionState<T = IDictionary> =
+  | IStepFunctionTask<T>
+  | IStepFunctionChoice<T>
+  | IStepFunctionWait<T>
+  | IStepFunctionParallel<T>
+  | IStepFunctionPass<T>
+  | IStepFunctionFail
   | IStepFunctionSucceed;
 export declare type IStepFunctionType =
   | "Task"
@@ -104,6 +105,7 @@ export declare type IStepFunctionType =
   | "Parallel"
   | "Choice"
   | "Succeed"
+  | "Fail"
   | "Pass";
 export interface IStepFunctionBaseState {
   Type: IStepFunctionType;
@@ -118,33 +120,23 @@ export interface IStepFunctionBaseWithPathMapping extends IStepFunctionBaseState
   OutputPath?: string;
 }
 
-export interface IStepFunctionTask extends IStepFunctionBaseWithPathMapping {
+export interface IStepFunctionTask<T = IDictionary>
+  extends IStepFunctionBaseWithPathMapping {
   Type: "Task";
-  /** of the format arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-FUNCTION_NAME */
+  /** string of the format arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-FUNCTION_NAME */
   Resource: AwsFunctionArn;
-  Next?: string;
+  /** A string that must exactly match one of the state machine's state names. */
+  Next?: keyof T;
   End?: true;
-  Retry?: [
-    {
-      ErrorEquals: string[];
-      IntervalSeconds: number;
-      BackoffRate: number;
-      MaxAttemps: number;
-    }
-  ];
-  Catch?: [
-    {
-      ErrorEquals: string[];
-      Next: string;
-    }
-  ];
+  Retry?: IStepFunctionRetrier[];
+  Catch?: IStepFunctionCatcher[];
   /** If the task runs longer than the specified seconds, then this state fails with a States.Timeout Error Name. Must be a positive, non-zero integer. If not provided, the default value is 99999999. */
   TimeoutSeconds?: number;
   /** If more time than the specified seconds elapses between heartbeats from the task, then this state fails with an States.Timeout Error Name. Must be a positive, non-zero integer less than the number of seconds specified in the TimeoutSeconds field. If not provided, the default value is 99999999. */
   HeartbeatSeconds?: number;
 }
 
-export interface IStepFunctionChoice extends IStepFunctionBaseState {
+export interface IStepFunctionChoice<T = IDictionary> extends IStepFunctionBaseState {
   Type: "Choice";
   Choices: [
     {
@@ -153,44 +145,76 @@ export interface IStepFunctionChoice extends IStepFunctionBaseState {
       /** compare the value passed in -- and scoped by "Variable" -- to be numerically equal to a stated number */
       NumericEquals?: number;
       /** the next state to move to when completed with this one */
-      Next?: string;
+      Next?: keyof T;
       /** the step-function should stop at this step */
       End?: boolean;
     }
   ];
 }
 
-export interface IStepFunctionWait extends IStepFunctionBaseState {
+export interface IStepFunctionWait<T = IDictionary> extends IStepFunctionBaseState {
   Type: "Wait";
   /** A time, in seconds, to wait before beginning the state specified in the Next field. */
   Seconds?: number;
   /** An absolute time to wait until before beginning the state specified in the Next field. Timestamps must conform to the RFC3339 profile of ISO 8601, with the further restrictions that an uppercase T must separate the date and time portions, and an uppercase Z must denote that a numeric time zone offset is not present, for example, 2016-08-18T17:33:00Z.*/
   Timestamp?: datetime;
-  SecondsPAth?: string;
+  /** A time, in seconds, to wait before beginning the state specified in the Next field, specified using a path from the state's input data. */
+  SecondsPath?: string;
+  /** An absolute time to wait until before beginning the state specified in the Next field, specified using a path from the state's input data. */
   TimestampPath?: string;
-  Next: AwsFunctionArn;
+  /** The next defined "state" to execute after waiting */
+  Next: keyof T;
 }
 
 export interface IStepFunctionSucceed extends IStepFunctionBaseState {
   Type: "Succeed";
 }
 
-export interface IStepFunctionPass extends IStepFunctionBaseState {
+export interface IStepFunctionPass<T = IDictionary> extends IStepFunctionBaseState {
   Type: "Pass";
   Result?: any;
   /** Specifies where (in the input) to place the "output" of the virtual task specified in Result. The input is further filtered as prescribed by the OutputPath field (if present) before being used as the state's output. */
   ResultPath?: string;
-  Next: string;
+  Next: keyof T;
 }
 
-export interface IStepFunctionParallel extends IStepFunctionBaseState {
+export interface IStepFunctionFail extends IStepFunctionBaseState {
+  Type: "Fail";
+  Error?: string;
+  Cause?: string;
+}
+
+export interface IStepFunctionParallel<T = IDictionary> extends IStepFunctionBaseState {
   Type: "Parallel";
   Branches: IStepFunctionParallelBranch[];
-  Next?: string;
+  Next?: keyof T;
   End?: true;
+  /** An array of objects, called Retriers that define a retry policy in case the state encounters runtime errors. */
+  Retry?: string[];
+  Catch?: IStepFunctionCatcher[];
 }
 
 export interface IStepFunctionParallelBranch {
   StartAt: string;
   States?: IDictionary<StepFunctionState>;
+}
+
+export interface IStepFunctionCatcher<T = IDictionary> {
+  /** A non-empty array of Strings that match Error Names, specified exactly as with the Retrier field of the same name. */
+  ErrorEquals: string[];
+  /** A string which must exactly match one of the state machine's state names. */
+  Next: keyof T;
+  /** A path which determines what is sent as input to the state specified by the Next field. */
+  ResultPath?: string;
+}
+
+export interface IStepFunctionRetrier {
+  /** A non-empty array of Strings that match error names, specified exactly as they are with the retrier field of the same name. */
+  ErrorEquals: string[];
+  /** An integer that represents the number of seconds before the first retry attempt (default 1). */
+  IntervalSeconds?: number;
+  /** A number that is the multiplier by which the retry interval increases on each attempt (default 2.0). */
+  BackoffRate?: number;
+  /** A positive integer, representing the maximum number of retry attempts (default 3). If the error recurs more times than specified, retries cease and normal error handling resumes. A value of 0 is permitted and indicates that the error or errors should never be retried. */
+  MaxAttempts?: number;
 }
