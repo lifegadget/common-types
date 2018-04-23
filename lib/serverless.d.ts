@@ -66,14 +66,15 @@ export interface IStateMachine {
     /** optionally override the default role used to execute this step-function */
     role?: string;
     /** The definition of the State Machine */
-    definition?: {
-        /** Prose description of what this Step is about */
-        Comment?: string;
-        /** A pointer to one of the defined states in the States block which will be the starting point for execution */
-        StartAt: string;
-        /** The available states to this state machine */
-        States: IDictionary<StepFunctionState>;
-    };
+    definition: IStepFunction;
+}
+export interface IStepFunction {
+    /** Prose description of what this Step is about */
+    Comment?: string;
+    /** A pointer to one of the defined states in the States block which will be the starting point for execution */
+    StartAt: string;
+    /** The available states to this state machine */
+    States: IDictionary<StepFunctionState>;
 }
 export declare type StepFunctionState = IStepFunctionTask | IStepFunctionChoice | IStepFunctionWait | IStepFunctionParallel | IStepFunctionPass | IStepFunctionSucceed;
 export declare type IStepFunctionType = "Task" | "Wait" | "Parallel" | "Choice" | "Succeed" | "Pass";
