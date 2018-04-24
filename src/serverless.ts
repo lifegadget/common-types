@@ -12,7 +12,14 @@ export interface IServerlessConfig {
   };
   provider?: {
     name: string;
-    runtime: "nodejs6.10" | "node4" | "java8" | "python2.7" | "python3.6" | "go1.x";
+    runtime:
+      | "nodejs6.10"
+      | "nodejs8.10"
+      | "node4"
+      | "java8"
+      | "python2.7"
+      | "python3.6"
+      | "go1.x";
     profile?: string;
     stage?: string;
     region?: string;
@@ -70,6 +77,8 @@ export declare type StepFunctionBuiltinStates =
   | "States.Permissions";
 
 export interface IStateMachine {
+  /** the name of the function; can include variables like ${opt:stage} */
+  name?: string;
   /** Schedule or HTTP events which trigger the step function */
   events?: IServerlessEvent[];
   /** optionally override the default role used to execute this step-function */
@@ -84,10 +93,11 @@ export interface IStepFunction {
   /** A pointer to one of the defined states in the States block which will be the starting point for execution */
   StartAt: string;
   /** The available states to this state machine */
-  States: IDictionary<StepFunctionState>;
+  States: IDictionary<IStepFunctionStep>;
 }
 
-export declare type StepFunctionState<T = IDictionary> =
+/** A generic type that allows for any of the various types of state to be applied */
+export declare type IStepFunctionStep<T = IDictionary> =
   | IStepFunctionTask<T>
   | IStepFunctionChoice<T>
   | IStepFunctionWait<T>
@@ -277,7 +287,7 @@ export interface IStepFunctionParallel<T = IDictionary> extends IStepFunctionBas
 
 export interface IStepFunctionParallelBranch {
   StartAt: string;
-  States?: IDictionary<StepFunctionState>;
+  States?: IDictionary<IStepFunctionStep>;
 }
 
 export interface IStepFunctionCatcher<T = IDictionary> {
