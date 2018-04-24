@@ -1,4 +1,5 @@
 import { IStepFunction, IStateMachine, IStepFunctionTask } from "../src/serverless";
+import { IDictionary } from "../src/basics";
 
 const Itms: IStepFunctionTask = {
   Type: "Task",
@@ -52,8 +53,19 @@ const steps: IStepFunction = {
   }
 };
 
-const stateMachine: IStateMachine = {
-  definition: steps
+const stateMachines: IDictionary<IStateMachine> = {
+  transportationSteps: {
+    events: [
+      {
+        schedule: {
+          rate: "rate(60 minutes)",
+          enabled: true,
+          input: { command: "version" }
+        }
+      }
+    ],
+    definition: steps
+  }
 };
 
-export default steps;
+export default stateMachines;

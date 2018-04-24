@@ -20,7 +20,7 @@ export interface IServerlessConfig {
     };
     stepFunctions?: {
         stateMachines: IDictionary<IStateMachine>;
-        activities: string[];
+        activities?: string[];
     };
     functions?: IDictionary<IServerlessFunction>;
 }
@@ -29,40 +29,39 @@ export interface IServerlessFunction {
     description?: string;
     handler: string;
     timeout?: number;
-    memorySize: number;
-    package: {
+    memorySize?: number;
+    package?: {
         exclude: string[];
         include: string[];
     };
-    events?: ServerlessEvent[];
+    events?: IServerlessEvent[];
 }
-export declare type ServerlessEvent = IServerlessEventScheduleShortForm | IServerlessEventScheduleLongForm | IServerlessEventHttp;
+export interface IServerlessEvent {
+    schedule?: IServerlessEventScheduleLongForm | IServerlessEventScheduleShortForm;
+    http?: IServerlessEventHttp;
+}
 export interface IServerlessEventScheduleShortForm {
     /** in the format of rate(10 minutes) or cron(0 12 * * ? *) */
     schedule: string;
 }
 export interface IServerlessEventScheduleLongForm {
-    schedule: {
-        /** in the format of rate(10 minutes) or cron(0 12 * * ? *) */
-        rate: string;
-        enabled?: boolean;
-        input: IDictionary;
-        inputPath: string;
-    };
+    /** in the format of rate(10 minutes) or cron(0 12 * * ? *) */
+    rate: string;
+    enabled?: boolean;
+    input?: IDictionary;
+    inputPath?: string;
 }
 export interface IServerlessEventHttp {
-    http: {
-        method: "get" | "put" | "post" | "delete";
-        path: string;
-        cors?: boolean;
-    };
+    method: "get" | "put" | "post" | "delete";
+    path: string;
+    cors?: boolean;
 }
 /** of the format of arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-FUNCTION */
 export declare type AwsFunctionArn = string;
 export declare type StepFunctionBuiltinStates = "States.Timeout" | "States.ALL" | "States.TaskFailed" | "States.Permissions";
 export interface IStateMachine {
     /** Schedule or HTTP events which trigger the step function */
-    events?: [ServerlessEvent];
+    events?: IServerlessEvent[];
     /** optionally override the default role used to execute this step-function */
     role?: string;
     /** The definition of the State Machine */
@@ -105,16 +104,70 @@ export interface IStepFunctionTask<T = IDictionary> extends IStepFunctionBaseWit
 }
 export interface IStepFunctionChoice<T = IDictionary> extends IStepFunctionBaseState {
     Type: "Choice";
-    Choices: [{
-        /** points to the specific area of context which is being evaluated in the choice */
-        Variable: string;
-        /** compare the value passed in -- and scoped by "Variable" -- to be numerically equal to a stated number */
-        NumericEquals?: number;
-        /** the next state to move to when completed with this one */
-        Next?: keyof T;
-        /** the step-function should stop at this step */
-        End?: boolean;
-    }];
+    Choices: IStepFunctionChoiceItem<T>[];
+    /** The name of the state to transition to if none of the transitions in Choices is taken. */
+    Default?: keyof T;
+}
+export declare type IStepFunctionChoiceItem<T> = Partial<IStepFunctionOperand> & IStepFunctionComplexChoiceItem<T>;
+export interface IStepFunctionComplexChoiceItem<T> extends IStepFunctionBaseChoice<T> {
+    And?: IStepFunctionOperand[];
+    Or?: IStepFunctionOperand[];
+    Not?: IStepFunctionOperand;
+    /** the next state to move to when completed with this one */
+    Next?: keyof T;
+    /** the step-function should stop at this step */
+    End?: boolean;
+}
+export declare type IStepFunctionOperand = IStepFunctionOperand_StringEquals | IStepFunctionOperand_StringGreaterThan | IStepFunctionOperand_StringGreaterThanEquals | IStepFunctionOperand_StringLessThan | IStepFunctionOperand_StringLessThanEquals | IStepFunctionOperand_NumericEquals | IStepFunctionOperand_NumericGreaterThan | IStepFunctionOperand_NumericGreaterThanEquals | IStepFunctionOperand_NumericLessThan | IStepFunctionOperand_NumericLessThanEquals;
+export interface IStepFunctionOperand_StringEquals extends IStepFunctionBaseLogicalOperand {
+    /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
+    StringEquals?: string;
+}
+export interface IStepFunctionOperand_StringGreaterThan extends IStepFunctionBaseLogicalOperand {
+    /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
+    StringGreaterThan?: string;
+}
+export interface IStepFunctionOperand_StringGreaterThanEquals extends IStepFunctionBaseLogicalOperand {
+    /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
+    StringGreaterThanEquals?: string;
+}
+export interface IStepFunctionOperand_StringLessThan extends IStepFunctionBaseLogicalOperand {
+    /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
+    StringLessThan?: string;
+}
+export interface IStepFunctionOperand_StringLessThanEquals extends IStepFunctionBaseLogicalOperand {
+    /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
+    StringLessThanEquals?: string;
+}
+export interface IStepFunctionOperand_NumericEquals extends IStepFunctionBaseLogicalOperand {
+    /** compare the value passed in -- and scoped by "Variable" -- to be numerically equal to a stated number */
+    NumericEquals?: number;
+}
+export interface IStepFunctionOperand_NumericGreaterThan extends IStepFunctionBaseLogicalOperand {
+    /** compare the value passed in -- and scoped by "Variable" -- to be numerically equal to a stated number */
+    NumericGreaterThan?: number;
+}
+export interface IStepFunctionOperand_NumericGreaterThanEquals extends IStepFunctionBaseLogicalOperand {
+    /** compare the value passed in -- and scoped by "Variable" -- to be numerically equal to a stated number */
+    NumericGreaterThanEquals?: number;
+}
+export interface IStepFunctionOperand_NumericLessThan extends IStepFunctionBaseLogicalOperand {
+    /** compare the value passed in -- and scoped by "Variable" -- to be numerically equal to a stated number */
+    NumericLessThan?: number;
+}
+export interface IStepFunctionOperand_NumericLessThanEquals extends IStepFunctionBaseLogicalOperand {
+    /** compare the value passed in -- and scoped by "Variable" -- to be numerically equal to a stated number */
+    NumericLessThanEquals?: number;
+}
+export interface IStepFunctionBaseLogicalOperand {
+    /** points to the specific area of context which is being evaluated in the choice */
+    Variable: string;
+}
+export interface IStepFunctionBaseChoice<T> {
+    /** the next state to move to when completed with this one */
+    Next?: keyof T;
+    /** the step-function should stop at this step */
+    End?: boolean;
 }
 export interface IStepFunctionWait<T = IDictionary> extends IStepFunctionBaseState {
     Type: "Wait";
