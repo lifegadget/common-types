@@ -190,6 +190,7 @@ export interface IStepFunctionSucceed extends IStepFunctionBaseState {
 }
 export interface IStepFunctionPass<T = IDictionary> extends IStepFunctionBaseState {
     Type: "Pass";
+    /** Treated as the output of a virtual task to be passed on to the next state, and filtered as prescribed by the ResultPath field (if present). */
     Result?: any;
     /** Specifies where (in the input) to place the "output" of the virtual task specified in Result. The input is further filtered as prescribed by the OutputPath field (if present) before being used as the state's output. */
     ResultPath?: string;
