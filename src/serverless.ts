@@ -49,9 +49,34 @@ export interface IServerlessFunction {
   events?: IServerlessEvent[];
 }
 
-export declare interface IServerlessEvent {
+export interface IServerlessEvent {
   schedule?: IServerlessEventScheduleLongForm | IServerlessEventScheduleShortForm;
   http?: IServerlessEventHttp;
+  /**
+   * Allows subscription (and optionally the creation of) an SNS topic.
+   *
+   * If defined with only a string, this string represents the name of an SNS topic
+   * to be subscribed to and whenever this topic is called it triggers this function.
+   * Note: if your name starts with "arn:" then it doesn't create the event but expects
+   * it to exist.
+   *
+   * If you wish to more explicitly point to an existing SNS topic then you can
+   * define with a hash like { arn: "<arn-descriptor>" }
+   *
+   * If you want to be more verbose about the definition of a new topic you can
+   * define with a hash which provides the "topicName" and "displayName" properties.
+   **/
+  sns?: string | IServerlessEventExistingSNS | IServerlessEventVerboseSNS;
+}
+
+/** used to attach a function to a pre-existing  */
+export interface IServerlessEventExistingSNS {
+  arn: string;
+}
+
+export interface IServerlessEventVerboseSNS {
+  topicName: string;
+  displayName?: string;
 }
 
 export interface IServerlessEventScheduleShortForm {
