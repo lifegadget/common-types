@@ -1,5 +1,14 @@
 import { IDictionary, datetime } from "./basics";
 /** A typing for the serverless framework's "serverless.yml" file */
+
+export type AWSRuntime =
+  | "nodejs6.10"
+  | "nodejs8.10"
+  | "node4"
+  | "java8"
+  | "python2.7"
+  | "python3.6"
+  | "go1.x";
 export interface IServerlessConfig {
   service: string;
   plugins?: string[];
@@ -12,14 +21,7 @@ export interface IServerlessConfig {
   };
   provider?: {
     name: string;
-    runtime:
-      | "nodejs6.10"
-      | "nodejs8.10"
-      | "node4"
-      | "java8"
-      | "python2.7"
-      | "python3.6"
-      | "go1.x";
+    runtime: AWSRuntime;
     profile?: string;
     stage?: string;
     region?: string;
@@ -36,11 +38,12 @@ export interface IServerlessFunction {
   environment?: string;
   description?: string;
   handler: string;
+  runtime: AWSRuntime;
   timeout?: number;
   memorySize?: number;
   package?: {
-    exclude: string[];
-    include: string[];
+    exclude?: string[];
+    include?: string[];
   };
   events?: IServerlessEvent[];
 }
