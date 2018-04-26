@@ -21,7 +21,7 @@ export interface IServerlessConfig {
   };
   provider?: {
     name: string;
-    runtime: AWSRuntime;
+    runtime?: AWSRuntime;
     profile?: string;
     stage?: string;
     region?: string;
@@ -38,7 +38,7 @@ export interface IServerlessFunction {
   environment?: string;
   description?: string;
   handler: string;
-  runtime: AWSRuntime;
+  runtime?: AWSRuntime;
   timeout?: number;
   memorySize?: number;
   package?: {
