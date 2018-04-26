@@ -42,6 +42,7 @@ export interface IServerlessFunction {
   timeout?: number;
   memorySize?: number;
   package?: {
+    artifact: string;
     exclude?: string[];
     include?: string[];
   };
