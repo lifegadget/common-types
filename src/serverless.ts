@@ -19,19 +19,42 @@ export interface IServerlessConfig {
     include?: string[];
     exclude?: string[];
   };
-  provider?: {
-    name: string;
-    runtime?: AWSRuntime;
-    profile?: string;
-    stage?: string;
-    region?: string;
-    iamRoleStatements: any[];
-  };
+  provider?: IServerlessProvider;
   stepFunctions?: {
     stateMachines: IDictionary<IStateMachine>;
     activities?: string[];
   };
   functions?: IDictionary<IServerlessFunction>;
+}
+
+export interface IServerlessProvider {
+  name: string;
+  runtime?: AWSRuntime;
+  profile?: string;
+  /** Set the default stage used. Default is "dev". */
+  stage?: string;
+  /** Set the default region. Default is "us-east-1". */
+  region?: string;
+  /** Set the default memory size; default is 1024 */
+  memorySize?: number;
+  stackTags?: IDictionary<string>;
+  stackPolicy?: any;
+  deploymentBucket?: {
+    /** overwrite the default deployment bucket */
+    name: string;
+    /** specificies the type of encryption, when using server-side encryption */
+    serverSideEncryption?: string;
+  };
+  iamRoleStatements?: any[];
+  versionFunctions?: boolean;
+}
+
+export interface IServerlessIAMRole {
+  Effect: "Allow" | "Deny";
+  /** A list of scopes (such as "s3:ListBucket" or "states:ListStateMachines") which are being allowed/denied */
+  Action: string[];
+  /** A list of resources (aka, arn's) which are to receive this role grant */
+  Resource: string[];
 }
 
 export interface IServerlessFunction {
