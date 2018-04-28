@@ -1,11 +1,11 @@
 export function createError(code: string, message: string, priorError?: Error) {
-  const messagePrefix = `[${code}]: `;
+  const messagePrefix = `[${code}] `;
   const e = new AppError(
-    priorError ? messagePrefix + message : messagePrefix + priorError.message + message
+    !priorError ? messagePrefix + message : messagePrefix + priorError.message + message
   );
   e.name = priorError ? priorError.name : "AppError";
   e.code = code;
-  e.stack = priorError ? priorError.stack || e.stack : e.stack;
+  e.stack = priorError ? priorError.stack || e.stack.slice(1) : e.stack.slice(1);
 
   return e;
 }

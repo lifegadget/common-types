@@ -17,11 +17,13 @@ const stepFns: IServerlessConfig = {
       events: [
         {
           http: {
+            method: "get",
             path: "myFunc/foobar",
             cors: true
           }
         }
-      ]
+      ],
+      handler: "src/handle"
     }
   },
   stepFunctions: {
