@@ -1,5 +1,6 @@
 export var AWSGatewayStatusCode;
 (function (AWSGatewayStatusCode) {
+    AWSGatewayStatusCode[AWSGatewayStatusCode["Success"] = 200] = "Success";
     AWSGatewayStatusCode[AWSGatewayStatusCode["BadRequest"] = 400] = "BadRequest";
     AWSGatewayStatusCode[AWSGatewayStatusCode["Unauthorized"] = 401] = "Unauthorized";
     AWSGatewayStatusCode[AWSGatewayStatusCode["Forbidden"] = 403] = "Forbidden";
