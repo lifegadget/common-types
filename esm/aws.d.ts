@@ -14,10 +14,20 @@ export interface ILambdaFailureCallback<E = ILambdaErrorResponse> {
 }
 export declare type LambdaCallback<T = IDictionary, E = ILambdaErrorResponse> = ILambdaSuccessCallback<T> & ILambdaFailureCallback<E>;
 export interface IAWSGatewayResponse {
-    statusCode: number;
+    statusCode: keyof AWSGatewayStatusCode;
     headers?: IDictionary<string>;
     body?: string;
     error?: string;
+}
+export declare enum AWSGatewayStatusCode {
+    BadRequest = 400,
+    Unauthorized = 401,
+    Forbidden = 403,
+    NotFound = 404,
+    UnprocessableEntity = 422,
+    InternalServerError = 500,
+    BadGateway = 502,
+    GatewayTimeout = 504,
 }
 export declare type REST_Methods = "GET" | "POST" | "PUT" | "DELETE";
 export declare function isLambdaProxyRequest<T>(message: T | IAWSLambdaProxyIntegrationRequest): message is IAWSLambdaProxyIntegrationRequest;

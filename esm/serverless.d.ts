@@ -30,8 +30,27 @@ export interface IServerlessProvider {
         name: string;
         serverSideEncryption?: string;
     };
+    apiKeys?: string[];
+    usagePlan: IServerlessUsagePlan;
+    endpointType: "REGIONAL" | "EDGE";
+    apiGateway?: {
+        restApiId: string;
+        restApiRootResourceId: string;
+        restApiResources: IDictionary;
+    };
     iamRoleStatements?: any[];
     versionFunctions?: boolean;
+}
+export interface IServerlessUsagePlan {
+    quota?: {
+        limit: number;
+        offset?: number;
+        period: "MONTH" | "WEEK" | "DAY";
+    };
+    throttle?: {
+        burstLimit?: number;
+        rateLimit?: number;
+    };
 }
 export interface IServerlessIAMRole {
     Effect: "Allow" | "Deny";
@@ -77,6 +96,35 @@ export interface IServerlessEventHttp {
     method: "get" | "put" | "post" | "delete";
     path: string;
     cors?: boolean;
+    integration?: "lambda";
+    authorizer?: IServerlessAuthorizer;
+    private?: true;
+    request?: IServerlessRequest;
+    statusCodes: {
+        [key: number]: IServerlessStatusCode;
+    };
+}
+export interface IServerlessStatusCode {
+    pattern: string;
+    template?: string | IDictionary;
+    headers: IDictionary;
+}
+export interface IServerlessRequest {
+    template?: IDictionary;
+    parameters?: {
+        querystrings?: IDictionary;
+        headers?: IDictionary;
+        paths?: IDictionary;
+    };
+    passThrough?: "NEVER" | "WHEN_NO_MATCH" | "WHEN_NO_TEMPLATES";
+}
+export interface IServerlessAuthorizer {
+    arn: string;
+    claims?: string[];
+    resultTtlInSeconds?: number;
+    identitySource?: string | string[];
+    identityValidationExpression?: string;
+    type?: string;
 }
 export declare type AwsFunctionArn = string;
 export declare type StepFunctionBuiltinStates = "States.Timeout" | "States.ALL" | "States.TaskFailed" | "States.Permissions";

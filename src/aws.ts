@@ -22,10 +22,21 @@ export declare type LambdaCallback<
 > = ILambdaSuccessCallback<T> & ILambdaFailureCallback<E>;
 /** A Lambda function called that is returning to an API Gateway endpoint */
 export interface IAWSGatewayResponse {
-  statusCode: number;
+  statusCode: keyof AWSGatewayStatusCode;
   headers?: IDictionary<string>;
   body?: string;
   error?: string;
+}
+
+export enum AWSGatewayStatusCode {
+  BadRequest = 400,
+  Unauthorized = 401,
+  Forbidden = 403,
+  NotFound = 404,
+  UnprocessableEntity = 422,
+  InternalServerError = 500,
+  BadGateway = 502,
+  GatewayTimeout = 504
 }
 
 export type REST_Methods = "GET" | "POST" | "PUT" | "DELETE";

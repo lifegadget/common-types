@@ -36,8 +36,28 @@ export interface IServerlessProvider {
         /** specificies the type of encryption, when using server-side encryption */
         serverSideEncryption?: string;
     };
+    apiKeys?: string[];
+    usagePlan: IServerlessUsagePlan;
+    /** default is EDGE */
+    endpointType: "REGIONAL" | "EDGE";
+    apiGateway?: {
+        restApiId: string;
+        restApiRootResourceId: string;
+        restApiResources: IDictionary;
+    };
     iamRoleStatements?: any[];
     versionFunctions?: boolean;
+}
+export interface IServerlessUsagePlan {
+    quota?: {
+        limit: number;
+        offset?: number;
+        period: "MONTH" | "WEEK" | "DAY";
+    };
+    throttle?: {
+        burstLimit?: number;
+        rateLimit?: number;
+    };
 }
 export interface IServerlessIAMRole {
     Effect: "Allow" | "Deny";
@@ -102,6 +122,36 @@ export interface IServerlessEventHttp {
     method: "get" | "put" | "post" | "delete";
     path: string;
     cors?: boolean;
+    /** not sure what other values can be set here */
+    integration?: "lambda";
+    authorizer?: IServerlessAuthorizer;
+    private?: true;
+    request?: IServerlessRequest;
+    statusCodes: {
+        [key: number]: IServerlessStatusCode;
+    };
+}
+export interface IServerlessStatusCode {
+    pattern: string;
+    template?: string | IDictionary;
+    headers: IDictionary;
+}
+export interface IServerlessRequest {
+    template?: IDictionary;
+    parameters?: {
+        querystrings?: IDictionary;
+        headers?: IDictionary;
+        paths?: IDictionary;
+    };
+    passThrough?: "NEVER" | "WHEN_NO_MATCH" | "WHEN_NO_TEMPLATES";
+}
+export interface IServerlessAuthorizer {
+    arn: string;
+    claims?: string[];
+    resultTtlInSeconds?: number;
+    identitySource?: string | string[];
+    identityValidationExpression?: string;
+    type?: string;
 }
 /** of the format of arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-FUNCTION */
 export declare type AwsFunctionArn = string;
