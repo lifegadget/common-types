@@ -20,6 +20,7 @@ export interface IAWSGatewayResponse {
     error?: string;
 }
 export declare enum AWSGatewayStatusCode {
+    Success = 200,
     BadRequest = 400,
     Unauthorized = 401,
     Forbidden = 403,

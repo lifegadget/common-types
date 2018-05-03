@@ -25,9 +25,17 @@ export interface IPackageJson {
    */
   files?: string[];
   /**
-   * The main field is a module ID that is the primary entry point to your program. That is, if your package is named foo, and a user installs it, and then does require("foo"), then your main module's exports object will be returned.
+   * The main field is a module ID that is the primary entry point to your program. That is, if your package is named foo, and a user installs it, and then does require("foo"), then your main module's exports object will be returned. This is typically a module transpiled to CommonJS format.
    */
   main?: string;
+  /**
+   * The entrypoint for ES6/ES2015/etc. module formats
+   */
+  module?: string;
+  /**
+   * The entrypoint for browsers, typically in UMD module format.
+   */
+  browser?: string;
   /**
    * A lot of packages have one or more executable files that they'd like to install into the PATH. npm makes this pretty easy (in fact, it uses this feature to install the "npm" executable.)
    */
