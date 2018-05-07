@@ -37,9 +37,9 @@ export interface IServerlessProvider {
         serverSideEncryption?: string;
     };
     apiKeys?: string[];
-    usagePlan: IServerlessUsagePlan;
+    usagePlan?: IServerlessUsagePlan;
     /** default is EDGE */
-    endpointType: "REGIONAL" | "EDGE";
+    endpointType?: "REGIONAL" | "EDGE";
     apiGateway?: {
         restApiId: string;
         restApiRootResourceId: string;
