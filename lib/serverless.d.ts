@@ -127,7 +127,7 @@ export interface IServerlessEventHttp {
     authorizer?: IServerlessAuthorizer;
     private?: true;
     request?: IServerlessRequest;
-    statusCodes: {
+    statusCodes?: {
         [key: number]: IServerlessStatusCode;
     };
 }
