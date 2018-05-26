@@ -23,6 +23,9 @@ export interface IServerlessProvider {
     name: string;
     runtime?: AWSRuntime;
     profile?: string;
+    environment?: string | {
+        serviceEnvVar: string;
+    };
     stage?: string;
     region?: string;
     memorySize?: number;

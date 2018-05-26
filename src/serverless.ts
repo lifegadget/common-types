@@ -35,6 +35,8 @@ export interface IServerlessProvider {
   name: string;
   runtime?: AWSRuntime;
   profile?: string;
+  /** Service wide environment variables */
+  environment?: string | { serviceEnvVar: string };
   /** Set the default stage used. Default is "dev". */
   stage?: string;
   /** Set the default region. Default is "us-east-1". */
