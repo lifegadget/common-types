@@ -3,19 +3,21 @@ export declare type AWSRuntime = "nodejs6.10" | "nodejs8.10" | "node4" | "java8"
 export interface IServerlessConfig {
     service: string;
     plugins?: string[];
-    package?: {
-        individually?: boolean;
-        excludeDevDependencies?: boolean;
-        browser?: boolean;
-        include?: string[];
-        exclude?: string[];
-    };
+    package?: IServerlessPackage;
     provider?: IServerlessProvider;
     stepFunctions?: {
         stateMachines: IDictionary<IStateMachine>;
         activities?: string[];
     };
     functions?: IDictionary<IServerlessFunction>;
+}
+export interface IServerlessPackage {
+    individually?: boolean;
+    excludeDevDependencies?: boolean;
+    browser?: boolean;
+    include?: string[];
+    exclude?: string[];
+    artifact?: string;
 }
 export interface IServerlessProvider {
     name: string;
@@ -26,13 +28,14 @@ export interface IServerlessProvider {
     memorySize?: number;
     stackTags?: IDictionary<string>;
     stackPolicy?: any;
+    tracing?: boolean;
     deploymentBucket?: {
         name: string;
         serverSideEncryption?: string;
     };
     apiKeys?: string[];
-    usagePlan: IServerlessUsagePlan;
-    endpointType: "REGIONAL" | "EDGE";
+    usagePlan?: IServerlessUsagePlan;
+    endpointType?: "REGIONAL" | "EDGE";
     apiGateway?: {
         restApiId: string;
         restApiRootResourceId: string;
@@ -70,6 +73,7 @@ export interface IServerlessFunction {
         include?: string[];
     };
     events?: IServerlessEvent[];
+    tracing?: boolean;
 }
 export interface IServerlessEvent {
     schedule?: IServerlessEventScheduleLongForm | IServerlessEventScheduleShortForm;
@@ -100,7 +104,7 @@ export interface IServerlessEventHttp {
     authorizer?: IServerlessAuthorizer;
     private?: true;
     request?: IServerlessRequest;
-    statusCodes: {
+    statusCodes?: {
         [key: number]: IServerlessStatusCode;
     };
 }
