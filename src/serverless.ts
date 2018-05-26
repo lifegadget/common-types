@@ -12,19 +12,23 @@ export type AWSRuntime =
 export interface IServerlessConfig {
   service: string;
   plugins?: string[];
-  package?: {
-    individually?: boolean;
-    excludeDevDependencies?: boolean;
-    browser?: boolean;
-    include?: string[];
-    exclude?: string[];
-  };
+  package?: IServerlessPackage;
   provider?: IServerlessProvider;
   stepFunctions?: {
     stateMachines: IDictionary<IStateMachine>;
     activities?: string[];
   };
   functions?: IDictionary<IServerlessFunction>;
+}
+
+export interface IServerlessPackage {
+  individually?: boolean;
+  excludeDevDependencies?: boolean;
+  browser?: boolean;
+  include?: string[];
+  exclude?: string[];
+  /** path to the artifact ZIP file */
+  artifact?: string;
 }
 
 export interface IServerlessProvider {
@@ -93,6 +97,11 @@ export interface IServerlessFunction {
     include?: string[];
   };
   events?: IServerlessEvent[];
+  /**
+   * used in conjunction with the serverless-plugin-tracing plugin,
+   * this overrides the tracing setting at a function level
+   */
+  tracing?: boolean;
 }
 
 export interface IServerlessEvent {

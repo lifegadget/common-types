@@ -19,6 +19,8 @@ export interface IPackageJson {
     contributors?: IPackageJsonPerson[];
     files?: string[];
     main?: string;
+    module?: string;
+    browser?: string;
     bin?: any;
     man?: string | string[];
     directories?: {
