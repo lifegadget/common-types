@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.7.29",
+  "version": "1.7.30",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "lib/index.js",
