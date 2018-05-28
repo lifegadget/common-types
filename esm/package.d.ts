@@ -14,6 +14,7 @@ export interface IPackageJson {
         url: string;
         email: string;
     };
+    typings: string;
     license?: string;
     author?: IPackageJsonPerson;
     contributors?: IPackageJsonPerson[];

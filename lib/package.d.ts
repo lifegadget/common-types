@@ -14,6 +14,8 @@ export interface IPackageJson {
         url: string;
         email: string;
     };
+    /** points to the TypeScript type file for the module */
+    typings: string;
     /** the full list of SPDX license IDs (https://spdx.org/licenses/) */
     license?: string;
     author?: IPackageJsonPerson;
