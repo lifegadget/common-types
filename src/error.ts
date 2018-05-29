@@ -5,7 +5,7 @@ export function createError(code: string, message: string, priorError?: Error) {
   );
   e.name = priorError ? priorError.name : "AppError";
   e.code = code;
-  e.stack = priorError ? priorError.stack || e.stack.slice(1) : e.stack.slice(1);
+  e.stack = priorError ? priorError.stack || e.stack.slice(2) : e.stack.slice(2);
 
   return e;
 }

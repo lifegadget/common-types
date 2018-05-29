@@ -286,6 +286,7 @@ export interface IStepFunctionComplexChoiceItem<T> extends IStepFunctionBaseChoi
 
 export type IStepFunctionOperand =
   | IStepFunctionOperand_StringEquals
+  | IStepFunctionOperand_BooleanEquals
   | IStepFunctionOperand_StringGreaterThan
   | IStepFunctionOperand_StringGreaterThanEquals
   | IStepFunctionOperand_StringLessThan
@@ -296,6 +297,11 @@ export type IStepFunctionOperand =
   | IStepFunctionOperand_NumericLessThan
   | IStepFunctionOperand_NumericLessThanEquals;
 
+export interface IStepFunctionOperand_BooleanEquals
+  extends IStepFunctionBaseLogicalOperand {
+  /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
+  BooleanEquals?: boolean;
+}
 export interface IStepFunctionOperand_StringEquals
   extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
