@@ -179,7 +179,10 @@ export interface IStepFunctionComplexChoiceItem<T> extends IStepFunctionBaseChoi
     Next?: keyof T;
     End?: boolean;
 }
-export declare type IStepFunctionOperand = IStepFunctionOperand_StringEquals | IStepFunctionOperand_StringGreaterThan | IStepFunctionOperand_StringGreaterThanEquals | IStepFunctionOperand_StringLessThan | IStepFunctionOperand_StringLessThanEquals | IStepFunctionOperand_NumericEquals | IStepFunctionOperand_NumericGreaterThan | IStepFunctionOperand_NumericGreaterThanEquals | IStepFunctionOperand_NumericLessThan | IStepFunctionOperand_NumericLessThanEquals;
+export declare type IStepFunctionOperand = IStepFunctionOperand_StringEquals | IStepFunctionOperand_BooleanEquals | IStepFunctionOperand_StringGreaterThan | IStepFunctionOperand_StringGreaterThanEquals | IStepFunctionOperand_StringLessThan | IStepFunctionOperand_StringLessThanEquals | IStepFunctionOperand_NumericEquals | IStepFunctionOperand_NumericGreaterThan | IStepFunctionOperand_NumericGreaterThanEquals | IStepFunctionOperand_NumericLessThan | IStepFunctionOperand_NumericLessThanEquals;
+export interface IStepFunctionOperand_BooleanEquals extends IStepFunctionBaseLogicalOperand {
+    BooleanEquals?: boolean;
+}
 export interface IStepFunctionOperand_StringEquals extends IStepFunctionBaseLogicalOperand {
     StringEquals?: string;
 }

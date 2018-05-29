@@ -232,7 +232,11 @@ export interface IStepFunctionComplexChoiceItem<T> extends IStepFunctionBaseChoi
     /** the step-function should stop at this step */
     End?: boolean;
 }
-export declare type IStepFunctionOperand = IStepFunctionOperand_StringEquals | IStepFunctionOperand_StringGreaterThan | IStepFunctionOperand_StringGreaterThanEquals | IStepFunctionOperand_StringLessThan | IStepFunctionOperand_StringLessThanEquals | IStepFunctionOperand_NumericEquals | IStepFunctionOperand_NumericGreaterThan | IStepFunctionOperand_NumericGreaterThanEquals | IStepFunctionOperand_NumericLessThan | IStepFunctionOperand_NumericLessThanEquals;
+export declare type IStepFunctionOperand = IStepFunctionOperand_StringEquals | IStepFunctionOperand_BooleanEquals | IStepFunctionOperand_StringGreaterThan | IStepFunctionOperand_StringGreaterThanEquals | IStepFunctionOperand_StringLessThan | IStepFunctionOperand_StringLessThanEquals | IStepFunctionOperand_NumericEquals | IStepFunctionOperand_NumericGreaterThan | IStepFunctionOperand_NumericGreaterThanEquals | IStepFunctionOperand_NumericLessThan | IStepFunctionOperand_NumericLessThanEquals;
+export interface IStepFunctionOperand_BooleanEquals extends IStepFunctionBaseLogicalOperand {
+    /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
+    BooleanEquals?: boolean;
+}
 export interface IStepFunctionOperand_StringEquals extends IStepFunctionBaseLogicalOperand {
     /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
     StringEquals?: string;
