@@ -22,6 +22,8 @@ export declare type timezone = string;
 export declare type datetime = string;
 /** unix epoch datetime format (aka, seconds since 1970) */
 export declare type epoch = number;
+/** javascript datetime format (aka, milliseconds since 1970) */
+export declare type epochWithMilliseconds = number;
 /** foreign key reference */
 export declare type fk = string;
 /** primary key reference */
@@ -34,4 +36,4 @@ export declare type uri = string;
 export declare type Base64Zip = string;
 export declare const STAGE_MAP: IDictionary<string>;
 export declare function STAGE(stage: string): string;
-export declare type booleanAsString = "true" | "false";
+export declare type BooleanAsString = "true" | "false";

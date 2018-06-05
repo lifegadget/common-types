@@ -1,4 +1,4 @@
-import { IDictionary, booleanAsString } from "./basics";
+import { IDictionary, BooleanAsString } from "./basics";
 export interface ILambdaErrorResponse<T = any> {
     errorCode?: string | number;
     errorMessage?: string;
@@ -64,11 +64,11 @@ export interface IAWSLambdaProxyIntegrationRequest {
         Accept: string;
         ["Accept-Encoding"]: string;
         ["cache-control"]: string;
-        ["CloudFront-Forwarded-Proto"]: booleanAsString;
-        ["CloudFront-Is-Desktop-Viewer"]: booleanAsString;
-        ["CloudFront-Is-Mobile-Viewer"]: booleanAsString;
-        ["CloudFront-Is-SmartTV-Viewer"]: booleanAsString;
-        ["CloudFront-Is-Tablet-Viewer"]: booleanAsString;
+        ["CloudFront-Forwarded-Proto"]: BooleanAsString;
+        ["CloudFront-Is-Desktop-Viewer"]: BooleanAsString;
+        ["CloudFront-Is-Mobile-Viewer"]: BooleanAsString;
+        ["CloudFront-Is-SmartTV-Viewer"]: BooleanAsString;
+        ["CloudFront-Is-Tablet-Viewer"]: BooleanAsString;
         ["CloudFront-Viewer-Country"]: string;
         ["Content-Type"]: string;
         ["Host"]: string;
@@ -78,6 +78,7 @@ export interface IAWSLambdaProxyIntegrationRequest {
         ["X-Amzn-Trace-Id"]: string;
         ["X-Forwarded-For"]: string;
         ["X-Forwarded-Proto"]: string;
+        ["x-correlation-id"]: string;
     };
     queryStringParameters?: any;
     pathParameters?: any;
@@ -107,6 +108,7 @@ export interface IAWSLambdaProxyIntegrationRequest {
         httpMethod: REST_Methods;
         apiId: string;
     };
+    /** The payload that the client has sent to you; if it was in JSON format you will need to parse it */
     body: string;
     isBase64Encoded: boolean;
 }

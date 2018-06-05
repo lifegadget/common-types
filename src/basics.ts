@@ -23,6 +23,8 @@ export declare type timezone = string;
 export declare type datetime = string;
 /** unix epoch datetime format (aka, seconds since 1970) */
 export declare type epoch = number;
+/** javascript datetime format (aka, milliseconds since 1970) */
+export declare type epochWithMilliseconds = number;
 /** foreign key reference */
 export declare type fk = string;
 /** primary key reference */
