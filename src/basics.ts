@@ -1,9 +1,9 @@
 /**
  * A Javascript hash which allows for any set of keys
  */
-    export interface IDictionary<T = any> {
-      [key: string]: T;
-    }
+export interface IDictionary<T = any> {
+  [key: string]: T;
+}
 
 /**
  * A numeric Javascript array
@@ -36,4 +36,4 @@ export declare type Base64Zip = string;
 export declare const STAGE_MAP: IDictionary<string>;
 export declare function STAGE(stage: string): string;
 
-export type booleanAsString = "true" | "false";
+export type BooleanAsString = "true" | "false";
