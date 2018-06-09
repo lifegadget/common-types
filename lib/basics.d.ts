@@ -4,6 +4,15 @@
 export interface IDictionary<T = any> {
     [key: string]: T;
 }
+export declare type INameValuePair<T = any> = INameValuePairWithId<T> | INameValuePairWithKey<T>;
+export interface INameValuePairWithId<T = any> {
+    id: string | number;
+    value: T;
+}
+export interface INameValuePairWithKey<T = any> {
+    key: string | number;
+    value: T;
+}
 /**
  * A numeric Javascript array
  */
