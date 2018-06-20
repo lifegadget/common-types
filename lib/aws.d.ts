@@ -32,7 +32,7 @@ export declare enum AWSGatewayStatusCode {
     UnprocessableEntity = 422,
     InternalServerError = 500,
     BadGateway = 502,
-    GatewayTimeout = 504,
+    GatewayTimeout = 504
 }
 export declare type REST_Methods = "GET" | "POST" | "PUT" | "DELETE";
 /**
