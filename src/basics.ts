@@ -5,6 +5,17 @@ export interface IDictionary<T = any> {
   [key: string]: T;
 }
 
+export type INameValuePair<T = any> = INameValuePairWithId<T> | INameValuePairWithKey<T>;
+export interface INameValuePairWithId<T = any> {
+  id: string | number;
+  value: T;
+}
+
+export interface INameValuePairWithKey<T = any> {
+  key: string | number;
+  value: T;
+}
+
 /**
  * A numeric Javascript array
  */
@@ -23,6 +34,8 @@ export declare type timezone = string;
 export declare type datetime = string;
 /** unix epoch datetime format (aka, seconds since 1970) */
 export declare type epoch = number;
+/** javascript datetime format (aka, milliseconds since 1970) */
+export declare type epochWithMilliseconds = number;
 /** foreign key reference */
 export declare type fk = string;
 /** primary key reference */
