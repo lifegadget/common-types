@@ -5,9 +5,8 @@ if (!Array.isArray) {
     };
 }
 var errorStr = "tried to join something other than a string or array, it was ignored in pathJoin's result";
-export function pathJoin() {
-    return Array.prototype.slice
-        .call(arguments)
+export function pathJoin(...args) {
+    return args
         .reduce(function (prev, val) {
         if (typeof prev === "undefined")
             return;
@@ -27,4 +26,7 @@ function joinStringsWithSlash(str1, str2) {
         (!str1EndsInSlash && !str2StartsWithSlash && !str1isEmpty && str1 + "/" + str2) ||
         str1 + str2;
     return res;
+}
+export function dotNotation(input) {
+    return input.replace(/\//g, ".");
 }
