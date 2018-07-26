@@ -50,3 +50,5 @@ export declare const STAGE_MAP: IDictionary<string>;
 export declare function STAGE(stage: string): string;
 
 export type BooleanAsString = "true" | "false";
+
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;

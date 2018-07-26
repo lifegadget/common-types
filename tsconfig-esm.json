@@ -5,7 +5,7 @@
     "moduleResolution": "node",
     "target": "es2015",
     "noImplicitAny": true,
-    "outDir": "./esm",
+    "outDir": "./dist/es2015",
     "preserveConstEnums": true,
     "removeComments": true,
     "typeRoots": ["./node_modules/@types"]

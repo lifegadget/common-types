@@ -52,7 +52,7 @@ export type REST_Methods = "GET" | "POST" | "PUT" | "DELETE";
 export function isLambdaProxyRequest<T>(
   message: T | IAWSLambdaProxyIntegrationRequest
 ): message is IAWSLambdaProxyIntegrationRequest {
-  return (message as IAWSLambdaProxyIntegrationRequest).headers !== undefined;
+  return (message as IAWSLambdaProxyIntegrationRequest).headers ? true : false;
 }
 
 /**
