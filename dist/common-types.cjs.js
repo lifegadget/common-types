@@ -14,7 +14,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
     AWSGatewayStatusCode[AWSGatewayStatusCode["GatewayTimeout"] = 504] = "GatewayTimeout";
 })(exports.AWSGatewayStatusCode || (exports.AWSGatewayStatusCode = {}));
 function isLambdaProxyRequest(message) {
-    return message.headers !== undefined;
+    return message.headers ? true : false;
 }
 function getBodyFromPossibleLambdaProxyRequest(input) {
     return isLambdaProxyRequest(input) ? JSON.parse(input.body) : input;

@@ -11,7 +11,7 @@ var AWSGatewayStatusCode;
     AWSGatewayStatusCode[AWSGatewayStatusCode["GatewayTimeout"] = 504] = "GatewayTimeout";
 })(AWSGatewayStatusCode || (AWSGatewayStatusCode = {}));
 function isLambdaProxyRequest(message) {
-    return message.headers !== undefined;
+    return message.headers ? true : false;
 }
 function getBodyFromPossibleLambdaProxyRequest(input) {
     return isLambdaProxyRequest(input) ? JSON.parse(input.body) : input;

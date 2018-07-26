@@ -28,3 +28,4 @@ export declare type Base64Zip = string;
 export declare const STAGE_MAP: IDictionary<string>;
 export declare function STAGE(stage: string): string;
 export declare type BooleanAsString = "true" | "false";
+export declare type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;

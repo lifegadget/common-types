@@ -1,19 +1,20 @@
 {
   "name": "common-types",
-  "version": "1.8.0",
+  "version": "1.8.4",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "dist/common-types.cjs.js",
   "module": "dist/common-types.es2015.js",
   "browser": "dist/common-types.umd.js",
-  "types": "lib/index.d.ts",
+  "typings": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "rollup -c && yarn publish",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "build:tsc": "tsc && tsc -P tsconfig-esm.json"
   },
   "author": "Ken Snyder <ken@ken.net>",
   "license": "MIT",
