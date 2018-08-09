@@ -1,4 +1,4 @@
-import { IDictionary, BooleanAsString } from "./basics";
+import { IDictionary, BooleanAsString, epoch } from "./basics";
 export interface ILambdaErrorResponse<T = any> {
     errorCode?: string | number;
     errorMessage?: string;
@@ -139,4 +139,18 @@ export interface ReflectionProperty<T> {
     set: (value?: any) => void;
     enumerable: boolean;
     configurable: boolean;
+}
+export interface ICloudWatchEvent {
+    messageType: string | "DATA_MESSAGE";
+    owner: string;
+    logGroup: string;
+    logStream: string;
+    subscriptionFilters: string[];
+    logEvents: ICloudWatchLogEvent[];
+}
+export interface ICloudWatchLogEvent {
+    id: string;
+    timestamp: epoch;
+    message: string;
+    extractedFields?: IDictionary[];
 }
