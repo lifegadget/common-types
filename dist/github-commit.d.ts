@@ -1,4 +1,4 @@
-import { IGithubEntity } from "./github";
+import { IGithubUser } from "./github";
 export interface IGithubCommit {
     url: string;
     sha: string;
@@ -30,8 +30,8 @@ export interface IGithubCommit {
             payload: any;
         };
     };
-    author: IGithubEntity;
-    committer: IGithubEntity;
+    author: IGithubUser;
+    committer: IGithubUser;
     parents: {
         url: string;
         sha: string;

@@ -1,5 +1,5 @@
 import { datetime } from "./basics";
-import { IGithubEntity } from "./github";
+import { IGithubUser } from "./github";
 export interface IGithubRelease {
     url: string;
     html_url: string;
@@ -17,7 +17,7 @@ export interface IGithubRelease {
     prerelease: boolean;
     created_at: datetime;
     published_at: datetime;
-    author: IGithubEntity;
+    author: IGithubUser;
     assets: {
         url: string;
         browser_download_url: string;
@@ -31,6 +31,6 @@ export interface IGithubRelease {
         download_count: number;
         created_at: datetime;
         updated_at: datetime;
-        uploader: IGithubEntity;
+        uploader: IGithubUser;
     };
 }

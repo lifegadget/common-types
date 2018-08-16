@@ -9,3 +9,4 @@ export * from "./github";
 export * from "./github-event";
 export * from "./github-commit";
 export * from "./github-release";
+export * from "./github-webhooks";
