@@ -64,7 +64,7 @@ export interface IServerlessIAMRole {
     Resource: string[];
 }
 export interface IServerlessFunction {
-    environment?: string;
+    environment?: string | IDictionary;
     description?: string;
     handler: string;
     runtime?: AWSRuntime;

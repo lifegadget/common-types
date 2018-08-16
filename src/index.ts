@@ -6,3 +6,6 @@ export * from "./package";
 export * from "./error";
 export * from "./async";
 export * from "./path";
+export * from "./github-event";
+export * from "./github-commit";
+export * from "./github-release";
