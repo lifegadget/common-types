@@ -19,6 +19,33 @@ export interface IGitHubWebhook_PushEvent {
     };
     sender: IGithubUser;
 }
+export declare type GithubWebhookEvent = "push" | "pull_request" | "check_run" | "check_suite" | "commit_comment" | "create" | "delete" | "deployment" | "deployment_status" | "fork" | "github_app_authorization" | "gollum" | "installation" | "installation_repositories" | "issue_comment" | "issues" | "label" | "marketplace_purchase" | "member" | "membership" | "milestone" | "organization" | "org_block" | "page_build" | "project_card" | "project_column" | "project" | "public" | "pull_request_review_comment" | "pull_request_review" | "repository" | "repository_import" | "repository_volnerability_alert" | "release" | "status" | "team" | "team_add" | "watch";
+export interface IGithubWebhookCreate {
+    name: "web";
+    active: boolean;
+    events: GithubWebhookEvent[];
+    config: IGithubWebhookConfig;
+}
+export interface IGithubWebhookConfig {
+    url: string;
+    content_type?: "json" | "form";
+    secret?: string;
+    insecure_ssl?: 0;
+}
+export interface IGithubWebhookSubscribe extends IGithubWebhookSubUnsub {
+    mode: "subscribe";
+}
+export interface IGithubWebhookUnsubscribe extends IGithubWebhookSubUnsub {
+    mode: "unsubscribe";
+}
+export interface IGithubWebhookSubUnsub {
+    hub: {
+        mode: "subscribe" | "unsubscribe";
+        topic: string;
+        callback: string;
+        secret?: string;
+    };
+}
 export interface IGitHubWebhook_IssuesEvent {
     action: "assigned" | "unassigned" | "labeled" | "unlabeled" | "opened" | "edited" | "milestoned" | "demilestoned" | "closed" | "reopened";
     issue: {

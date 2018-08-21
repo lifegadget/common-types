@@ -37,6 +37,87 @@ export interface IGitHubWebhook_PushEvent {
   sender: IGithubUser;
 }
 
+/** https://developer.github.com/webhooks/#events */
+export type GithubWebhookEvent =
+  | "push"
+  | "pull_request"
+  | "check_run"
+  | "check_suite"
+  | "commit_comment"
+  | "create"
+  | "delete"
+  | "deployment"
+  | "deployment_status"
+  | "fork"
+  | "github_app_authorization"
+  | "gollum"
+  | "installation"
+  | "installation_repositories"
+  | "issue_comment"
+  | "issues"
+  | "label"
+  | "marketplace_purchase"
+  | "member"
+  | "membership"
+  | "milestone"
+  | "organization"
+  | "org_block"
+  | "page_build"
+  | "project_card"
+  | "project_column"
+  | "project"
+  | "public"
+  | "pull_request_review_comment"
+  | "pull_request_review"
+  | "repository"
+  | "repository_import"
+  | "repository_volnerability_alert"
+  | "release"
+  | "status"
+  | "team"
+  | "team_add"
+  | "watch";
+
+export interface IGithubWebhookCreate {
+  name: "web";
+  active: boolean;
+  events: GithubWebhookEvent[];
+  config: IGithubWebhookConfig;
+}
+
+export interface IGithubWebhookConfig {
+  /** The URL to which the payloads will be delivered. */
+  url: string;
+  /**
+   * The media type used to serialize the payloads.
+   * Supported values include json and form. The default
+   * is form.
+   */
+  content_type?: "json" | "form";
+  /** If provided, the secret will be used as the key to generate the HMAC hex digest value in the X-Hub-Signature header. */
+  secret?: string;
+  insecure_ssl?: 0;
+}
+
+export interface IGithubWebhookSubscribe extends IGithubWebhookSubUnsub {
+  mode: "subscribe";
+}
+export interface IGithubWebhookUnsubscribe extends IGithubWebhookSubUnsub {
+  mode: "unsubscribe";
+}
+
+export interface IGithubWebhookSubUnsub {
+  hub: {
+    mode: "subscribe" | "unsubscribe";
+    /** The URI of the GitHub repository to subscribe to. The path must be in the format of /:owner/:repo/events/:event. */
+    topic: string;
+    /** The URI to receive the updates to the topic. */
+    callback: string;
+    /** A shared secret key that generates a SHA1 HMAC of the outgoing body content. You can verify a push came from GitHub by comparing the raw request body with the contents of the X-Hub-Signature header. */
+    secret?: string;
+  };
+}
+
 /**
  * Triggered when an issue is assigned, unassigned, labeled,
  * unlabeled, opened, edited, milestoned, demilestoned, closed,
