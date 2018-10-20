@@ -25,6 +25,7 @@ export declare type pk = string;
 export declare type url = string;
 export declare type uri = string;
 export declare type Base64Zip = string;
+export declare type numberAsString = string;
 export declare const STAGE_MAP: IDictionary<string>;
 export declare function STAGE(stage: string): string;
 export declare type BooleanAsString = "true" | "false";
