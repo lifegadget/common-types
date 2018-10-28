@@ -1,5 +1,5 @@
 import { IDictionary, BooleanAsString, epoch } from "./basics";
-export interface ILambdaErrorResponse<T = any> {
+export interface IAPIGatewayErrorResponse<T = any> {
     errorCode?: string | number;
     errorMessage?: string;
     errorType: "Error";
@@ -9,10 +9,10 @@ export interface ILambdaErrorResponse<T = any> {
 export interface ILambdaSuccessCallback<T = IDictionary> {
     (error: null, response: T): void;
 }
-export interface ILambdaFailureCallback<E = ILambdaErrorResponse> {
-    (error: E | Error): void;
+export interface ILambdaFailureCallback<E = IAPIGatewayErrorResponse> {
+    (error: E | Error, response?: null): void;
 }
-export declare type LambdaCallback<T = IDictionary, E = ILambdaErrorResponse> = ILambdaSuccessCallback<T> & ILambdaFailureCallback<E>;
+export declare type LambdaCallback<T = IDictionary, E = IAPIGatewayErrorResponse> = ILambdaSuccessCallback<T> & ILambdaFailureCallback<E>;
 export interface IAWSGatewayResponse {
     statusCode: keyof AWSGatewayStatusCode;
     headers?: IDictionary<string>;

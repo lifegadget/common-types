@@ -1,5 +1,5 @@
 import { IDictionary, BooleanAsString, datetime, epoch } from "./basics";
-export interface ILambdaErrorResponse<T = any> {
+export interface IAPIGatewayErrorResponse<T = any> {
   errorCode?: string | number;
   errorMessage?: string;
   errorType: "Error";
@@ -12,13 +12,13 @@ export interface ILambdaSuccessCallback<T = IDictionary> {
   (error: null, response: T): void;
 }
 /** A Lambda function called to indicate a FAILED end-state of a lambda function */
-export interface ILambdaFailureCallback<E = ILambdaErrorResponse> {
-  (error: E | Error): void;
+export interface ILambdaFailureCallback<E = IAPIGatewayErrorResponse> {
+  (error: E | Error, response?: null): void;
 }
 /** A Lambda function called to indicate the end-state of a lambda function */
 export declare type LambdaCallback<
   T = IDictionary,
-  E = ILambdaErrorResponse
+  E = IAPIGatewayErrorResponse
 > = ILambdaSuccessCallback<T> & ILambdaFailureCallback<E>;
 /** A Lambda function called that is returning to an API Gateway endpoint */
 export interface IAWSGatewayResponse {
