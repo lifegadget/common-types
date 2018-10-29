@@ -21,14 +21,14 @@ export declare type LambdaCallback<
   E = IAPIGatewayErrorResponse
 > = ILambdaSuccessCallback<T> & ILambdaFailureCallback<E>;
 /** A Lambda function called that is returning to an API Gateway endpoint */
-export interface IAWSGatewayResponse {
-  statusCode: keyof AWSGatewayStatusCode;
+export interface IAPIGatewayResponse {
+  statusCode: keyof APIGatewayStatusCode;
   headers?: IDictionary<string>;
   body?: string;
   error?: string;
 }
 
-export enum AWSGatewayStatusCode {
+export enum APIGatewayStatusCode {
   Success = 200,
   BadRequest = 400,
   Unauthorized = 401,

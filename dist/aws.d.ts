@@ -13,13 +13,13 @@ export interface ILambdaFailureCallback<E = IAPIGatewayErrorResponse> {
     (error: E | Error, response?: null): void;
 }
 export declare type LambdaCallback<T = IDictionary, E = IAPIGatewayErrorResponse> = ILambdaSuccessCallback<T> & ILambdaFailureCallback<E>;
-export interface IAWSGatewayResponse {
-    statusCode: keyof AWSGatewayStatusCode;
+export interface IAPIGatewayResponse {
+    statusCode: keyof APIGatewayStatusCode;
     headers?: IDictionary<string>;
     body?: string;
     error?: string;
 }
-export declare enum AWSGatewayStatusCode {
+export declare enum APIGatewayStatusCode {
     Success = 200,
     BadRequest = 400,
     Unauthorized = 401,
