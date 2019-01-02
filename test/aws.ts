@@ -11,7 +11,7 @@ const callback: LambdaCallback = function(err, content) {
   return;
 };
 
-success(null, {}); // should be a success
+success(null, {}); // should be a successs
 success(500, {}); // should be an error
 
 fail(500, {}); // expected outcome
