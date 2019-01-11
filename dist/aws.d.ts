@@ -122,7 +122,6 @@ export interface IAWSGatewayRequest {
     fail?: () => void;
     logGroupName?: string;
     logStreamName?: string;
-    functionName?: string;
     memoryLimitInMB?: string;
     functionVersion?: string;
     getRemainingTimeInMillis?: string;
