@@ -1,5 +1,5 @@
-import { IDictionary, BooleanAsString } from "./basics";
-export interface ILambdaErrorResponse<T = any> {
+import { IDictionary, BooleanAsString, epoch } from "./basics";
+export interface IAPIGatewayErrorResponse<T = any> {
     errorCode?: string | number;
     errorMessage?: string;
     errorType: "Error";
@@ -9,17 +9,17 @@ export interface ILambdaErrorResponse<T = any> {
 export interface ILambdaSuccessCallback<T = IDictionary> {
     (error: null, response: T): void;
 }
-export interface ILambdaFailureCallback<E = ILambdaErrorResponse> {
-    (error: E | Error): void;
+export interface ILambdaFailureCallback<E = IAPIGatewayErrorResponse> {
+    (error: E | Error, response?: null): void;
 }
-export declare type LambdaCallback<T = IDictionary, E = ILambdaErrorResponse> = ILambdaSuccessCallback<T> & ILambdaFailureCallback<E>;
-export interface IAWSGatewayResponse {
-    statusCode: keyof AWSGatewayStatusCode;
+export declare type LambdaCallback<T = IDictionary, E = IAPIGatewayErrorResponse> = ILambdaSuccessCallback<T> & ILambdaFailureCallback<E>;
+export interface IAPIGatewayResponse {
+    statusCode: keyof APIGatewayStatusCode;
     headers?: IDictionary<string>;
     body?: string;
     error?: string;
 }
-export declare enum AWSGatewayStatusCode {
+export declare enum APIGatewayStatusCode {
     Success = 200,
     BadRequest = 400,
     Unauthorized = 401,
@@ -122,7 +122,6 @@ export interface IAWSGatewayRequest {
     fail?: () => void;
     logGroupName?: string;
     logStreamName?: string;
-    functionName?: string;
     memoryLimitInMB?: string;
     functionVersion?: string;
     getRemainingTimeInMillis?: string;
@@ -139,4 +138,18 @@ export interface ReflectionProperty<T> {
     set: (value?: any) => void;
     enumerable: boolean;
     configurable: boolean;
+}
+export interface ICloudWatchEvent {
+    messageType: string | "DATA_MESSAGE";
+    owner: string;
+    logGroup: string;
+    logStream: string;
+    subscriptionFilters: string[];
+    logEvents: ICloudWatchLogEvent[];
+}
+export interface ICloudWatchLogEvent {
+    id: string;
+    timestamp: epoch;
+    message: string;
+    extractedFields?: IDictionary[];
 }

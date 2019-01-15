@@ -86,18 +86,79 @@ export interface IServerlessIAMRole {
   Resource: string[];
 }
 
+export type ServerlessFunctionMemorySize =
+  | 128
+  | 192
+  | 256
+  | 320
+  | 384
+  | 448
+  | 512
+  | 576
+  | 640
+  | 704
+  | 768
+  | 832
+  | 896
+  | 960
+  | 1024
+  | 1088
+  | 1152
+  | 1216
+  | 1280
+  | 1344
+  | 1408
+  | 1472
+  | 1536
+  | 1600
+  | 1664
+  | 1728
+  | 1792
+  | 1856
+  | 1920
+  | 1984
+  | 2048
+  | 2112
+  | 2176
+  | 2240
+  | 2304
+  | 2368
+  | 2432
+  | 2496
+  | 2560
+  | 2624
+  | 2688
+  | 2752
+  | 2816
+  | 2880
+  | 2944
+  | 3008;
+
 export interface IServerlessFunction {
-  environment?: string;
+  environment?: string | IDictionary;
   description?: string;
+  /** 
+   * the handler function in the form of "/path/to/file.HANDLER_FN" where
+   * HANDLER_FN is typically "handler".
+   */
   handler: string;
   runtime?: AWSRuntime;
+  /** how many miliseconds before the function times out */
   timeout?: number;
-  memorySize?: number;
+  /** 
+   * the allocated "memory" of the virtual machine that will 
+   * run this function ... in reality is not only a proxy for 
+   * memory availability but also computational capability
+   */
+  memorySize?: ServerlessFunctionMemorySize;
   package?: {
     artifact?: string;
     exclude?: string[];
     include?: string[];
   };
+  /**
+   * Events which may call this function
+   */
   events?: IServerlessEvent[];
   /**
    * used in conjunction with the serverless-plugin-tracing plugin,
@@ -107,7 +168,9 @@ export interface IServerlessFunction {
 }
 
 export interface IServerlessEvent {
-  schedule?: IServerlessEventScheduleLongForm | IServerlessEventScheduleShortForm;
+  schedule?:
+    | IServerlessEventScheduleLongForm
+    | IServerlessEventScheduleShortForm;
   http?: IServerlessEventHttp;
   /**
    * Allows subscription (and optionally the creation of) an SNS topic.
@@ -238,7 +301,8 @@ export interface IStepFunctionBaseState {
   Comment?: string;
 }
 
-export interface IStepFunctionBaseWithPathMapping extends IStepFunctionBaseState {
+export interface IStepFunctionBaseWithPathMapping
+  extends IStepFunctionBaseState {
   /** A path that selects a portion of the state's input to be passed to the state's task for processing. If omitted, it has the value $ which designates the entire input. For more information, see Input and Output Processing). */
   InputPath?: string;
   /** A path that selects a portion of the state's input to be passed to the state's output. If omitted, it has the value $ which designates the entire input. For more information, see Input and Output Processing. */
@@ -261,7 +325,8 @@ export interface IStepFunctionTask<T = IDictionary>
   HeartbeatSeconds?: number;
 }
 
-export interface IStepFunctionChoice<T = IDictionary> extends IStepFunctionBaseState {
+export interface IStepFunctionChoice<T = IDictionary>
+  extends IStepFunctionBaseState {
   Type: "Choice";
   Choices: IStepFunctionChoiceItem<T>[];
   /** The name of the state to transition to if none of the transitions in Choices is taken. */
@@ -271,7 +336,8 @@ export interface IStepFunctionChoice<T = IDictionary> extends IStepFunctionBaseS
 export type IStepFunctionChoiceItem<T> = Partial<IStepFunctionOperand> &
   IStepFunctionComplexChoiceItem<T>;
 
-export interface IStepFunctionComplexChoiceItem<T> extends IStepFunctionBaseChoice<T> {
+export interface IStepFunctionComplexChoiceItem<T>
+  extends IStepFunctionBaseChoice<T> {
   // complex operators
   And?: IStepFunctionOperand[];
   Or?: IStepFunctionOperand[];
@@ -368,7 +434,8 @@ export interface IStepFunctionBaseChoice<T> {
   End?: boolean;
 }
 
-export interface IStepFunctionWait<T = IDictionary> extends IStepFunctionBaseState {
+export interface IStepFunctionWait<T = IDictionary>
+  extends IStepFunctionBaseState {
   Type: "Wait";
   /** A time, in seconds, to wait before beginning the state specified in the Next field. */
   Seconds?: number;
@@ -386,7 +453,8 @@ export interface IStepFunctionSucceed extends IStepFunctionBaseState {
   Type: "Succeed";
 }
 
-export interface IStepFunctionPass<T = IDictionary> extends IStepFunctionBaseState {
+export interface IStepFunctionPass<T = IDictionary>
+  extends IStepFunctionBaseState {
   Type: "Pass";
   /** Treated as the output of a virtual task to be passed on to the next state, and filtered as prescribed by the ResultPath field (if present). */
   Result?: any;
@@ -401,7 +469,8 @@ export interface IStepFunctionFail extends IStepFunctionBaseState {
   Cause?: string;
 }
 
-export interface IStepFunctionParallel<T = IDictionary> extends IStepFunctionBaseState {
+export interface IStepFunctionParallel<T = IDictionary>
+  extends IStepFunctionBaseState {
   Type: "Parallel";
   Branches: IStepFunctionParallelBranch[];
   Next?: keyof T;

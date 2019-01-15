@@ -2,17 +2,17 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-(function (AWSGatewayStatusCode) {
-    AWSGatewayStatusCode[AWSGatewayStatusCode["Success"] = 200] = "Success";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["BadRequest"] = 400] = "BadRequest";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["Unauthorized"] = 401] = "Unauthorized";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["Forbidden"] = 403] = "Forbidden";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["NotFound"] = 404] = "NotFound";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["UnprocessableEntity"] = 422] = "UnprocessableEntity";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["InternalServerError"] = 500] = "InternalServerError";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["BadGateway"] = 502] = "BadGateway";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["GatewayTimeout"] = 504] = "GatewayTimeout";
-})(exports.AWSGatewayStatusCode || (exports.AWSGatewayStatusCode = {}));
+(function (APIGatewayStatusCode) {
+    APIGatewayStatusCode[APIGatewayStatusCode["Success"] = 200] = "Success";
+    APIGatewayStatusCode[APIGatewayStatusCode["BadRequest"] = 400] = "BadRequest";
+    APIGatewayStatusCode[APIGatewayStatusCode["Unauthorized"] = 401] = "Unauthorized";
+    APIGatewayStatusCode[APIGatewayStatusCode["Forbidden"] = 403] = "Forbidden";
+    APIGatewayStatusCode[APIGatewayStatusCode["NotFound"] = 404] = "NotFound";
+    APIGatewayStatusCode[APIGatewayStatusCode["UnprocessableEntity"] = 422] = "UnprocessableEntity";
+    APIGatewayStatusCode[APIGatewayStatusCode["InternalServerError"] = 500] = "InternalServerError";
+    APIGatewayStatusCode[APIGatewayStatusCode["BadGateway"] = 502] = "BadGateway";
+    APIGatewayStatusCode[APIGatewayStatusCode["GatewayTimeout"] = 504] = "GatewayTimeout";
+})(exports.APIGatewayStatusCode || (exports.APIGatewayStatusCode = {}));
 function isLambdaProxyRequest(message) {
     return message.headers ? true : false;
 }
@@ -67,7 +67,6 @@ if (!Array.isArray) {
         return Object.prototype.toString.call(arg) === "[object Array]";
     };
 }
-var errorStr = "tried to join something other than a string or array, it was ignored in pathJoin's result";
 function pathJoin(...args) {
     return args
         .reduce(function (prev, val) {
@@ -77,7 +76,7 @@ function pathJoin(...args) {
             ? joinStringsWithSlash(prev, "" + val)
             : Array.isArray(val)
                 ? joinStringsWithSlash(prev, pathJoin.apply(null, val))
-                : (console.error ? console.error(errorStr) : console.log(errorStr)) || "";
+                : false;
     }, "")
         .replace(moreThanThreePeriods, "..");
 }

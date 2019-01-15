@@ -2,25 +2,22 @@
  * A Javascript hash which allows for any set of keys
  */
 export interface IDictionary<T = any> {
-  [key: string]: T;
+    [key: string]: T;
 }
-
-export type INameValuePair<T = any> = INameValuePairWithId<T> | INameValuePairWithKey<T>;
+export declare type INameValuePair<T = any> = INameValuePairWithId<T> | INameValuePairWithKey<T>;
 export interface INameValuePairWithId<T = any> {
-  id: string | number;
-  value: T;
+    id: string | number;
+    value: T;
 }
-
 export interface INameValuePairWithKey<T = any> {
-  key: string | number;
-  value: T;
+    key: string | number;
+    value: T;
 }
-
 /**
  * A numeric Javascript array
  */
 export interface INumericArray<T = any> {
-  [key: number]: T;
+    [key: number]: T;
 }
 /** A function for sorting JS arrays */
 export declare type SortingFunction = (a: any, b: any) => number;
@@ -54,30 +51,10 @@ export declare type Base64Zip = string;
 export declare type numberAsString = string;
 export declare const STAGE_MAP: IDictionary<string>;
 export declare function STAGE(stage: string): string;
-
-export type BooleanAsString = "true" | "false";
-
-/** 
- * Allows a type T to have certain properties "omitted" and thereby 
- * creating a new type definition. Very useful for omitting an "id" 
+export declare type BooleanAsString = "true" | "false";
+/**
+ * Allows a type T to have certain properties "omitted" and thereby
+ * creating a new type definition. Very useful for omitting an "id"
  * property before a record is saved, etc.
  */
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-
-/**
- * For a given hash/object, this produces a type which is just the 
- * names of functions contained within hash.
- */
-type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
-
-type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
-
-/**
- * The properties on a given hash/object
- */
-type NonFunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T];
-/**
- * A type definition which reduces the type of the T to just those non-function
- * properties.
- */
-type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>;
+export declare type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
