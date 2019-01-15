@@ -137,15 +137,28 @@ export type ServerlessFunctionMemorySize =
 export interface IServerlessFunction {
   environment?: string | IDictionary;
   description?: string;
+  /** 
+   * the handler function in the form of "/path/to/file.HANDLER_FN" where
+   * HANDLER_FN is typically "handler".
+   */
   handler: string;
   runtime?: AWSRuntime;
+  /** how many miliseconds before the function times out */
   timeout?: number;
+  /** 
+   * the allocated "memory" of the virtual machine that will 
+   * run this function ... in reality is not only a proxy for 
+   * memory availability but also computational capability
+   */
   memorySize?: ServerlessFunctionMemorySize;
   package?: {
     artifact?: string;
     exclude?: string[];
     include?: string[];
   };
+  /**
+   * Events which may call this function
+   */
   events?: IServerlessEvent[];
   /**
    * used in conjunction with the serverless-plugin-tracing plugin,

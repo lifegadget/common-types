@@ -69,7 +69,6 @@
           return Object.prototype.toString.call(arg) === "[object Array]";
       };
   }
-  var errorStr = "tried to join something other than a string or array, it was ignored in pathJoin's result";
   function pathJoin(...args) {
       return args
           .reduce(function (prev, val) {
@@ -79,7 +78,7 @@
               ? joinStringsWithSlash(prev, "" + val)
               : Array.isArray(val)
                   ? joinStringsWithSlash(prev, pathJoin.apply(null, val))
-                  : (console.error ? console.error(errorStr) : console.log(errorStr)) || "";
+                  : false;
       }, "")
           .replace(moreThanThreePeriods, "..");
   }

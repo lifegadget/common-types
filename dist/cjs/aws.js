@@ -1,17 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var AWSGatewayStatusCode;
-(function (AWSGatewayStatusCode) {
-    AWSGatewayStatusCode[AWSGatewayStatusCode["Success"] = 200] = "Success";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["BadRequest"] = 400] = "BadRequest";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["Unauthorized"] = 401] = "Unauthorized";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["Forbidden"] = 403] = "Forbidden";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["NotFound"] = 404] = "NotFound";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["UnprocessableEntity"] = 422] = "UnprocessableEntity";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["InternalServerError"] = 500] = "InternalServerError";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["BadGateway"] = 502] = "BadGateway";
-    AWSGatewayStatusCode[AWSGatewayStatusCode["GatewayTimeout"] = 504] = "GatewayTimeout";
-})(AWSGatewayStatusCode = exports.AWSGatewayStatusCode || (exports.AWSGatewayStatusCode = {}));
+var APIGatewayStatusCode;
+(function (APIGatewayStatusCode) {
+    APIGatewayStatusCode[APIGatewayStatusCode["Success"] = 200] = "Success";
+    APIGatewayStatusCode[APIGatewayStatusCode["BadRequest"] = 400] = "BadRequest";
+    APIGatewayStatusCode[APIGatewayStatusCode["Unauthorized"] = 401] = "Unauthorized";
+    APIGatewayStatusCode[APIGatewayStatusCode["Forbidden"] = 403] = "Forbidden";
+    APIGatewayStatusCode[APIGatewayStatusCode["NotFound"] = 404] = "NotFound";
+    APIGatewayStatusCode[APIGatewayStatusCode["UnprocessableEntity"] = 422] = "UnprocessableEntity";
+    APIGatewayStatusCode[APIGatewayStatusCode["InternalServerError"] = 500] = "InternalServerError";
+    APIGatewayStatusCode[APIGatewayStatusCode["BadGateway"] = 502] = "BadGateway";
+    APIGatewayStatusCode[APIGatewayStatusCode["GatewayTimeout"] = 504] = "GatewayTimeout";
+})(APIGatewayStatusCode = exports.APIGatewayStatusCode || (exports.APIGatewayStatusCode = {}));
 /**
  * Provides a logical test to see if the passed in event is a LambdaProxy request or just a
  * straight JS object response. This is useful when you have both an HTTP event and a Lambda-to-Lambda

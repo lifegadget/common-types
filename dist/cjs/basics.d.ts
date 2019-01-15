@@ -33,6 +33,10 @@ export declare type datetime = string;
 export declare type epoch = number;
 /** javascript datetime format (aka, milliseconds since 1970) */
 export declare type epochWithMilliseconds = number;
+/** a numeric value representing the number of minutes */
+export declare type minutes = number;
+/** a numeric value representing the number of seconds */
+export declare type seconds = number;
 /** foreign key reference */
 export declare type fk = string;
 /** primary key reference */
@@ -48,4 +52,9 @@ export declare type numberAsString = string;
 export declare const STAGE_MAP: IDictionary<string>;
 export declare function STAGE(stage: string): string;
 export declare type BooleanAsString = "true" | "false";
+/**
+ * Allows a type T to have certain properties "omitted" and thereby
+ * creating a new type definition. Very useful for omitting an "id"
+ * property before a record is saved, etc.
+ */
 export declare type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;

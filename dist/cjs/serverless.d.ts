@@ -75,18 +75,32 @@ export interface IServerlessIAMRole {
     /** A list of resources (aka, arn's) which are to receive this role grant */
     Resource: string[];
 }
+export declare type ServerlessFunctionMemorySize = 128 | 192 | 256 | 320 | 384 | 448 | 512 | 576 | 640 | 704 | 768 | 832 | 896 | 960 | 1024 | 1088 | 1152 | 1216 | 1280 | 1344 | 1408 | 1472 | 1536 | 1600 | 1664 | 1728 | 1792 | 1856 | 1920 | 1984 | 2048 | 2112 | 2176 | 2240 | 2304 | 2368 | 2432 | 2496 | 2560 | 2624 | 2688 | 2752 | 2816 | 2880 | 2944 | 3008;
 export interface IServerlessFunction {
     environment?: string | IDictionary;
     description?: string;
+    /**
+     * the handler function in the form of "/path/to/file.HANDLER_FN" where
+     * HANDLER_FN is typically "handler".
+     */
     handler: string;
     runtime?: AWSRuntime;
+    /** how many miliseconds before the function times out */
     timeout?: number;
-    memorySize?: number;
+    /**
+     * the allocated "memory" of the virtual machine that will
+     * run this function ... in reality is not only a proxy for
+     * memory availability but also computational capability
+     */
+    memorySize?: ServerlessFunctionMemorySize;
     package?: {
         artifact?: string;
         exclude?: string[];
         include?: string[];
     };
+    /**
+     * Events which may call this function
+     */
     events?: IServerlessEvent[];
     /**
      * used in conjunction with the serverless-plugin-tracing plugin,

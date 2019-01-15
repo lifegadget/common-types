@@ -17,13 +17,13 @@ export interface ILambdaFailureCallback<E = IAPIGatewayErrorResponse> {
 /** A Lambda function called to indicate the end-state of a lambda function */
 export declare type LambdaCallback<T = IDictionary, E = IAPIGatewayErrorResponse> = ILambdaSuccessCallback<T> & ILambdaFailureCallback<E>;
 /** A Lambda function called that is returning to an API Gateway endpoint */
-export interface IAWSGatewayResponse {
-    statusCode: keyof AWSGatewayStatusCode;
+export interface IAPIGatewayResponse {
+    statusCode: keyof APIGatewayStatusCode;
     headers?: IDictionary<string>;
     body?: string;
     error?: string;
 }
-export declare enum AWSGatewayStatusCode {
+export declare enum APIGatewayStatusCode {
     Success = 200,
     BadRequest = 400,
     Unauthorized = 401,
@@ -156,7 +156,6 @@ export interface IAWSGatewayRequest {
     fail?: () => void;
     logGroupName?: string;
     logStreamName?: string;
-    functionName?: string;
     memoryLimitInMB?: string;
     functionVersion?: string;
     getRemainingTimeInMillis?: string;
