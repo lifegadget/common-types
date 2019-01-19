@@ -504,3 +504,65 @@ export interface IStepFunctionRetrier {
   /** A positive integer, representing the maximum number of retry attempts (default 3). If the error recurs more times than specified, retries cease and normal error handling resumes. A value of 0 is permitted and indicates that the error or errors should never be retried. */
   MaxAttempts?: number;
 }
+
+interface IServerlessOpenApiDocumentationSchema {
+  type: string;
+  pattern?: string;
+  enum?: 'standard' | 'premium';
+}
+
+interface IServerlessOpenApiDocumentationParams {
+  name: string;
+  description: string;
+  required?: boolean;
+  schema: IServerlessOpenApiDocumentationSchema;
+}
+
+interface IServerlessOpenApiDocumentationMethodResponses {
+  statusCode: number;
+  responseBody?: {
+    description: string;
+  }
+  responseModels?: {
+    "application/json": string;
+  }
+}
+
+interface IServerlessOpenApiDocumentation {
+  summary: string;
+  description: string;
+  requestBody?: {
+    description: string;
+    schema?: IServerlessOpenApiDocumentationSchema;
+  };
+  requestModels?: {
+    "application/json": string;
+  };
+  pathParams?: IServerlessOpenApiDocumentationParams;
+  queryParams?: IServerlessOpenApiDocumentationParams;
+  cookieParams?: IServerlessOpenApiDocumentationParams;
+  methodResponses?: IServerlessOpenApiDocumentationMethodResponses[];
+}
+
+export interface IServerlessEventHttpWithDocumentation extends IServerlessEventHttp {
+  documentation?: IServerlessOpenApiDocumentation;
+}
+
+interface IServerlessOpenApiDocumentationModelSchema {
+  $schema: string;
+  properties: {};
+}
+
+interface IServerlessOpenApiDocumentationModel {
+  name: string;
+  description: string;
+  contentType: "application/json" | "application/xml" | string;
+  schema: IServerlessOpenApiDocumentationModelSchema | string;
+}
+
+export interface IServerlessOpenApiDocumentationConfiguration {
+  version?: string;
+  title: string;
+  description: string;
+  models: IServerlessOpenApiDocumentationModel[];
+}

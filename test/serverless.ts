@@ -1,13 +1,16 @@
 import {
   IStepFunctionParallel,
   IStepFunctionChoice,
-  StepFunctionState,
+  IStepFunctionStep,
   IStepFunctionPass,
   IStepFunctionSucceed,
   IStepFunctionTask,
   IStepFunctionWait,
   IServerlessConfig,
-  IDictionary
+  IServerlessEventHttp,
+  IServerlessEventHttpWithDocumentation,
+  IDictionary,
+  IServerlessFunction
 } from "../src";
 
 const stepFns: IServerlessConfig = {
@@ -150,7 +153,7 @@ const parallel: IDictionary<IStepFunctionParallel> = {
   }
 };
 
-const mixedBag: IDictionary<StepFunctionState> = {
+const mixedBag: IDictionary<IStepFunctionStep> = {
   ...task,
   ...choice,
   ...wait,
@@ -158,3 +161,48 @@ const mixedBag: IDictionary<StepFunctionState> = {
   ...pass,
   ...parallel
 };
+
+const fooHttp: IServerlessEventHttp = {
+  method: 'get',
+  path: 'foo',
+  cors: true
+}
+
+const fooBarHttpWithDocs: IServerlessEventHttpWithDocumentation = {
+  method: "post",
+  path: "foobar",
+  cors: true,
+  documentation: {
+    summary: "Send message to bar from foo",
+    description: "This function will send a post message over to bar from foo.",
+    requestModels: {
+      "application/json": "PostDocumentRequest"
+    },
+    methodResponses: [
+      {
+        statusCode: 200,
+        responseBody: {
+          description: "Successful response",
+        },
+        responseModels: {
+          "application/json": "PostDocumentResponse"
+        }
+      }
+    ]
+  }
+}
+
+const serverlessFun: IServerlessFunction = {
+  description: "listens for FooBar events",
+  handler: "lib/handlers/listen.handler",
+  timeout: 2,
+  memorySize: 512,
+  events: [
+    {
+      http: fooHttp
+    },
+    {
+      http: fooBarHttpWithDocs
+    }
+  ]
+}
