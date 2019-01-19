@@ -11,6 +11,7 @@ export type AWSRuntime =
   | "go1.x";
 export interface IServerlessConfig {
   service: string;
+  custom?: {};
   plugins?: string[];
   package?: IServerlessPackage;
   provider?: IServerlessProvider;
