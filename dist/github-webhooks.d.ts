@@ -2,14 +2,30 @@ import { url, datetime, IDictionary } from "./basics";
 import { IGithubCommit } from "./github-commit";
 import { IGithubRepo, IGithubUser } from "./github";
 export interface IGitHubWebhook_PushEvent {
+    /**
+     * The full Git ref that was pushed. Example: refs/heads/master.
+     */
     ref: string;
+    /**
+     * The SHA of the most recent commit on ref before the push.
+     */
     before: string;
+    /**
+     * The SHA of the most recent commit on ref after the push.
+     */
     after: string;
     created: boolean;
     deleted: boolean;
     forced: boolean;
     base_ref?: any;
     compare: url;
+    /**
+     * An array of commit objects describing the pushed commits.
+     * (The array includes a maximum of 20 commits. If necessary,
+     * you can use the Commits API to fetch additional commits.
+     * This limit is applied to timeline events only and isn't
+     * applied to webhook deliveries.)
+     */
     commits: IGithubCommit[];
     head_commit?: any;
     repository: IGithubRepo;
@@ -19,6 +35,7 @@ export interface IGitHubWebhook_PushEvent {
     };
     sender: IGithubUser;
 }
+/** https://developer.github.com/webhooks/#events */
 export declare type GithubWebhookEvent = "push" | "pull_request" | "check_run" | "check_suite" | "commit_comment" | "create" | "delete" | "deployment" | "deployment_status" | "fork" | "github_app_authorization" | "gollum" | "installation" | "installation_repositories" | "issue_comment" | "issues" | "label" | "marketplace_purchase" | "member" | "membership" | "milestone" | "organization" | "org_block" | "page_build" | "project_card" | "project_column" | "project" | "public" | "pull_request_review_comment" | "pull_request_review" | "repository" | "repository_import" | "repository_volnerability_alert" | "release" | "status" | "team" | "team_add" | "watch";
 export interface IGithubWebhookCreate {
     name: "web";
@@ -27,8 +44,15 @@ export interface IGithubWebhookCreate {
     config: IGithubWebhookConfig;
 }
 export interface IGithubWebhookConfig {
+    /** The URL to which the payloads will be delivered. */
     url: string;
+    /**
+     * The media type used to serialize the payloads.
+     * Supported values include json and form. The default
+     * is form.
+     */
     content_type?: "json" | "form";
+    /** If provided, the secret will be used as the key to generate the HMAC hex digest value in the X-Hub-Signature header. */
     secret?: string;
     insecure_ssl?: 0;
 }
@@ -41,11 +65,19 @@ export interface IGithubWebhookUnsubscribe extends IGithubWebhookSubUnsub {
 export interface IGithubWebhookSubUnsub {
     hub: {
         mode: "subscribe" | "unsubscribe";
+        /** The URI of the GitHub repository to subscribe to. The path must be in the format of /:owner/:repo/events/:event. */
         topic: string;
+        /** The URI to receive the updates to the topic. */
         callback: string;
+        /** A shared secret key that generates a SHA1 HMAC of the outgoing body content. You can verify a push came from GitHub by comparing the raw request body with the contents of the X-Hub-Signature header. */
         secret?: string;
     };
 }
+/**
+ * Triggered when an issue is assigned, unassigned, labeled,
+ * unlabeled, opened, edited, milestoned, demilestoned, closed,
+ * or reopened.
+ */
 export interface IGitHubWebhook_IssuesEvent {
     action: "assigned" | "unassigned" | "labeled" | "unlabeled" | "opened" | "edited" | "milestoned" | "demilestoned" | "closed" | "reopened";
     issue: {
@@ -83,6 +115,10 @@ export interface IGitHubWebhook_IssuesEvent {
     repository: IGithubRepo;
     sender: IGithubUser;
 }
+/**
+ * Triggered when a user is added or removed as a collaborator
+ * to a repository, or has their permissions changed.
+ */
 export interface IGitHubWebhook_MemberEvent {
     action: "added" | "deleted" | "edited";
     member: IGithubUser;
@@ -90,6 +126,9 @@ export interface IGitHubWebhook_MemberEvent {
     repository: IGithubRepo;
     sender: IGithubUser;
 }
+/**
+ * Triggered when a release is published.
+ */
 export interface IGitHubWebhook_ReleaseEvent {
     action: "published";
     release: {
@@ -115,6 +154,11 @@ export interface IGitHubWebhook_ReleaseEvent {
     repository: IGithubRepo;
     sender: IGithubUser;
 }
+/**
+ * Triggered when a repository is created, deleted, archived,
+ * unarchived, made public, or made private. Organization hooks
+ * are also triggered when a repository is deleted.
+ */
 export interface IGitHubWebhook_RepositoryEvent {
     action: "created" | "deleted" | "archived" | "unarchived" | "publicized" | "privatized";
     repository: IGithubRepo;

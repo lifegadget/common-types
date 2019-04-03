@@ -7,7 +7,7 @@
     "noImplicitAny": true,
     "outDir": "./dist/es2015",
     "preserveConstEnums": true,
-    "removeComments": true,
+    "removeComments": false,
     "typeRoots": ["./node_modules/@types"]
   },
   "include": ["src/**/*"],

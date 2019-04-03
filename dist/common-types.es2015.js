@@ -1,18 +1,38 @@
-var APIGatewayStatusCode;
-(function (APIGatewayStatusCode) {
-    APIGatewayStatusCode[APIGatewayStatusCode["Success"] = 200] = "Success";
-    APIGatewayStatusCode[APIGatewayStatusCode["BadRequest"] = 400] = "BadRequest";
-    APIGatewayStatusCode[APIGatewayStatusCode["Unauthorized"] = 401] = "Unauthorized";
-    APIGatewayStatusCode[APIGatewayStatusCode["Forbidden"] = 403] = "Forbidden";
-    APIGatewayStatusCode[APIGatewayStatusCode["NotFound"] = 404] = "NotFound";
-    APIGatewayStatusCode[APIGatewayStatusCode["UnprocessableEntity"] = 422] = "UnprocessableEntity";
-    APIGatewayStatusCode[APIGatewayStatusCode["InternalServerError"] = 500] = "InternalServerError";
-    APIGatewayStatusCode[APIGatewayStatusCode["BadGateway"] = 502] = "BadGateway";
-    APIGatewayStatusCode[APIGatewayStatusCode["GatewayTimeout"] = 504] = "GatewayTimeout";
-})(APIGatewayStatusCode || (APIGatewayStatusCode = {}));
+var ApiGatewayStatusCode;
+(function (ApiGatewayStatusCode) {
+    ApiGatewayStatusCode[ApiGatewayStatusCode["Success"] = 200] = "Success";
+    ApiGatewayStatusCode[ApiGatewayStatusCode["BadRequest"] = 400] = "BadRequest";
+    ApiGatewayStatusCode[ApiGatewayStatusCode["Unauthorized"] = 401] = "Unauthorized";
+    ApiGatewayStatusCode[ApiGatewayStatusCode["Forbidden"] = 403] = "Forbidden";
+    ApiGatewayStatusCode[ApiGatewayStatusCode["NotFound"] = 404] = "NotFound";
+    ApiGatewayStatusCode[ApiGatewayStatusCode["UnprocessableEntity"] = 422] = "UnprocessableEntity";
+    ApiGatewayStatusCode[ApiGatewayStatusCode["InternalServerError"] = 500] = "InternalServerError";
+    ApiGatewayStatusCode[ApiGatewayStatusCode["BadGateway"] = 502] = "BadGateway";
+    ApiGatewayStatusCode[ApiGatewayStatusCode["GatewayTimeout"] = 504] = "GatewayTimeout";
+})(ApiGatewayStatusCode || (ApiGatewayStatusCode = {}));
+/**
+ * Provides a logical test to see if the passed in event is a LambdaProxy request or just a
+ * straight JS object response. This is useful when you have both an HTTP event and a Lambda-to-Lambda
+ * or Step-Function-to-Lambda interaction.
+ *
+ * @param message the body of the request (which is either of type T or a LambdaProxy event)
+ */
 function isLambdaProxyRequest(message) {
-    return message.headers ? true : false;
+    return message.headers &&
+        message.body
+        ? true
+        : false;
 }
+/**
+ * **getBodyFromPossibleLambdaProxyRequest**
+ *
+ * Returns the message body/payload regardless of whether Lambda was called by API Gateway's LambdaProxy
+ * or from another Lambda function.
+ *
+ * @param input either a [Lambda Proxy Request](https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html)
+ * or type `T` as defined by consumer
+ * @return type of `T`
+ */
 function getBodyFromPossibleLambdaProxyRequest(input) {
     return isLambdaProxyRequest(input) ? JSON.parse(input.body) : input;
 }
@@ -52,30 +72,34 @@ function __awaiter(thisArg, _arguments, P, generator) {
     });
 }
 
+/** provides a friendly way to pause execution when using async/await symantics */
 function wait(ms) {
     return __awaiter(this, void 0, void 0, function* () {
         return new Promise(resolve => setTimeout(resolve, ms));
     });
 }
 
+// THIS IS A mildly TYPED VERSION OF NPM "iso-path-join"
 var moreThanThreePeriods = /\.{3,}/g;
+// polyfill Array.isArray if necessary
 if (!Array.isArray) {
     Array.isArray = function (arg) {
         return Object.prototype.toString.call(arg) === "[object Array]";
     };
 }
+/** An ISO-morphic path join that works everywhere */
 function pathJoin(...args) {
     return args
         .reduce(function (prev, val) {
         if (typeof prev === "undefined")
             return;
         return typeof val === "string" || typeof val === "number"
-            ? joinStringsWithSlash(prev, "" + val)
+            ? joinStringsWithSlash(prev, "" + val) // if string or number just keep as is
             : Array.isArray(val)
-                ? joinStringsWithSlash(prev, pathJoin.apply(null, val))
+                ? joinStringsWithSlash(prev, pathJoin.apply(null, val)) // handle array with recursion
                 : false;
     }, "")
-        .replace(moreThanThreePeriods, "..");
+        .replace(moreThanThreePeriods, ".."); // join the resulting array together
 }
 function joinStringsWithSlash(str1, str2) {
     const str1isEmpty = !str1.length;
@@ -86,9 +110,10 @@ function joinStringsWithSlash(str1, str2) {
         str1 + str2;
     return res;
 }
+/** converts a slash delimited filepath to a dot notation path */
 function dotNotation(input) {
     return input.replace(/\//g, ".");
 }
 
-export { APIGatewayStatusCode, isLambdaProxyRequest, getBodyFromPossibleLambdaProxyRequest, createError, AppError, wait, pathJoin, dotNotation };
+export { ApiGatewayStatusCode, isLambdaProxyRequest, getBodyFromPossibleLambdaProxyRequest, createError, AppError, wait, pathJoin, dotNotation };
 //# sourceMappingURL=common-types.es2015.js.map

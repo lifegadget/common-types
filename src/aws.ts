@@ -1,4 +1,31 @@
-import { IDictionary, BooleanAsString, datetime, epoch } from "./basics";
+import { IDictionary, BooleanAsString, epoch } from "./basics";
+
+/**
+ * **IAwsHandlerFunction**
+ *
+ * A type definition for any AWS Lambda "Handler Function". It does require a type
+ * definition for the expected "payload" being sent in as the `event` but it allows
+ * for this payload to come in directly (as would be the case when a Lambda calls
+ * another Lambda) or if API Gateway calls this function (where the payload is a
+ * _stringified_ version of the payload in the "body" parameter).
+ *
+ * Note: the handler function can be either _synchronous_ or _asynchronous_.
+ */
+export type IAwsHandlerFunction<T, R = IDictionary> = (
+  event: IAwsLambdaEvent<T>,
+  context: IAWSLambaContext,
+  cb: IAwsLambdaCallback<R>
+) => void | Promise<void>;
+
+/**
+ * **IAwsLambdaEvent**
+ *
+ * Provides a simple way to state that the event will either be a raw payload of
+ * type `T` or that it may be wrapped in a
+ * [AWS Proxy Request](https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html).
+ */
+export type IAwsLambdaEvent<T> = T | IAWSLambdaProxyIntegrationRequest;
+
 export interface IAPIGatewayErrorResponse<T = any> {
   errorCode?: string | number;
   errorMessage?: string;
@@ -7,28 +34,32 @@ export interface IAPIGatewayErrorResponse<T = any> {
   stackTrace?: string[];
 }
 
+export type IAwsLambdaCallback<T, E = IAPIGatewayErrorResponse> =
+  | IAwsLambdaSuccessCallback<T>
+  | IAwsLambdaFailureCallback<E>;
+
 /** A Lambda function called to indicate the SUCCESSFUL end-state of a lambda function */
-export interface ILambdaSuccessCallback<T = IDictionary> {
+export interface IAwsLambdaSuccessCallback<T = IDictionary> {
   (error: null, response: T): void;
 }
 /** A Lambda function called to indicate a FAILED end-state of a lambda function */
-export interface ILambdaFailureCallback<E = IAPIGatewayErrorResponse> {
+export interface IAwsLambdaFailureCallback<E = IAPIGatewayErrorResponse> {
   (error: E | Error, response?: null): void;
 }
-/** A Lambda function called to indicate the end-state of a lambda function */
-export declare type LambdaCallback<
-  T = IDictionary,
-  E = IAPIGatewayErrorResponse
-> = ILambdaSuccessCallback<T> & ILambdaFailureCallback<E>;
-/** A Lambda function called that is returning to an API Gateway endpoint */
-export interface IAPIGatewayResponse {
-  statusCode: keyof APIGatewayStatusCode;
+
+/**
+ * **IAwsApiGatewayResponse**
+ *
+ * A Lambda function called that is returning to an API Gateway endpoint
+ */
+export interface IAwsApiGatewayResponse {
+  statusCode: keyof ApiGatewayStatusCode;
   headers?: IDictionary<string>;
   body?: string;
   error?: string;
 }
 
-export enum APIGatewayStatusCode {
+export enum ApiGatewayStatusCode {
   Success = 200,
   BadRequest = 400,
   Unauthorized = 401,
@@ -40,7 +71,7 @@ export enum APIGatewayStatusCode {
   GatewayTimeout = 504
 }
 
-export type REST_Methods = "GET" | "POST" | "PUT" | "DELETE";
+export type RestMethod = "GET" | "POST" | "PUT" | "DELETE";
 
 /**
  * Provides a logical test to see if the passed in event is a LambdaProxy request or just a
@@ -52,14 +83,21 @@ export type REST_Methods = "GET" | "POST" | "PUT" | "DELETE";
 export function isLambdaProxyRequest<T>(
   message: T | IAWSLambdaProxyIntegrationRequest
 ): message is IAWSLambdaProxyIntegrationRequest {
-  return (message as IAWSLambdaProxyIntegrationRequest).headers ? true : false;
+  return (message as IAWSLambdaProxyIntegrationRequest).headers &&
+    (message as IAWSLambdaProxyIntegrationRequest).body
+    ? true
+    : false;
 }
 
 /**
- * Returns the message body regardless of whether Lambda was called by API Gateway's LambdaProxy
+ * **getBodyFromPossibleLambdaProxyRequest**
+ *
+ * Returns the message body/payload regardless of whether Lambda was called by API Gateway's LambdaProxy
  * or from another Lambda function.
  *
- * @param input either the LambdaProxy object or type T
+ * @param input either a [Lambda Proxy Request](https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html)
+ * or type `T` as defined by consumer
+ * @return type of `T`
  */
 export function getBodyFromPossibleLambdaProxyRequest<T>(
   input: T | IAWSLambdaProxyIntegrationRequest
@@ -68,6 +106,8 @@ export function getBodyFromPossibleLambdaProxyRequest<T>(
 }
 
 /**
+ * **IAWSLambdaProxyIntegrationRequest**
+ *
  * When a Lambda function is executed by API Gateway, the default option is
  * to turn on "Lambda Proxy Integration" which provides a lot of meta data
  * regarding the request. When this is on, the message payload will be found
@@ -76,7 +116,7 @@ export function getBodyFromPossibleLambdaProxyRequest<T>(
 export interface IAWSLambdaProxyIntegrationRequest {
   resource: string;
   path: string;
-  httpMethod: REST_Methods;
+  httpMethod: RestMethod;
   headers: {
     Accept: string;
     ["Accept-Encoding"]: string;
@@ -122,10 +162,10 @@ export interface IAWSLambdaProxyIntegrationRequest {
       user: string;
     };
     resourcePath: string;
-    httpMethod: REST_Methods;
+    httpMethod: RestMethod;
     apiId: string;
   };
-  /** The payload that the client has sent to you; if it was in JSON format you will need to parse it */
+  /** The payload that the client has sent to you; if the content was originally in JSON/object format you will need to parse it */
   body: string;
   isBase64Encoded: boolean;
 }
@@ -168,6 +208,7 @@ export interface IAWSLambaContext {
     };
   };
 }
+
 export interface IAWSGatewayRequest {
   done?: () => void;
   succeed?: () => void;
