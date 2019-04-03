@@ -118,11 +118,11 @@ function dotNotation(input) {
     return input.replace(/\//g, ".");
 }
 
-exports.isLambdaProxyRequest = isLambdaProxyRequest;
-exports.getBodyFromPossibleLambdaProxyRequest = getBodyFromPossibleLambdaProxyRequest;
-exports.createError = createError;
 exports.AppError = AppError;
-exports.wait = wait;
-exports.pathJoin = pathJoin;
+exports.createError = createError;
 exports.dotNotation = dotNotation;
+exports.getBodyFromPossibleLambdaProxyRequest = getBodyFromPossibleLambdaProxyRequest;
+exports.isLambdaProxyRequest = isLambdaProxyRequest;
+exports.pathJoin = pathJoin;
+exports.wait = wait;
 //# sourceMappingURL=common-types.cjs.js.map

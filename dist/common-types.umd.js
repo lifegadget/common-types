@@ -1,8 +1,8 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (factory((global['common-types'] = {})));
-}(this, (function (exports) { 'use strict';
+  (global = global || self, factory(global['common-types'] = {}));
+}(this, function (exports) { 'use strict';
 
   (function (ApiGatewayStatusCode) {
       ApiGatewayStatusCode[ApiGatewayStatusCode["Success"] = 200] = "Success";
@@ -120,15 +120,15 @@
       return input.replace(/\//g, ".");
   }
 
-  exports.isLambdaProxyRequest = isLambdaProxyRequest;
-  exports.getBodyFromPossibleLambdaProxyRequest = getBodyFromPossibleLambdaProxyRequest;
-  exports.createError = createError;
   exports.AppError = AppError;
-  exports.wait = wait;
-  exports.pathJoin = pathJoin;
+  exports.createError = createError;
   exports.dotNotation = dotNotation;
+  exports.getBodyFromPossibleLambdaProxyRequest = getBodyFromPossibleLambdaProxyRequest;
+  exports.isLambdaProxyRequest = isLambdaProxyRequest;
+  exports.pathJoin = pathJoin;
+  exports.wait = wait;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));
 //# sourceMappingURL=common-types.umd.js.map

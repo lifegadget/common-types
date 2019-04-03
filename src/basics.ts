@@ -57,25 +57,39 @@ export declare function STAGE(stage: string): string;
 
 export type BooleanAsString = "true" | "false";
 
-/** 
- * Allows a type T to have certain properties "omitted" and thereby 
- * creating a new type definition. Very useful for omitting an "id" 
+/**
+ * Allows a type T to have certain properties "omitted" and thereby
+ * creating a new type definition. Very useful for omitting an "id"
  * property before a record is saved, etc.
  */
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 /**
- * For a given hash/object, this produces a type which is just the 
+ * **Nullable**
+ *
+ * Allows properties of an object to be assigned either to their defined _type_
+ * or alternatively to `null`. This has several use cases but is particularly
+ * useful when working with a database like Firebase where setting a value to
+ * `null` is equivalent to telling the DB to "remove" the property.
+ */
+export type Nullable<T, K extends keyof T> = { [key in keyof T]: T[K] | null };
+
+/**
+ * For a given hash/object, this produces a type which is just the
  * names of functions contained within hash.
  */
-type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
+type FunctionPropertyNames<T> = {
+  [K in keyof T]: T[K] extends Function ? K : never
+}[keyof T];
 
 type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
 
 /**
  * The properties on a given hash/object
  */
-type NonFunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T];
+type NonFunctionPropertyNames<T> = {
+  [K in keyof T]: T[K] extends Function ? never : K
+}[keyof T];
 /**
  * A type definition which reduces the type of the T to just those non-function
  * properties.

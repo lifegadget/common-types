@@ -115,5 +115,5 @@ function dotNotation(input) {
     return input.replace(/\//g, ".");
 }
 
-export { ApiGatewayStatusCode, isLambdaProxyRequest, getBodyFromPossibleLambdaProxyRequest, createError, AppError, wait, pathJoin, dotNotation };
+export { ApiGatewayStatusCode, AppError, createError, dotNotation, getBodyFromPossibleLambdaProxyRequest, isLambdaProxyRequest, pathJoin, wait };
 //# sourceMappingURL=common-types.es2015.js.map
