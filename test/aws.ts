@@ -1,9 +1,15 @@
-import { ILambdaSuccessCallback, ILambdaFailureCallback, LambdaCallback } from "../src";
+import {
+  IAwsLambdaSuccessCallback,
+  IAwsLambdaFailureCallback,
+  LambdaCallback,
+  IAwsHandlerFunction,
+  getBodyFromPossibleLambdaProxyRequest
+} from "../src";
 
-const success: ILambdaSuccessCallback = function(err, content) {
+const success: IAwsLambdaSuccessCallback = function(err, content) {
   return;
 };
-const fail: ILambdaFailureCallback = (err, content) => {
+const fail: IAwsLambdaFailureCallback = (err, content) => {
   return;
 };
 
@@ -26,3 +32,14 @@ fail({
 callback(null, {}); // should be treated as success
 callback(500, {}); // should be treated as failure
 callback(new Error("test"));
+
+interface IMeasureRequest {
+  height: number;
+  width: number;
+  uom: "inch" | "cm" | "mm";
+}
+
+const handler: IAwsHandlerFunction<IMeasureRequest> = (event, context, cb) => {
+  const request = getBodyFromPossibleLambdaProxyRequest(event);
+  console.log(request.height);
+};
