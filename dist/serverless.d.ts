@@ -2,6 +2,7 @@ import { IDictionary, datetime } from "./basics";
 export declare type AWSRuntime = "nodejs6.10" | "nodejs8.10" | "node4" | "java8" | "python2.7" | "python3.6" | "go1.x";
 export interface IServerlessConfig {
     service: string;
+    custom?: {};
     plugins?: string[];
     package?: IServerlessPackage;
     provider?: IServerlessProvider;
@@ -266,3 +267,58 @@ export interface IStepFunctionRetrier {
     BackoffRate?: number;
     MaxAttempts?: number;
 }
+interface IServerlessOpenApiDocumentationSchema {
+    type: string;
+    pattern?: string;
+    enum?: 'standard' | 'premium';
+}
+interface IServerlessOpenApiDocumentationParams {
+    name: string;
+    description: string;
+    required?: boolean;
+    schema: IServerlessOpenApiDocumentationSchema;
+}
+interface IServerlessOpenApiDocumentationMethodResponses {
+    statusCode: number;
+    responseBody?: {
+        description: string;
+    };
+    responseModels?: {
+        "application/json": string;
+    };
+}
+interface IServerlessOpenApiDocumentation {
+    summary: string;
+    description: string;
+    requestBody?: {
+        description: string;
+        schema?: IServerlessOpenApiDocumentationSchema;
+    };
+    requestModels?: {
+        "application/json": string;
+    };
+    pathParams?: IServerlessOpenApiDocumentationParams;
+    queryParams?: IServerlessOpenApiDocumentationParams;
+    cookieParams?: IServerlessOpenApiDocumentationParams;
+    methodResponses?: IServerlessOpenApiDocumentationMethodResponses[];
+}
+export interface IServerlessEventHttpWithDocumentation extends IServerlessEventHttp {
+    documentation?: IServerlessOpenApiDocumentation;
+}
+interface IServerlessOpenApiDocumentationModelSchema {
+    $schema: string;
+    properties: {};
+}
+interface IServerlessOpenApiDocumentationModel {
+    name: string;
+    description: string;
+    contentType: "application/json" | "application/xml" | string;
+    schema: IServerlessOpenApiDocumentationModelSchema | string;
+}
+export interface IServerlessOpenApiDocumentationConfiguration {
+    version?: string;
+    title: string;
+    description: string;
+    models: IServerlessOpenApiDocumentationModel[];
+}
+export {};
