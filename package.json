@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "dist/common-types.cjs.js",
@@ -20,8 +20,8 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "rollup": "^0.61.0",
-    "rollup-plugin-typescript2": "^0.15.0",
+    "rollup": "^1.8.0",
+    "rollup-plugin-typescript2": "^0.20.1",
     "typescript": "^3.4.1"
   }
 }
