@@ -1,25 +1,20 @@
-import { Nullable } from "../src/basics";
-
-interface IName {
-  first: string;
-  last: string;
-  age: number;
+import { Nullable } from "../src";
+interface ITesting {
+  foo: number;
+  bar?: string;
 }
 
-function update(name: Nullable<IName>) {
-  //
-}
+// not allowed
+const t: ITesting = {
+  foo: null,
+  bar: null
+};
 
-function update2(name: Partial<Nullable<IName>>) {
-  //
-}
+const t2: Nullable<ITesting> = {
+  foo: null,
+  bar: null
+};
 
-update({
-  first: "bob",
-  last: "marley",
-  age: null
-});
-
-update2({
-  age: null
-});
+const t3: Nullable<Partial<ITesting>> = {
+  bar: null
+};

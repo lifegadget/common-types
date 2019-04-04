@@ -67,12 +67,12 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /**
  * **Nullable**
  *
- * Allows properties of an object to be assigned either to their defined _type_
+ * Allows properties of an object to be assigned either to their _defined type_
  * or alternatively to `null`. This has several use cases but is particularly
  * useful when working with a database like Firebase where setting a value to
  * `null` is equivalent to telling the DB to "remove" the property.
  */
-export type Nullable<T, K extends keyof T> = { [key in keyof T]: T[K] | null };
+export type Nullable<T, K extends keyof T = keyof T> = { [key in keyof T]: T[K] | null };
 
 /**
  * For a given hash/object, this produces a type which is just the

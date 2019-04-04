@@ -8,8 +8,9 @@
     "noImplicitAny": true,
     "outDir": "./dist/cjs",
     "removeComments": false,
+    "strictNullChecks": true,
     "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "test/**/*.ts"],
   "exclude": ["node_modules", "**/*-spec.ts"]
 }
