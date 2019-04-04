@@ -34,6 +34,16 @@ export interface IAPIGatewayErrorResponse<T = any> {
   stackTrace?: string[];
 }
 
+/**
+ * **IAwsLambdaCallback**
+ *
+ * Provides the typing for the basic structure of a Lambda callback
+ * (aka, `(err, response) => void` but also requires that you state
+ * the stucture of a successful response). Optionally you may state
+ * the Error Responses that this function may return too but that is
+ * optional and will be expressed simply as the type of `Error` if
+ * left off.
+ */
 export type IAwsLambdaCallback<T, E = IAPIGatewayErrorResponse> =
   | IAwsLambdaSuccessCallback<T>
   | IAwsLambdaFailureCallback<E>;
