@@ -44,9 +44,10 @@ export interface IAPIGatewayErrorResponse<T = any> {
  * optional and will be expressed simply as the type of `Error` if
  * left off.
  */
-export type IAwsLambdaCallback<T, E = IAPIGatewayErrorResponse> =
-  | IAwsLambdaSuccessCallback<T>
-  | IAwsLambdaFailureCallback<E>;
+export type IAwsLambdaCallback<
+  T,
+  E = IAPIGatewayErrorResponse
+> = IAwsLambdaSuccessCallback<T> & IAwsLambdaFailureCallback<E>;
 
 /** A Lambda function called to indicate the SUCCESSFUL end-state of a lambda function */
 export interface IAwsLambdaSuccessCallback<T = IDictionary> {
