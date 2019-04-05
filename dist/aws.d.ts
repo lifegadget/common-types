@@ -8,9 +8,21 @@ import { IDictionary, BooleanAsString, epoch } from "./basics";
  * another Lambda) or if API Gateway calls this function (where the payload is a
  * _stringified_ version of the payload in the "body" parameter).
  *
- * Note: the handler function can be either _synchronous_ or _asynchronous_.
+ * Also as "best practice" the _Response_ that this handler function will be
+ * returning to the caller -- via Lambda's provided callback (`cb`) -- should be
+ * stated as the `<R>` generic type. If not stated explicitly it will default to
+ * a simple dictionary/hash (aka, `IDictionary`).
+ *
+ * Finally, the third generic type that you may _optionally_ provide is the typing
+ * for the errors your function _may_ return. Defining this will make your function
+ * even more clear and descriptive but if left off it will just default to a
+ * standard Javascript `Error` typing.
+ *
+ * **Note:** a handler function can be either _synchronous_ or _asynchronous_ but in both
+ * cases should not return anything (the concept of "returning" something is handled through
+ * the passed in callback).
  */
-export declare type IAwsHandlerFunction<T, R = IDictionary> = (event: IAwsLambdaEvent<T>, context: IAWSLambaContext, cb: IAwsLambdaCallback<R>) => void | Promise<void>;
+export declare type IAwsHandlerFunction<T, R = IDictionary, E = Error> = (event: IAwsLambdaEvent<T>, context: IAWSLambaContext, cb: IAwsLambdaCallback<R, E>) => void | Promise<void>;
 /**
  * **IAwsLambdaEvent**
  *
