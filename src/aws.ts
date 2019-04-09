@@ -134,7 +134,7 @@ function parsed(input: IAWSLambdaProxyIntegrationRequest) {
     return output;
   } catch (e) {
     const err: ApiGatewayError = apiGatewayError(
-      405,
+      400,
       `The body of the POST message is meant to contain a valid JSON stringified object but there were problems parsing it: ${
         e.message
       }`

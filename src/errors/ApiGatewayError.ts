@@ -6,7 +6,7 @@ export function apiGatewayError(code: number, message: string, priorError?: Erro
   e.errorMessage = !priorError
     ? messagePrefix + message
     : messagePrefix + priorError.message + message;
-  e.name = priorError ? priorError.name : "AppError";
+  e.name = priorError ? priorError.name : "ApiGatewayError";
   e.errorCode = code;
   e.stack = priorError
     ? priorError.stack ||
