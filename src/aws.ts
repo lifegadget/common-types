@@ -118,7 +118,8 @@ export type RestMethod = "GET" | "POST" | "PUT" | "DELETE";
 export function isLambdaProxyRequest<T>(
   message: T | IAWSLambdaProxyIntegrationRequest
 ): message is IAWSLambdaProxyIntegrationRequest {
-  return (message as IAWSLambdaProxyIntegrationRequest).headers &&
+  return typeof message === "object" &&
+    (message as IAWSLambdaProxyIntegrationRequest).headers &&
     (message as IAWSLambdaProxyIntegrationRequest).body
     ? true
     : false;

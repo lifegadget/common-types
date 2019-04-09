@@ -21,7 +21,8 @@ Object.defineProperty(exports, '__esModule', { value: true });
  * @param message the body of the request (which is either of type T or a LambdaProxy event)
  */
 function isLambdaProxyRequest(message) {
-    return message.headers &&
+    return typeof message === "object" &&
+        message.headers &&
         message.body
         ? true
         : false;
