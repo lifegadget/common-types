@@ -24,6 +24,16 @@ function isLambdaProxyRequest(message) {
         ? true
         : false;
 }
+function parsed(input) {
+    try {
+        const output = JSON.parse(input.body.replace(/[\n\t]/g, ""));
+        return output;
+    }
+    catch (e) {
+        const err = apiGatewayError(405, `The body of the POST message is meant to contain a valid JSON stringified object but there were problems parsing it: ${e.message}`);
+        throw err;
+    }
+}
 /**
  * **getBodyFromPossibleLambdaProxyRequest**
  *
@@ -35,9 +45,11 @@ function isLambdaProxyRequest(message) {
  * @return type of `T`
  */
 function getBodyFromPossibleLambdaProxyRequest(input) {
-    return isLambdaProxyRequest(input)
-        ? JSON.parse(input.body.replace(/[\n\t]/g, ""))
-        : input;
+    return isLambdaProxyRequest(input) ? parsed(input) : input;
+}
+
+function stackTrace(trace) {
+    return trace ? trace.split("\n") : [];
 }
 
 function createError(code, message, priorError) {
@@ -45,10 +57,38 @@ function createError(code, message, priorError) {
     const e = new AppError(!priorError ? messagePrefix + message : messagePrefix + priorError.message + message);
     e.name = priorError ? priorError.name : "AppError";
     e.code = code;
-    e.stack = priorError ? priorError.stack || e.stack.slice(2) : e.stack.slice(2);
+    e.stack = priorError
+        ? priorError.stack ||
+            stackTrace(e.stack)
+                .slice(2)
+                .join("\n")
+        : stackTrace(e.stack)
+            .slice(2)
+            .join("\n");
     return e;
 }
 class AppError extends Error {
+}
+
+function apiGatewayError(code, message, priorError) {
+    const messagePrefix = `[${code}] `;
+    const e = new ApiGatewayError(priorError ? priorError.message : "");
+    e.errorMessage = !priorError
+        ? messagePrefix + message
+        : messagePrefix + priorError.message + message;
+    e.name = priorError ? priorError.name : "AppError";
+    e.errorCode = code;
+    e.stack = priorError
+        ? priorError.stack ||
+            stackTrace(e.stack)
+                .slice(2)
+                .join("\n")
+        : stackTrace(e.stack)
+            .slice(2)
+            .join("\n");
+    return e;
+}
+class ApiGatewayError extends Error {
 }
 
 /** provides a friendly way to pause execution when using async/await symantics */
@@ -92,5 +132,5 @@ function dotNotation(input) {
     return input.replace(/\//g, ".");
 }
 
-export { ApiGatewayStatusCode, AppError, createError, dotNotation, getBodyFromPossibleLambdaProxyRequest, isLambdaProxyRequest, pathJoin, wait };
+export { ApiGatewayError, ApiGatewayStatusCode, AppError, apiGatewayError, createError, dotNotation, getBodyFromPossibleLambdaProxyRequest, isLambdaProxyRequest, pathJoin, wait };
 //# sourceMappingURL=common-types.es2015.js.map
