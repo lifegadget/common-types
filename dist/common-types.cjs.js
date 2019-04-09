@@ -38,7 +38,9 @@ function isLambdaProxyRequest(message) {
  * @return type of `T`
  */
 function getBodyFromPossibleLambdaProxyRequest(input) {
-    return isLambdaProxyRequest(input) ? JSON.parse(input.body) : input;
+    return isLambdaProxyRequest(input)
+        ? JSON.parse(input.body.replace(/[\n\t]/g, ""))
+        : input;
 }
 
 function createError(code, message, priorError) {
