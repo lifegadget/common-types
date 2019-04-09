@@ -138,7 +138,9 @@ export function isLambdaProxyRequest<T>(
 export function getBodyFromPossibleLambdaProxyRequest<T>(
   input: T | IAWSLambdaProxyIntegrationRequest
 ): T {
-  return isLambdaProxyRequest<T>(input) ? (JSON.parse(input.body) as T) : (input as T);
+  return isLambdaProxyRequest<T>(input)
+    ? (JSON.parse(input.body.replace(/[\n\t]/g, "")) as T)
+    : (input as T);
 }
 
 /**
