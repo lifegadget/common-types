@@ -49,6 +49,16 @@ export interface IAPIGatewayErrorResponse<T = any> {
  * left off.
  */
 export declare type IAwsLambdaCallback<T, E = IAPIGatewayErrorResponse> = IAwsLambdaSuccessCallback<T> & IAwsLambdaFailureCallback<E>;
+export interface ILambdaSequence {
+    tasks: ILambdaSequenceStep[];
+    name: string;
+}
+export declare type ILambdaFunctionType = "task" | "fan-out" | "step-start" | "fan-in" | "other";
+export interface ILambdaSequenceStep {
+    type: ILambdaFunctionType;
+    arn: string;
+    description?: string;
+}
 /** A Lambda function called to indicate the SUCCESSFUL end-state of a lambda function */
 export interface IAwsLambdaSuccessCallback<T = IDictionary> {
     (error: null, response: T): void;

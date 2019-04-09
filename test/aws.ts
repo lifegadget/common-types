@@ -1,7 +1,7 @@
 import {
   IAwsLambdaSuccessCallback,
   IAwsLambdaFailureCallback,
-  LambdaCallback,
+  IAwsLambdaCallback,
   IAwsHandlerFunction,
   getBodyFromPossibleLambdaProxyRequest
 } from "../src";
@@ -13,7 +13,7 @@ const fail: IAwsLambdaFailureCallback = (err, content) => {
   return;
 };
 
-const callback: LambdaCallback = function(err, content) {
+const callback: IAwsLambdaCallback<any> = function(err, content) {
   return;
 };
 
@@ -40,6 +40,11 @@ interface IMeasureRequest {
 }
 
 const handler: IAwsHandlerFunction<IMeasureRequest> = (event, context, cb) => {
+  const request = getBodyFromPossibleLambdaProxyRequest(event);
+  console.log(request.height);
+};
+
+const asyncHandler: IAwsHandlerFunction<IMeasureRequest> = async (event, context, cb) => {
   const request = getBodyFromPossibleLambdaProxyRequest(event);
   console.log(request.height);
 };
