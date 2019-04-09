@@ -35,7 +35,7 @@
           return output;
       }
       catch (e) {
-          const err = apiGatewayError(405, `The body of the POST message is meant to contain a valid JSON stringified object but there were problems parsing it: ${e.message}`);
+          const err = apiGatewayError(400, `The body of the POST message is meant to contain a valid JSON stringified object but there were problems parsing it: ${e.message}`);
           throw err;
       }
   }
@@ -81,7 +81,7 @@
       e.errorMessage = !priorError
           ? messagePrefix + message
           : messagePrefix + priorError.message + message;
-      e.name = priorError ? priorError.name : "AppError";
+      e.name = priorError ? priorError.name : "ApiGatewayError";
       e.errorCode = code;
       e.stack = priorError
           ? priorError.stack ||
