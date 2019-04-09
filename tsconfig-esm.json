@@ -3,9 +3,9 @@
     "declaration": true,
     "module": "es2015",
     "moduleResolution": "node",
-    "target": "es2015",
+    "target": "es2017",
     "noImplicitAny": true,
-    "outDir": "./dist/es2015",
+    "outDir": "./dist",
     "preserveConstEnums": true,
     "removeComments": false,
     "typeRoots": ["./node_modules/@types"]
