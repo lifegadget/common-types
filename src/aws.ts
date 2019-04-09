@@ -1,4 +1,7 @@
 import { IDictionary, BooleanAsString, epoch } from "./basics";
+import { createError, AppError } from "../dist";
+import { apiGatewayError } from ".";
+import { ApiGatewayError } from "./errors/ApiGatewayError";
 
 /**
  * **IAwsHandlerFunction**
@@ -125,6 +128,21 @@ export function isLambdaProxyRequest<T>(
     : false;
 }
 
+function parsed(input: IAWSLambdaProxyIntegrationRequest) {
+  try {
+    const output = JSON.parse(input.body.replace(/[\n\t]/g, ""));
+    return output;
+  } catch (e) {
+    const err: ApiGatewayError = apiGatewayError(
+      405,
+      `The body of the POST message is meant to contain a valid JSON stringified object but there were problems parsing it: ${
+        e.message
+      }`
+    );
+    throw err;
+  }
+}
+
 /**
  * **getBodyFromPossibleLambdaProxyRequest**
  *
@@ -138,9 +156,7 @@ export function isLambdaProxyRequest<T>(
 export function getBodyFromPossibleLambdaProxyRequest<T>(
   input: T | IAWSLambdaProxyIntegrationRequest
 ): T {
-  return isLambdaProxyRequest<T>(input)
-    ? (JSON.parse(input.body.replace(/[\n\t]/g, "")) as T)
-    : (input as T);
+  return isLambdaProxyRequest<T>(input) ? (parsed(input) as T) : (input as T);
 }
 
 /**
