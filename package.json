@@ -11,7 +11,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/ts-node ./scripts/test.ts ",
     "deploy": "rollup -c && yarn publish",
     "build": "rollup -c",
     "build:tsc": "tsc && tsc -P tsconfig-esm.json"
@@ -20,8 +20,16 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "@types/rimraf": "^2.0.2",
+    "async-shelljs": "^0.1.2",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.2",
+    "rimraf": "^2.6.3",
     "rollup": "^1.9.0",
     "rollup-plugin-typescript2": "^0.20.1",
+    "ts-node": "^8.0.3",
     "typescript": "^3.4.2"
   }
 }
