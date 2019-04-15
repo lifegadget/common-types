@@ -10,7 +10,7 @@ export type AWSRuntime =
   | "python3.6"
   | "go1.x";
 export interface IServerlessConfig {
-  service: string;
+  service: string | { name: string };
   custom?: {};
   plugins?: string[];
   package?: IServerlessPackage;
@@ -177,6 +177,7 @@ export interface IServerlessFunction {
 }
 
 export interface IServerlessEvent {
+<<<<<<< HEAD
   /**
    * Sets up a time based event trigger to run the function
    */
@@ -184,6 +185,9 @@ export interface IServerlessEvent {
   /**
    * creates a API endpoint using API-Gateway
    */
+=======
+  schedule?: IServerlessEventScheduleLongForm | IServerlessEventScheduleShortForm;
+>>>>>>> release/1.10.12
   http?: IServerlessEventHttp;
   /**
    * Allows subscription (and optionally the creation of) an SNS topic.

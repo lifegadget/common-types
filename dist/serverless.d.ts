@@ -2,7 +2,9 @@ import { IDictionary, datetime } from "./basics";
 /** A typing for the serverless framework's "serverless.yml" file */
 export declare type AWSRuntime = "nodejs6.10" | "nodejs8.10" | "node4" | "java8" | "python2.7" | "python3.6" | "go1.x";
 export interface IServerlessConfig {
-    service: string;
+    service: string | {
+        name: string;
+    };
     custom?: {};
     plugins?: string[];
     package?: IServerlessPackage;
