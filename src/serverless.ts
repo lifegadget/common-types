@@ -9,9 +9,9 @@ export type AWSRuntime =
   | "python2.7"
   | "python3.6"
   | "go1.x";
-export interface IServerlessConfig {
+export interface IServerlessConfig<T = any> {
   service: string | { name: string };
-  custom?: {};
+  custom?: T;
   plugins?: string[];
   package?: IServerlessPackage;
   provider?: IServerlessProvider;
