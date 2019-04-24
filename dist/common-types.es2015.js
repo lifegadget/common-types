@@ -175,5 +175,8 @@ class LambdaEventParser {
     }
 }
 
-export { ApiGatewayError, ApiGatewayStatusCode, AppError, LambdaEventParser, apiGatewayError, createError, dotNotation, getBodyFromPossibleLambdaProxyRequest, isLambdaProxyRequest, pathJoin, wait };
+function createBindDeploymentConfig(config = {}) {
+}
+
+export { ApiGatewayError, ApiGatewayStatusCode, AppError, LambdaEventParser, apiGatewayError, createBindDeploymentConfig, createError, dotNotation, getBodyFromPossibleLambdaProxyRequest, isLambdaProxyRequest, pathJoin, wait };
 //# sourceMappingURL=common-types.es2015.js.map

@@ -178,10 +178,14 @@
       }
   }
 
+  function createBindDeploymentConfig(config = {}) {
+  }
+
   exports.ApiGatewayError = ApiGatewayError;
   exports.AppError = AppError;
   exports.LambdaEventParser = LambdaEventParser;
   exports.apiGatewayError = apiGatewayError;
+  exports.createBindDeploymentConfig = createBindDeploymentConfig;
   exports.createError = createError;
   exports.dotNotation = dotNotation;
   exports.getBodyFromPossibleLambdaProxyRequest = getBodyFromPossibleLambdaProxyRequest;
