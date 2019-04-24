@@ -105,4 +105,5 @@ export function createBindDeploymentConfig(
       }
     }
   };
+  return { ...defaultConfig, ...config };
 }

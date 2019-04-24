@@ -176,6 +176,51 @@ class LambdaEventParser {
 }
 
 function createBindDeploymentConfig(config = {}) {
+    const defaultConfig = {
+        resources: {
+            Resources: {
+                PathMapping: {
+                    Type: "AWS::ApiGateway::BasePathMapping",
+                    DependsOn: "ApiGatewayStage",
+                    Properties: {
+                        BasePath: "basePath",
+                        DomainName: "${self:provider.domain}",
+                        RestApiId: {
+                            Ref: "ApiGatewayRestApi"
+                        },
+                        Stage: "${self:provider.stage}"
+                    }
+                },
+                __deployment__: {
+                    Properties: {
+                        Description: "(default deployment description)"
+                    }
+                },
+                ApiGatewayStage: {
+                    Type: "AWS::ApiGateway::Stage",
+                    Properties: {
+                        DeploymentId: {
+                            Ref: "__deployment__"
+                        },
+                        RestApiId: {
+                            Ref: "ApiGatewayRestApi"
+                        },
+                        StageName: "${self:provider.stage}",
+                        MethodSettings: [
+                            {
+                                DataTraceEnabled: true,
+                                HttpMethod: "*",
+                                LoggingLevel: "INFO",
+                                ResourcePath: "/*",
+                                MetricsEnabled: true
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    };
+    return Object.assign({}, defaultConfig, config);
 }
 
 export { ApiGatewayError, ApiGatewayStatusCode, AppError, LambdaEventParser, apiGatewayError, createBindDeploymentConfig, createError, dotNotation, getBodyFromPossibleLambdaProxyRequest, isLambdaProxyRequest, pathJoin, wait };
