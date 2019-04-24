@@ -1,8 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = global || self, factory(global['common-types'] = {}));
-}(this, function (exports) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('common-types')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'common-types'], factory) :
+  (global = global || self, factory(global['common-types'] = {}, global.commonTypes));
+}(this, function (exports, commonTypes) { 'use strict';
 
   (function (ApiGatewayStatusCode) {
       ApiGatewayStatusCode[ApiGatewayStatusCode["Success"] = 200] = "Success";
@@ -137,8 +137,50 @@
       return input.replace(/\//g, ".");
   }
 
+  /**
+   * **LambdaEventParser**
+   *
+   * Ensures that the _typed_ `request` is separated from a possible Proxy Integration
+   * Request that would have originated from API Gateway; also returns the `apiGateway`
+   * payload with the "body" removed (as it would be redundant to the request).
+   *
+   * Typical usage is:
+   *
+  ```typescript
+  const { request, apiGateway } = LambdaEventParser.parse(event);
+  ```
+   *
+   * this signature is intended to mimic the `LambdaSequence.from(event)` API but
+   * without the parsing of a `sequence` property being extracted.
+   *
+   */
+  class LambdaEventParser {
+      /**
+       * **parse**
+       *
+       * A static method which returns an object with both `request` and `apiGateway`
+       * properties. The `request` is typed to **T** and the `apiGateway` will be a
+       * `IAWSLambdaProxyIntegrationRequest` object with the "body" removed _if_
+       * the event came from **API Gateway** otherwise it will be undefined.
+       */
+      static parse(event) {
+          const request = commonTypes.isLambdaProxyRequest(event) ? JSON.parse(event.body) : event;
+          if (commonTypes.isLambdaProxyRequest(event)) {
+              delete event.body;
+          }
+          else {
+              event = undefined;
+          }
+          return {
+              request,
+              apiGateway: event
+          };
+      }
+  }
+
   exports.ApiGatewayError = ApiGatewayError;
   exports.AppError = AppError;
+  exports.LambdaEventParser = LambdaEventParser;
   exports.apiGatewayError = apiGatewayError;
   exports.createError = createError;
   exports.dotNotation = dotNotation;
