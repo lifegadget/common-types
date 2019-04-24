@@ -55,4 +55,36 @@ export interface IServerlessBindDeploymentStage {
         MethodSettings?: IServerlessBindDeploymentMethodSetting[];
     };
 }
-export declare function createBindDeploymentConfig(config?: Partial<IServerlessBindDeploymentIdPlugin>): void;
+export declare function createBindDeploymentConfig(config?: Partial<IServerlessBindDeploymentIdPlugin>): {
+    resources: {
+        Resources: {
+            PathMapping: {
+                Type: string;
+                DependsOn: string;
+                Properties: {
+                    BasePath: string;
+                    /**
+                     * e.g., `${self:provider.stage}`
+                     */
+                    DomainName: string;
+                    RestApiId: {
+                        /** default: `ApiGatewayRestApi` */
+                        Ref: string;
+                    };
+                    /** default: `${self:provider.stage}` */
+                    Stage: string;
+                };
+            };
+            __deployment__: {
+                Properties: {
+                    Description: string;
+                };
+            };
+            ApiGatewayStage: IServerlessBindDeploymentStage;
+            ApiGatewayStage2?: IServerlessBindDeploymentStage;
+            ApiGatewayStage3?: IServerlessBindDeploymentStage;
+            ApiGatewayStage4?: IServerlessBindDeploymentStage;
+            ApiGatewayStage5?: IServerlessBindDeploymentStage;
+        };
+    };
+};
