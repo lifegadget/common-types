@@ -1,5 +1,4 @@
 import { IDictionary, BooleanAsString, epoch } from "./basics";
-import { createError, AppError } from "../dist";
 import { apiGatewayError } from ".";
 import { ApiGatewayError } from "./errors/ApiGatewayError";
 
