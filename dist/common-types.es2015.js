@@ -175,7 +175,17 @@ class LambdaEventParser {
     }
 }
 
-function createBindDeploymentConfig(config = {}) {
+function createBindDeploymentConfig(config, methodSettings) {
+    const defaultMethodSettings = [
+        {
+            DataTraceEnabled: true,
+            HttpMethod: "*",
+            LoggingLevel: "INFO",
+            ResourcePath: "/*",
+            MetricsEnabled: true
+        }
+    ];
+    const stageName = `${config.service}-${config.stage}`;
     const defaultConfig = {
         resources: {
             Resources: {
@@ -183,12 +193,11 @@ function createBindDeploymentConfig(config = {}) {
                     Type: "AWS::ApiGateway::BasePathMapping",
                     DependsOn: "ApiGatewayStage",
                     Properties: {
-                        BasePath: "basePath",
-                        DomainName: "${self:provider.domain}",
+                        DomainName: config.domainName ? config.domainName : undefined,
                         RestApiId: {
                             Ref: "ApiGatewayRestApi"
                         },
-                        Stage: "${self:provider.stage}"
+                        Stage: stageName
                     }
                 },
                 __deployment__: {
@@ -205,16 +214,8 @@ function createBindDeploymentConfig(config = {}) {
                         RestApiId: {
                             Ref: "ApiGatewayRestApi"
                         },
-                        StageName: "${self:provider.stage}",
-                        MethodSettings: [
-                            {
-                                DataTraceEnabled: true,
-                                HttpMethod: "*",
-                                LoggingLevel: "INFO",
-                                ResourcePath: "/*",
-                                MetricsEnabled: true
-                            }
-                        ]
+                        StageName: stageName,
+                        MethodSettings: methodSettings || defaultMethodSettings
                     }
                 }
             }

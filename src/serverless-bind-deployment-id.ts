@@ -1,3 +1,5 @@
+import { IServerlessStage } from "./serverless";
+
 export interface IServerlessBindDeploymentIdPlugin {
   resources: {
     Resources: {
@@ -5,11 +7,11 @@ export interface IServerlessBindDeploymentIdPlugin {
         Type: string;
         DependsOn: string;
         Properties: {
-          BasePath: string;
+          BasePath?: string;
           /**
            * e.g., `${self:provider.stage}`
            */
-          DomainName: string;
+          DomainName?: string;
           RestApiId: {
             /** default: `ApiGatewayRestApi` */
             Ref: string;
@@ -23,24 +25,30 @@ export interface IServerlessBindDeploymentIdPlugin {
           Description: string;
         };
       };
-      ApiGatewayStage: IServerlessBindDeploymentStage;
-      ApiGatewayStage2?: IServerlessBindDeploymentStage;
-      ApiGatewayStage3?: IServerlessBindDeploymentStage;
-      ApiGatewayStage4?: IServerlessBindDeploymentStage;
-      ApiGatewayStage5?: IServerlessBindDeploymentStage;
+      ApiGatewayStage: IApiGatewayStage;
+      ApiGatewayStage2?: IApiGatewayStage;
+      ApiGatewayStage3?: IApiGatewayStage;
+      ApiGatewayStage4?: IApiGatewayStage;
+      ApiGatewayStage5?: IApiGatewayStage;
     };
   };
 }
 
-export interface IServerlessBindDeploymentMethodSetting {
+export interface IApiGatewayMethodSetting {
   DataTraceEnabled: boolean;
-  HttpMethod: string;
-  LoggingLevel: "INFO" | "DEBUG" | "WARN" | "ERROR";
-  ResourcePath: string;
-  MetricsEnabled: boolean;
+  HttpMethod?: string;
+  LoggingLevel: "INFO" | "DEBUG" | "WARN" | "ERROR" | "OFF";
+  ResourcePath?: string;
+  MetricsEnabled?: boolean;
 }
 
-export interface IServerlessBindDeploymentStage {
+/**
+ * **IApiGatewayStage**
+ *
+ * The AWS::ApiGateway::Stage resource creates a stage for
+ * an Amazon API Gateway (API Gateway) deployment.
+ */
+export interface IApiGatewayStage {
   /** example: `AWS::ApiGateway::Stage` */
   Type: string;
   Properties: {
@@ -54,13 +62,32 @@ export interface IServerlessBindDeploymentStage {
     };
     /** default: `${self:provider.stage}` */
     StageName: string;
-    MethodSettings?: IServerlessBindDeploymentMethodSetting[];
+    MethodSettings?: IApiGatewayMethodSetting[];
   };
 }
 
+export interface IServerlessApiGatewayLoggingConfig {
+  /** the service name */
+  service: string;
+  stage: IServerlessStage;
+  /** custom domain name */
+  domainName?: string;
+}
+
 export function createBindDeploymentConfig(
-  config: Partial<IServerlessBindDeploymentIdPlugin> = {}
+  config: IServerlessApiGatewayLoggingConfig,
+  methodSettings?: IApiGatewayMethodSetting[]
 ) {
+  const defaultMethodSettings: IApiGatewayMethodSetting[] = [
+    {
+      DataTraceEnabled: true,
+      HttpMethod: "*",
+      LoggingLevel: "INFO",
+      ResourcePath: "/*",
+      MetricsEnabled: true
+    }
+  ];
+  const stageName = `${config.service}-${config.stage}`;
   const defaultConfig: IServerlessBindDeploymentIdPlugin = {
     resources: {
       Resources: {
@@ -68,12 +95,11 @@ export function createBindDeploymentConfig(
           Type: "AWS::ApiGateway::BasePathMapping",
           DependsOn: "ApiGatewayStage",
           Properties: {
-            BasePath: "basePath",
-            DomainName: "${self:provider.domain}",
+            DomainName: config.domainName ? config.domainName : undefined,
             RestApiId: {
               Ref: "ApiGatewayRestApi"
             },
-            Stage: "${self:provider.stage}"
+            Stage: stageName
           }
         },
         __deployment__: {
@@ -90,16 +116,8 @@ export function createBindDeploymentConfig(
             RestApiId: {
               Ref: "ApiGatewayRestApi"
             },
-            StageName: "${self:provider.stage}",
-            MethodSettings: [
-              {
-                DataTraceEnabled: true,
-                HttpMethod: "*",
-                LoggingLevel: "INFO",
-                ResourcePath: "/*",
-                MetricsEnabled: true
-              }
-            ]
+            StageName: stageName,
+            MethodSettings: methodSettings || defaultMethodSettings
           }
         }
       }
