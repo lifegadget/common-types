@@ -1,5 +1,9 @@
 import { IDictionary, datetime } from "./basics";
+import { IApiGatewayMethodSetting } from "./serverless-bind-deployment-id";
+import { IApiGatewayAliasConfig } from "./serverless-alias";
 /** A typing for the serverless framework's "serverless.yml" file */
+
+export type IServerlessStage = "dev" | "prod" | "test" | "stage";
 
 export type AWSRuntime =
   | "nodejs6.10"
@@ -67,6 +71,13 @@ export interface IServerlessProvider {
   };
   iamRoleStatements?: any[];
   versionFunctions?: boolean;
+  /**
+   * **aliasStage**
+   *
+   * If using the the [serverless-aws-alias](https://github.com/HyperBrain/serverless-aws-alias)
+   * plugin then you can configure settings here.
+   */
+  aliasStage?: IApiGatewayAliasConfig;
 }
 
 export interface IServerlessUsagePlan {
@@ -174,6 +185,14 @@ export interface IServerlessFunction {
    * this overrides the tracing setting at a function level
    */
   tracing?: boolean;
+
+  /**
+   * **aliasStage**
+   *
+   * If using the the [serverless-aws-alias](https://github.com/HyperBrain/serverless-aws-alias)
+   * plugin then you can configure settings here.
+   */
+  aliasStage?: IApiGatewayAliasConfig;
 }
 
 export interface IServerlessEvent {
