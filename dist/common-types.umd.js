@@ -111,7 +111,7 @@
   }
   /** An ISO-morphic path join that works everywhere */
   function pathJoin(...args) {
-      return args
+      const result = args
           .reduce(function (prev, val) {
           if (typeof prev === "undefined")
               return;
@@ -122,6 +122,7 @@
                   : false;
       }, "")
           .replace(moreThanThreePeriods, ".."); // join the resulting array together
+      return result.slice(-1) === "/" ? result.slice(0, result.length - 1) : result;
   }
   function joinStringsWithSlash(str1, str2) {
       const str1isEmpty = !str1.length;

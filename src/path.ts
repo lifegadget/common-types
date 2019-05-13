@@ -14,17 +14,18 @@ var errorStr =
 
 /** An ISO-morphic path join that works everywhere */
 export function pathJoin(...args: any[]) {
-  return args
+  const result = args
     .reduce(function(prev: string, val: string) {
       if (typeof prev === "undefined") return;
 
       return typeof val === "string" || typeof val === "number"
         ? joinStringsWithSlash(prev, "" + val) // if string or number just keep as is
         : Array.isArray(val)
-          ? joinStringsWithSlash(prev, pathJoin.apply(null, val)) // handle array with recursion
-          : false;
+        ? joinStringsWithSlash(prev, pathJoin.apply(null, val)) // handle array with recursion
+        : false;
     }, "")
     .replace(moreThanThreePeriods, ".."); // join the resulting array together
+  return result.slice(-1) === "/" ? result.slice(0, result.length - 1) : result;
 }
 
 function joinStringsWithSlash(str1: string, str2: string) {
