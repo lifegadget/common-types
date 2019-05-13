@@ -1,3 +1,5 @@
+import { createError } from "./errors/AppError";
+
 // THIS IS A mildly TYPED VERSION OF NPM "iso-path-join"
 
 var moreThanThreePeriods = /\.{3,}/g;
@@ -14,18 +16,23 @@ var errorStr =
 
 /** An ISO-morphic path join that works everywhere */
 export function pathJoin(...args: any[]) {
-  const result = args
-    .reduce(function(prev: string, val: string) {
-      if (typeof prev === "undefined") return;
+  try {
+    const result = args
+      .reduce(function(prev: string, val: string) {
+        if (typeof prev === "undefined") return;
 
-      return typeof val === "string" || typeof val === "number"
-        ? joinStringsWithSlash(prev, "" + val) // if string or number just keep as is
-        : Array.isArray(val)
-        ? joinStringsWithSlash(prev, pathJoin.apply(null, val)) // handle array with recursion
-        : false;
-    }, "")
-    .replace(moreThanThreePeriods, ".."); // join the resulting array together
-  return result.slice(-1) === "/" ? result.slice(0, result.length - 1) : result;
+        return typeof val === "string" || typeof val === "number"
+          ? joinStringsWithSlash(prev, "" + val) // if string or number just keep as is
+          : Array.isArray(val)
+          ? joinStringsWithSlash(prev, pathJoin.apply(null, val)) // handle array with recursion
+          : false;
+      }, "")
+      .replace(moreThanThreePeriods, ".."); // join the resulting array together
+    return result.slice(-1) === "/" ? result.slice(0, result.length - 1) : result;
+  } catch (e) {
+    const err = createError("common-types/pathJoin", e.message, e);
+    throw err;
+  }
 }
 
 function joinStringsWithSlash(str1: string, str2: string) {
