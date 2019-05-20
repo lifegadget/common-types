@@ -48,6 +48,8 @@ export interface IServerlessProvider {
   stage?: string;
   /** Set the default region. Default is "us-east-1". */
   region?: string;
+  /** Set the default RetentionInDays for a CloudWatch LogGroup. */
+  logRetentionInDays?: number;
   /** Set the default memory size; default is 1024 */
   memorySize?: number;
   stackTags?: IDictionary<string>;
