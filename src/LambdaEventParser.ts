@@ -3,7 +3,7 @@ import {
   IAWSLambdaProxyIntegrationRequest,
   isLambdaProxyRequest,
   Omit
-} from "common-types";
+} from "./";
 
 /**
  * **LambdaEventParser**

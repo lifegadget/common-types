@@ -1,5 +1,3 @@
-import { isLambdaProxyRequest as isLambdaProxyRequest$1 } from 'common-types';
-
 var ApiGatewayStatusCode;
 (function (ApiGatewayStatusCode) {
     ApiGatewayStatusCode[ApiGatewayStatusCode["Success"] = 200] = "Success";
@@ -168,8 +166,8 @@ class LambdaEventParser {
      * the event came from **API Gateway** otherwise it will be undefined.
      */
     static parse(event) {
-        const request = isLambdaProxyRequest$1(event) ? JSON.parse(event.body) : event;
-        if (isLambdaProxyRequest$1(event)) {
+        const request = isLambdaProxyRequest(event) ? JSON.parse(event.body) : event;
+        if (isLambdaProxyRequest(event)) {
             delete event.body;
         }
         else {
