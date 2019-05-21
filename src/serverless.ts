@@ -24,6 +24,21 @@ export interface IServerlessConfig<T = any> {
     activities?: string[];
   };
   functions?: IDictionary<IServerlessFunction>;
+  layers?: ILayerDefinition;
+}
+
+export interface ILayerDefinition {
+  [layerName: string]: {
+    /**
+     * This indicates the path in the layer repos file system where
+     * content will be picked up. So if you're adding a layer with
+     * NPM modules -- for instance -- you'd move into the specified
+     * directory and then do your yarn/npm adds to this directory
+     */
+    path: string;
+    /** what is says on the tin ... a description of your layer */
+    description: string;
+  };
 }
 
 export interface IServerlessPackage {
@@ -62,14 +77,15 @@ export interface IServerlessProvider {
     /** specificies the type of encryption, when using server-side encryption */
     serverSideEncryption?: string;
   };
-  apiKeys?: string[];
+  apiKeys?: Array<string | { name: string; value: string }>;
   usagePlan?: IServerlessUsagePlan;
   /** default is EDGE */
   endpointType?: "REGIONAL" | "EDGE";
   apiGateway?: {
     restApiId: string;
     restApiRootResourceId: string;
-    restApiResources: IDictionary;
+    restApiResources?: IDictionary;
+    binaryMediaTypes?: string[];
   };
   iamRoleStatements?: any[];
   versionFunctions?: boolean;
@@ -80,6 +96,10 @@ export interface IServerlessProvider {
    * plugin then you can configure settings here.
    */
   aliasStage?: IApiGatewayAliasConfig;
+  /** turn on logging for API Gateway */
+  logs?: {
+    restApi: boolean;
+  };
 }
 
 export interface IServerlessUsagePlan {
@@ -195,7 +215,34 @@ export interface IServerlessFunction {
    * plugin then you can configure settings here.
    */
   aliasStage?: IApiGatewayAliasConfig;
+  /**
+   * Add AWS Layers to your function. You can refer to it either as
+   * an ARN or a via [Cloudformation Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html). A cloudformation reference
+   * might look something like `{Ref:MyLambdaLayer}` whereas an ARN reference
+   * is just a standard ARN string.
+   *
+   * **Note:** the layer will be accessible at `/opt/*`. If the layer you are using is in
+   * `node_modules` then it is advisable to add the following to your function definition:
+```typescript
+const fn: IServerlessFunction = {
+  environment: {
+    NODE_PATH: "./:/opt/node_modules"
+  }
 }
+```
+   * as this will ensure that your layer's NPM modules are included in your path
+   */
+  layers:
+    | IArnStringReference
+    | ICloudformationReference
+    | { [name: string]: { path: string } };
+}
+
+export interface ICloudformationReference {
+  Ref: string;
+}
+
+export type IArnStringReference = string;
 
 export interface IServerlessEvent {
   /**
