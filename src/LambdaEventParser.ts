@@ -3,7 +3,7 @@ import {
   IAWSLambdaProxyIntegrationRequest,
   isLambdaProxyRequest,
   Omit
-} from "./";
+} from "./index";
 
 /**
  * **LambdaEventParser**
