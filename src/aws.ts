@@ -28,8 +28,12 @@ import { ApiGatewayError } from "./errors/ApiGatewayError";
 export type IAwsHandlerFunction<T, R = IDictionary, E = Error> = (
   event: IAwsLambdaEvent<T>,
   context: IAWSLambaContext,
-  cb: IAwsLambdaCallback<R, E>
-) => void | Promise<void>;
+  /**
+   * callbacks are no longer required and it is preferred that you simply return
+   * the results
+   */
+  cb?: IAwsLambdaCallback<R, E>
+) => Promise<void> | Promise<R> | Promise<IAwsApiGatewayResponse>;
 
 /**
  * **IAwsLambdaEvent**
