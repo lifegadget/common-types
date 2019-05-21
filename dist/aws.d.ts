@@ -22,7 +22,12 @@ import { IDictionary, BooleanAsString, epoch } from "./basics";
  * cases should not return anything (the concept of "returning" something is handled through
  * the passed in callback).
  */
-export declare type IAwsHandlerFunction<T, R = IDictionary, E = Error> = (event: IAwsLambdaEvent<T>, context: IAWSLambaContext, cb: IAwsLambdaCallback<R, E>) => void | Promise<void>;
+export declare type IAwsHandlerFunction<T, R = IDictionary, E = Error> = (event: IAwsLambdaEvent<T>, context: IAWSLambaContext, 
+/**
+ * callbacks are no longer required and it is preferred that you simply return
+ * the results
+ */
+cb?: IAwsLambdaCallback<R, E>) => Promise<void> | Promise<R> | Promise<IAwsApiGatewayResponse>;
 /**
  * **IAwsLambdaEvent**
  *
