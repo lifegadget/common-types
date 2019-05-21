@@ -8,6 +8,7 @@ export type IServerlessStage = "dev" | "prod" | "test" | "stage";
 export type AWSRuntime =
   | "nodejs6.10"
   | "nodejs8.10"
+  | "nodejs10.x"
   | "node4"
   | "java8"
   | "python2.7"
