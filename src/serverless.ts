@@ -48,6 +48,8 @@ export interface IServerlessProvider {
   stage?: string;
   /** Set the default region. Default is "us-east-1". */
   region?: string;
+  /** Set the default RetentionInDays for a CloudWatch LogGroup. */
+  logRetentionInDays?: number;
   /** Set the default memory size; default is 1024 */
   memorySize?: number;
   stackTags?: IDictionary<string>;
@@ -196,7 +198,6 @@ export interface IServerlessFunction {
 }
 
 export interface IServerlessEvent {
-<<<<<<< HEAD
   /**
    * Sets up a time based event trigger to run the function
    */
@@ -204,9 +205,6 @@ export interface IServerlessEvent {
   /**
    * creates a API endpoint using API-Gateway
    */
-=======
-  schedule?: IServerlessEventScheduleLongForm | IServerlessEventScheduleShortForm;
->>>>>>> release/1.10.12
   http?: IServerlessEventHttp;
   /**
    * Allows subscription (and optionally the creation of) an SNS topic.

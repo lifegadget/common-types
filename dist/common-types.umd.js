@@ -1,8 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('common-types')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'common-types'], factory) :
-  (global = global || self, factory(global['common-types'] = {}, global.commonTypes));
-}(this, function (exports, commonTypes) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = global || self, factory(global['common-types'] = {}));
+}(this, function (exports) { 'use strict';
 
   (function (ApiGatewayStatusCode) {
       ApiGatewayStatusCode[ApiGatewayStatusCode["Success"] = 200] = "Success";
@@ -171,8 +171,8 @@
        * the event came from **API Gateway** otherwise it will be undefined.
        */
       static parse(event) {
-          const request = commonTypes.isLambdaProxyRequest(event) ? JSON.parse(event.body) : event;
-          if (commonTypes.isLambdaProxyRequest(event)) {
+          const request = isLambdaProxyRequest(event) ? JSON.parse(event.body) : event;
+          if (isLambdaProxyRequest(event)) {
               delete event.body;
           }
           else {

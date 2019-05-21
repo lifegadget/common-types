@@ -2,8 +2,6 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var commonTypes = require('common-types');
-
 (function (ApiGatewayStatusCode) {
     ApiGatewayStatusCode[ApiGatewayStatusCode["Success"] = 200] = "Success";
     ApiGatewayStatusCode[ApiGatewayStatusCode["BadRequest"] = 400] = "BadRequest";
@@ -171,8 +169,8 @@ class LambdaEventParser {
      * the event came from **API Gateway** otherwise it will be undefined.
      */
     static parse(event) {
-        const request = commonTypes.isLambdaProxyRequest(event) ? JSON.parse(event.body) : event;
-        if (commonTypes.isLambdaProxyRequest(event)) {
+        const request = isLambdaProxyRequest(event) ? JSON.parse(event.body) : event;
+        if (isLambdaProxyRequest(event)) {
             delete event.body;
         }
         else {

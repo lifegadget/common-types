@@ -1,4 +1,4 @@
-import { IDictionary, IAWSLambdaProxyIntegrationRequest } from "common-types";
+import { IDictionary, IAWSLambdaProxyIntegrationRequest } from "./";
 /**
  * **LambdaEventParser**
  *
