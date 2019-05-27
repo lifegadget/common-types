@@ -116,8 +116,17 @@
    */
   function pathJoin(...args) {
       if (!args.every(i => ["undefined"].includes(typeof i))) {
-          console.warn(`pathJoin(...args) was called some undefined values. Undefined values will be ignored. Possibly this was intended but it could indicate a hidden error.`);
-          args = args.filter(i => i);
+          let problems;
+          args = args.filter((v, i) => {
+              if (!v) {
+                  problems.push({ type: typeof v, position: i });
+              }
+              return v;
+          });
+          const e = new Error();
+          console.warn(`pathJoin(...args) was called with ${problems.length} undefined values. Undefined values will be ignored but may indicate a hidden problem. [ ${problems
+            .map(i => `${i.type}@${i.position}`)
+            .join(", ")} ]\n\n${e.stack}`);
       }
       if (!args.every(i => ["string", "number"].includes(typeof i))) {
           const e = new Error(`Attempt to use pathJoin failed because some of the path parts were of the wrong type. Path parts must be either a string or an number: ${args.map(i => typeof i)}`);

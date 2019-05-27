@@ -1,4 +1,5 @@
 import { createError } from "./errors/AppError";
+import { IDictionary } from "./basics";
 
 // THIS IS A mildly TYPED VERSION OF NPM "iso-path-join"
 
@@ -21,10 +22,22 @@ var errorStr =
  */
 export function pathJoin(...args: any[]) {
   if (!args.every(i => ["undefined"].includes(typeof i))) {
+    let problems: Array<{ type: string; position: number }>;
+    args = args.filter((v, i) => {
+      if (!v) {
+        problems.push({ type: typeof v, position: i });
+      }
+      return v;
+    });
+    const e = new Error();
+
     console.warn(
-      `pathJoin(...args) was called some undefined values. Undefined values will be ignored. Possibly this was intended but it could indicate a hidden error.`
+      `pathJoin(...args) was called with ${
+        problems.length
+      } undefined values. Undefined values will be ignored but may indicate a hidden problem. [ ${problems
+        .map(i => `${i.type}@${i.position}`)
+        .join(", ")} ]\n\n${e.stack}`
     );
-    args = args.filter(i => i);
   }
   if (!args.every(i => ["string", "number"].includes(typeof i))) {
     const e: Error & { code?: string } = new Error(
