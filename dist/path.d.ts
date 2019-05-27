@@ -1,3 +1,11 @@
+export interface IStackFrame {
+    fn: string;
+    line: number;
+    col: number;
+    filePath?: string;
+    file: string;
+}
+export declare function parseStack(stack: string, ignorePatterns?: string[], limit?: number): string | IStackFrame[];
 /**
  * An ISO-morphic path join that works everywhere;
  * all paths are separated by the `/` character and both
