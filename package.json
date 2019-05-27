@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.11.4",
+  "version": "1.11.5",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "dist/common-types.cjs.js",
@@ -21,6 +21,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/chai": "^4.1.7",
+    "@types/json-schema": "^7.0.3",
     "@types/mocha": "^5.2.6",
     "@types/rimraf": "^2.0.2",
     "async-shelljs": "^0.1.2",
