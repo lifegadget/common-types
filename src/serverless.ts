@@ -1,6 +1,7 @@
 import { IDictionary, datetime } from "./basics";
 import { IApiGatewayMethodSetting } from "./serverless-bind-deployment-id";
 import { IApiGatewayAliasConfig } from "./serverless-alias";
+import { JSONSchema4 } from "json-schema";
 /** A typing for the serverless framework's "serverless.yml" file */
 
 export type IServerlessStage = "dev" | "prod" | "test" | "stage";
@@ -320,6 +321,7 @@ export interface IServerlessRequest {
     headers?: IDictionary;
     paths?: IDictionary;
   };
+  schema: JSONSchema4;
   passThrough?: "NEVER" | "WHEN_NO_MATCH" | "WHEN_NO_TEMPLATES";
 }
 
