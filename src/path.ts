@@ -1,7 +1,4 @@
 import { createError } from "./errors/AppError";
-import { IDictionary } from "./basics";
-
-// THIS IS A mildly TYPED VERSION OF NPM "iso-path-join"
 
 var moreThanThreePeriods = /\.{3,}/g;
 
@@ -12,8 +9,51 @@ if (!Array.isArray) {
   };
 }
 
-var errorStr =
-  "tried to join something other than a string or array, it was ignored in pathJoin's result";
+export interface IStackFrame {
+  fn: string;
+  line: number;
+  col: number;
+  filePath?: string;
+  file: string;
+}
+
+export function parseStack(
+  stack: string,
+  ignorePatterns: string[] = ["mocha/lib"],
+  limit?: number
+) {
+  const structured = stack
+    .replace(/Error.*?at/, "at")
+    .replace(
+      /at (\S*) \(([^\0]*?)\:([0-9]*?)\:([0-9]*)\)/g,
+      '{ fn: "$1", line: $3, col: $4, file: "$2" },'
+    );
+  let parsed: IStackFrame[];
+  try {
+    parsed = JSON.parse(structured).filter((i: IStackFrame) => {
+      let result = true;
+      ignorePatterns.forEach(pattern => {
+        if (i.fn.includes(pattern) || i.file.includes(pattern)) {
+          result = false;
+        }
+      });
+      return result;
+    });
+    // .map((i: IStackFrame) => {
+    //   const parts = i.file.split("/");
+    //   const start = Math.max(parts.length, 0);
+    //   i.file = parts.slice(start, parts.length - start).join("/");
+    //   return i;
+    // });
+    if (limit) {
+      parsed = parsed.slice(0, limit);
+    }
+  } catch (e) {
+    console.log(e.message);
+  }
+
+  return parsed ? parsed : structured;
+}
 
 /**
  * An ISO-morphic path join that works everywhere;
@@ -21,7 +61,7 @@ var errorStr =
  * leading and trailing delimiters are stripped
  */
 export function pathJoin(...args: any[]) {
-  if (!args.every(i => ["undefined"].includes(typeof i))) {
+  if (!args.every(i => !["undefined"].includes(typeof i))) {
     let problems: Array<{ type: string; position: number }> = [];
     args = args.filter((v, i) => {
       if (!v) {
@@ -29,14 +69,14 @@ export function pathJoin(...args: any[]) {
       }
       return v;
     });
-    const e = new Error();
+    // const stack = parseStack(new Error().stack, ["mocha/lib", "Object.pathJoin"]);
 
     console.warn(
       `pathJoin(...args) was called with ${
         problems.length
       } undefined values. Undefined values will be ignored but may indicate a hidden problem. [ ${problems
         .map(i => `${i.type}@${i.position}`)
-        .join(", ")} ]\n\n${e.stack}`
+        .join(", ")} ]`
     );
   }
   if (!args.every(i => ["string", "number"].includes(typeof i))) {

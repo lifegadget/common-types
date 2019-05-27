@@ -99,7 +99,6 @@ async function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// THIS IS A mildly TYPED VERSION OF NPM "iso-path-join"
 var moreThanThreePeriods = /\.{3,}/g;
 // polyfill Array.isArray if necessary
 if (!Array.isArray) {
@@ -107,13 +106,43 @@ if (!Array.isArray) {
         return Object.prototype.toString.call(arg) === "[object Array]";
     };
 }
+function parseStack(stack, ignorePatterns = ["mocha/lib"], limit) {
+    const structured = stack
+        .replace(/Error.*?at/, "at")
+        .replace(/at (\S*) \(([^\0]*?)\:([0-9]*?)\:([0-9]*)\)/g, '{ fn: "$1", line: $3, col: $4, file: "$2" },');
+    let parsed;
+    try {
+        parsed = JSON.parse(structured).filter((i) => {
+            let result = true;
+            ignorePatterns.forEach(pattern => {
+                if (i.fn.includes(pattern) || i.file.includes(pattern)) {
+                    result = false;
+                }
+            });
+            return result;
+        });
+        // .map((i: IStackFrame) => {
+        //   const parts = i.file.split("/");
+        //   const start = Math.max(parts.length, 0);
+        //   i.file = parts.slice(start, parts.length - start).join("/");
+        //   return i;
+        // });
+        if (limit) {
+            parsed = parsed.slice(0, limit);
+        }
+    }
+    catch (e) {
+        console.log(e.message);
+    }
+    return parsed ? parsed : structured;
+}
 /**
  * An ISO-morphic path join that works everywhere;
  * all paths are separated by the `/` character and both
  * leading and trailing delimiters are stripped
  */
 function pathJoin(...args) {
-    if (!args.every(i => ["undefined"].includes(typeof i))) {
+    if (!args.every(i => !["undefined"].includes(typeof i))) {
         let problems = [];
         args = args.filter((v, i) => {
             if (!v) {
@@ -121,10 +150,10 @@ function pathJoin(...args) {
             }
             return v;
         });
-        const e = new Error();
+        // const stack = parseStack(new Error().stack, ["mocha/lib", "Object.pathJoin"]);
         console.warn(`pathJoin(...args) was called with ${problems.length} undefined values. Undefined values will be ignored but may indicate a hidden problem. [ ${problems
             .map(i => `${i.type}@${i.position}`)
-            .join(", ")} ]\n\n${e.stack}`);
+            .join(", ")} ]`);
     }
     if (!args.every(i => ["string", "number"].includes(typeof i))) {
         const e = new Error(`Attempt to use pathJoin failed because some of the path parts were of the wrong type. Path parts must be either a string or an number: ${args.map(i => typeof i)}`);
@@ -250,6 +279,7 @@ exports.createError = createError;
 exports.dotNotation = dotNotation;
 exports.getBodyFromPossibleLambdaProxyRequest = getBodyFromPossibleLambdaProxyRequest;
 exports.isLambdaProxyRequest = isLambdaProxyRequest;
+exports.parseStack = parseStack;
 exports.pathJoin = pathJoin;
 exports.wait = wait;
 //# sourceMappingURL=common-types.cjs.js.map
