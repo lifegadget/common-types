@@ -116,7 +116,7 @@
    */
   function pathJoin(...args) {
       if (!args.every(i => ["undefined"].includes(typeof i))) {
-          let problems;
+          let problems = [];
           args = args.filter((v, i) => {
               if (!v) {
                   problems.push({ type: typeof v, position: i });

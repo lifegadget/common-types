@@ -22,7 +22,7 @@ var errorStr =
  */
 export function pathJoin(...args: any[]) {
   if (!args.every(i => ["undefined"].includes(typeof i))) {
-    let problems: Array<{ type: string; position: number }>;
+    let problems: Array<{ type: string; position: number }> = [];
     args = args.filter((v, i) => {
       if (!v) {
         problems.push({ type: typeof v, position: i });
