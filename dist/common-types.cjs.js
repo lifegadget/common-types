@@ -113,8 +113,12 @@ if (!Array.isArray) {
  * leading and trailing delimiters are stripped
  */
 function pathJoin(...args) {
+    if (!args.every(i => ["undefined"].includes(typeof i))) {
+        console.warn(`pathJoin(...args) was called some undefined values. Undefined values will be ignored. Possibly this was intended but it could indicate a hidden error.`);
+        args = args.filter(i => i);
+    }
     if (!args.every(i => ["string", "number"].includes(typeof i))) {
-        const e = new Error(`Attempt to use pathJoin failed because some of the path parts were of the wrong type. Path parts must be either a string or an number`);
+        const e = new Error(`Attempt to use pathJoin failed because some of the path parts were of the wrong type. Path parts must be either a string or an number: ${args.map(i => typeof i)}`);
         e.code = "invalid-path-part";
         e.name = "pathJoin/invalid-path-part";
         throw e;
