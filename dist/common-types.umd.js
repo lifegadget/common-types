@@ -109,35 +109,31 @@
           return Object.prototype.toString.call(arg) === "[object Array]";
       };
   }
-  /** An ISO-morphic path join that works everywhere */
+  /**
+   * An ISO-morphic path join that works everywhere;
+   * all paths are separated by the `/` character and both
+   * leading and trailing delimiters are stripped
+   */
   function pathJoin(...args) {
+      if (!args.every(i => ["string", "number"].includes(typeof i))) {
+          const e = new Error(`Attempt to use pathJoin failed because some of the path parts were of the wrong type. Path parts must be either a string or an number`);
+          e.code = "invalid-path-part";
+          e.name = "pathJoin/invalid-path-part";
+          throw e;
+      }
       try {
-          const result = args
-              .reduce(function (prev, val) {
-              if (typeof prev === "undefined")
-                  return;
-              return typeof val === "string" || typeof val === "number"
-                  ? joinStringsWithSlash(prev, "" + val) // if string or number just keep as is
-                  : Array.isArray(val)
-                      ? joinStringsWithSlash(prev, pathJoin.apply(null, val)) // handle array with recursion
-                      : false;
-          }, "")
-              .replace(moreThanThreePeriods, ".."); // join the resulting array together
+          const reducer = function (agg, pathPart) {
+              const parts = agg.split("/");
+              parts.push(typeof pathPart === "number" ? String(pathPart) : pathPart);
+              return parts.filter(i => i).join("/");
+          };
+          const result = args.reduce(reducer, "").replace(moreThanThreePeriods, ".."); // join the resulting array together
           return result.slice(-1) === "/" ? result.slice(0, result.length - 1) : result;
       }
       catch (e) {
           const err = createError("common-types/pathJoin", e.message, e);
           throw err;
       }
-  }
-  function joinStringsWithSlash(str1, str2) {
-      const str1isEmpty = !str1.length;
-      const str1EndsInSlash = str1[str1.length - 1] === "/";
-      const str2StartsWithSlash = str2[0] === "/";
-      var res = (str1EndsInSlash && str2StartsWithSlash && str1 + str2.slice(1)) ||
-          (!str1EndsInSlash && !str2StartsWithSlash && !str1isEmpty && str1 + "/" + str2) ||
-          str1 + str2;
-      return res;
   }
   /** converts a slash delimited filepath to a dot notation path */
   function dotNotation(input) {
