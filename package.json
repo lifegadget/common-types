@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.11.6",
+  "version": "1.11.7",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "dist/common-types.cjs.js",
@@ -19,6 +19,9 @@
   "author": "Ken Snyder <ken@ken.net>",
   "license": "MIT",
   "dependencies": {},
+  "peerDependencies": {
+    "@types/json-schema": "^7.0.3"
+  },
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/json-schema": "^7.0.3",
