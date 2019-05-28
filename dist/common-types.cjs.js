@@ -363,6 +363,7 @@ exports.createError = createError;
 exports.dotNotation = dotNotation;
 exports.getBodyFromPossibleLambdaProxyRequest = getBodyFromPossibleLambdaProxyRequest;
 exports.isLambdaProxyRequest = isLambdaProxyRequest;
+exports.parseStack = parseStack;
 exports.pathJoin = pathJoin;
 exports.wait = wait;
 //# sourceMappingURL=common-types.cjs.js.map

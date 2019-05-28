@@ -351,5 +351,5 @@ function createBindDeploymentConfig(config, methodSettings) {
     return Object.assign({}, defaultConfig, config);
 }
 
-export { ApiGatewayError, ApiGatewayStatusCode, AppError, LambdaEventParser, apiGatewayError, createBindDeploymentConfig, createError, dotNotation, getBodyFromPossibleLambdaProxyRequest, isLambdaProxyRequest, pathJoin, wait };
+export { ApiGatewayError, ApiGatewayStatusCode, AppError, LambdaEventParser, apiGatewayError, createBindDeploymentConfig, createError, dotNotation, getBodyFromPossibleLambdaProxyRequest, isLambdaProxyRequest, parseStack, pathJoin, wait };
 //# sourceMappingURL=common-types.es2015.js.map
