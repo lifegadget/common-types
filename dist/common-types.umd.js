@@ -365,6 +365,7 @@
   exports.dotNotation = dotNotation;
   exports.getBodyFromPossibleLambdaProxyRequest = getBodyFromPossibleLambdaProxyRequest;
   exports.isLambdaProxyRequest = isLambdaProxyRequest;
+  exports.parseStack = parseStack;
   exports.pathJoin = pathJoin;
   exports.wait = wait;
 
