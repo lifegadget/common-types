@@ -1,6 +1,6 @@
 import { IDictionary, datetime } from "./basics";
 import { IApiGatewayAliasConfig } from "./serverless-alias";
-import { JSONSchema4 } from "json-schema";
+export declare type JSONSchema4 = import("json-schema").JSONSchema4;
 /** A typing for the serverless framework's "serverless.yml" file */
 export declare type IServerlessStage = "dev" | "prod" | "test" | "stage";
 export declare type AWSRuntime = "nodejs6.10" | "nodejs8.10" | "nodejs10.x" | "node4" | "java8" | "python2.7" | "python3.6" | "go1.x";

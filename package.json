@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.11.5",
+  "version": "1.11.6",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "dist/common-types.cjs.js",
@@ -26,6 +26,7 @@
     "@types/rimraf": "^2.0.2",
     "async-shelljs": "^0.1.2",
     "chai": "^4.2.0",
+    "json-schema": "^0.2.3",
     "mocha": "^6.1.2",
     "rimraf": "^2.6.3",
     "rollup": "^1.9.0",
