@@ -57,11 +57,14 @@
       return trace ? trace.split("\n") : [];
   }
 
-  function createError(code, message, priorError) {
-      const messagePrefix = `[${code}] `;
+  function createError(fullName, message, priorError) {
+      const messagePrefix = `[${fullName}] `;
+      console.log("full", fullName);
       const e = new AppError(!priorError ? messagePrefix + message : messagePrefix + priorError.message + message);
-      e.name = priorError ? priorError.name : "AppError";
-      e.code = code;
+      e.name = priorError ? priorError.code || priorError.name : fullName;
+      const parts = fullName.split("/");
+      console.log(parts);
+      e.code = [...parts].pop();
       e.stack = priorError
           ? priorError.stack ||
               stackTrace(e.stack)
@@ -101,20 +104,60 @@
       return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  var moreThanThreePeriods = /\.{3,}/g;
-  // polyfill Array.isArray if necessary
-  if (!Array.isArray) {
-      Array.isArray = function (arg) {
-          return Object.prototype.toString.call(arg) === "[object Array]";
-      };
+  class PathJoinError extends Error {
+      constructor(code, message) {
+          super();
+          this.message = `[pathJoin/${code}] ` + message;
+          this.code = code;
+          this.name = `pathJoin/${code}`;
+      }
   }
-  function parseStack(stack, ignorePatterns = ["mocha/lib"], limit) {
+
+  class ParseStackError extends Error {
+      constructor(code, message, originalString, structuredString) {
+          super();
+          this.originalString = originalString;
+          this.structuredString = structuredString;
+          this.message = `[parseStack/${code}] ` + message;
+          this.code = code;
+          this.name = `parseStack/${code}`;
+      }
+  }
+
+  function separateFileAndFilepath(fileinfo) {
+      const parts = fileinfo.split("/");
+      return parts.length < 2
+          ? { file: fileinfo, filePath: "" }
+          : { file: parts.pop(), filePath: parts.slice(0, parts.length - 1).join("/") };
+  }
+  function fileMapper(i) {
+      const { file, filePath } = separateFileAndFilepath(i.file);
+      i.file = file;
+      if (filePath) {
+          i.filePath = filePath;
+          i.shortPath = filePath
+              .split("/")
+              .slice(-3)
+              .join("/");
+      }
+      return i;
+  }
+  /**
+   * parses an Error's `stack` property into a structured
+   * object. Optionally allowing for filtering and size limiting
+   */
+  function parseStack(
+  /** the default stack trace string */
+  stack, options = {}) {
+      const ignorePatterns = options.ignorePatterns || [];
+      const limit = options.limit;
       const structured = stack
-          .replace(/Error.*?at/, "at")
-          .replace(/at (\S*) \(([^\0]*?)\:([0-9]*?)\:([0-9]*)\)/g, '{ fn: "$1", line: $3, col: $4, file: "$2" },');
+          .replace(/Error.*\n.*?at/, " at")
+          .replace(/at (\S*) \(([^\0]*?)\:([0-9]*?)\:([0-9]*)\)| at (\/.*?)\:([0-9]*?)\:([0-9]*)/g, '{ "fn": "$1", "line": $3$6, "col": $4$7, "file": "$2$5" },');
       let parsed;
       try {
-          parsed = JSON.parse(structured).filter((i) => {
+          parsed = JSON.parse(`[ ${structured.replace(/\,$/, "")} ]`)
+              .filter((i) => {
               let result = true;
               ignorePatterns.forEach(pattern => {
                   if (i.fn.includes(pattern) || i.file.includes(pattern)) {
@@ -122,21 +165,30 @@
                   }
               });
               return result;
-          });
-          // .map((i: IStackFrame) => {
-          //   const parts = i.file.split("/");
-          //   const start = Math.max(parts.length, 0);
-          //   i.file = parts.slice(start, parts.length - start).join("/");
-          //   return i;
-          // });
+          })
+              .map(fileMapper);
           if (limit) {
               parsed = parsed.slice(0, limit);
           }
       }
       catch (e) {
-          console.log(e.message);
+          throw new ParseStackError("parsing-error", e.message, stack, structured);
       }
-      return parsed ? parsed : structured;
+      return parsed;
+  }
+
+  var moreThanThreePeriods = /\.{3,}/g;
+  // polyfill Array.isArray if necessary
+  if (!Array.isArray) {
+      Array.isArray = function (arg) {
+          return Object.prototype.toString.call(arg) === "[object Array]";
+      };
+  }
+  function getStackInfo() {
+      // GET stack info
+      return parseStack(new Error().stack, {
+          ignorePatterns: ["mocha/lib", "timers.js", "runners/node"]
+      }).slice(1);
   }
   /**
    * An ISO-morphic path join that works everywhere;
@@ -144,38 +196,70 @@
    * leading and trailing delimiters are stripped
    */
   function pathJoin(...args) {
+      // undefined segments
       if (!args.every(i => !["undefined"].includes(typeof i))) {
-          let problems = [];
-          args = args.filter((v, i) => {
-              if (!v) {
-                  problems.push({ type: typeof v, position: i });
-              }
-              return v;
-          });
           // const stack = parseStack(new Error().stack, ["mocha/lib", "Object.pathJoin"]);
-          console.warn(`pathJoin(...args) was called with ${problems.length} undefined values. Undefined values will be ignored but may indicate a hidden problem. [ ${problems
-            .map(i => `${i.type}@${i.position}`)
-            .join(", ")} ]`);
+          console.warn(`pathJoin(...args) was called with ${args.filter(a => !a).length} undefined values. Undefined values will be ignored but may indicate a hidden problem. [ ${args
+            .map(a => (typeof a === "undefined" ? "undefined" : a))
+            .join(", ")} ]\n\n${getStackInfo()
+            .slice(1)
+            .map(i => `${i.shortPath ? `${i.shortPath}/` : ""}${i.fn}() at line ${i.line}`)
+            .join("\n")}`);
+          args = args.filter(a => a);
       }
+      // remaining invalid types
       if (!args.every(i => ["string", "number"].includes(typeof i))) {
-          const e = new Error(`Attempt to use pathJoin failed because some of the path parts were of the wrong type. Path parts must be either a string or an number: ${args.map(i => typeof i)}`);
-          e.code = "invalid-path-part";
-          e.name = "pathJoin/invalid-path-part";
-          throw e;
+          throw new PathJoinError("invalid-path-part", `Attempt to use pathJoin() failed because some of the path parts were of the wrong type. Path parts must be either a string or an number: ${args.map(i => typeof i)}`);
       }
+      // JOIN paths
       try {
           const reducer = function (agg, pathPart) {
               const parts = agg.split("/");
-              parts.push(typeof pathPart === "number" ? String(pathPart) : pathPart);
+              parts.push(typeof pathPart === "number"
+                  ? String(pathPart)
+                  : stripSlashesAtExtremities(pathPart));
               return parts.filter(i => i).join("/");
           };
-          const result = args.reduce(reducer, "").replace(moreThanThreePeriods, ".."); // join the resulting array together
-          return result.slice(-1) === "/" ? result.slice(0, result.length - 1) : result;
+          const result = removeSingleDotExceptToStart(doubleDotOnlyToStart(args.reduce(reducer, "").replace(moreThanThreePeriods, "..")));
+          return result;
       }
       catch (e) {
-          const err = createError("common-types/pathJoin", e.message, e);
-          throw err;
+          if (e.name.includes("pathJoin")) {
+              throw e;
+          }
+          else {
+              throw new PathJoinError(e.name || "unknown", e.message);
+          }
       }
+  }
+  function stripSlashesAtExtremities(pathPart) {
+      const front = pathPart.slice(0, 1) === "/" ? pathPart.slice(1) : pathPart;
+      const back = front.slice(-1) === "/" ? front.slice(0, front.length - 1) : front;
+      return back.slice(0, 1) === "/" || back.slice(-1) === "/"
+          ? stripSlashesAtExtremities(back)
+          : back;
+  }
+  /**
+   * checks to ensure that a ".." path notation is only employed at the
+   * very start of the path or else throws an error
+   */
+  function doubleDotOnlyToStart(path) {
+      if (path.slice(2).includes("..")) {
+          throw new PathJoinError("not-allowed", `The path "${path}" is not allowed because it  has ".." in it. This notation is fine at the beginning of a path but no where else.`);
+      }
+      return path;
+  }
+  /**
+   * removes `./` in path parts other than leading segment
+   */
+  function removeSingleDotExceptToStart(path) {
+      let parts = path.split("/");
+      return (parts[0] +
+          "/" +
+          parts
+              .slice(1)
+              .filter(i => i !== ".")
+              .join("/"));
   }
   /** converts a slash delimited filepath to a dot notation path */
   function dotNotation(input) {
@@ -281,7 +365,6 @@
   exports.dotNotation = dotNotation;
   exports.getBodyFromPossibleLambdaProxyRequest = getBodyFromPossibleLambdaProxyRequest;
   exports.isLambdaProxyRequest = isLambdaProxyRequest;
-  exports.parseStack = parseStack;
   exports.pathJoin = pathJoin;
   exports.wait = wait;
 
