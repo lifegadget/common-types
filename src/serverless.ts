@@ -1,7 +1,7 @@
 import { IDictionary, datetime } from "./basics";
 import { IApiGatewayMethodSetting } from "./serverless-bind-deployment-id";
 import { IApiGatewayAliasConfig } from "./serverless-alias";
-type JSONSchema4 = import("json-schema").JSONSchema4;
+export type JSONSchema4 = import("json-schema").JSONSchema4;
 /** A typing for the serverless framework's "serverless.yml" file */
 
 export type IServerlessStage = "dev" | "prod" | "test" | "stage";
