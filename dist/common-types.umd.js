@@ -186,9 +186,15 @@
   }
   function getStackInfo() {
       // GET stack info
-      return parseStack(new Error().stack, {
-          ignorePatterns: ["mocha/lib", "timers.js", "runners/node"]
-      }).slice(1);
+      try {
+          const result = parseStack(new Error().stack, {
+              ignorePatterns: ["mocha/lib", "timers.js", "runners/node"]
+          }).slice(1);
+          return result;
+      }
+      catch (e) {
+          return [];
+      }
   }
   /**
    * An ISO-morphic path join that works everywhere;
@@ -199,12 +205,15 @@
       // undefined segments
       if (!args.every(i => !["undefined"].includes(typeof i))) {
           // const stack = parseStack(new Error().stack, ["mocha/lib", "Object.pathJoin"]);
+          const stack = getStackInfo().length > 0
+              ? getStackInfo()
+                  .slice(1)
+                  .map(i => `${i.shortPath ? `${i.shortPath}/` : ""}${i.fn}() at line ${i.line}`)
+                  .join("\n")
+              : "";
           console.warn(`pathJoin(...args) was called with ${args.filter(a => !a).length} undefined values. Undefined values will be ignored but may indicate a hidden problem. [ ${args
             .map(a => (typeof a === "undefined" ? "undefined" : a))
-            .join(", ")} ]\n\n${getStackInfo()
-            .slice(1)
-            .map(i => `${i.shortPath ? `${i.shortPath}/` : ""}${i.fn}() at line ${i.line}`)
-            .join("\n")}`);
+            .join(", ")} ]\n\n${stack}`);
           args = args.filter(a => a);
       }
       // remaining invalid types
