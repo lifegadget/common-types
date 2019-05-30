@@ -3,6 +3,7 @@ import { IApiGatewayAliasConfig } from "./serverless-alias";
 export declare type JSONSchema4 = import("json-schema").JSONSchema4;
 /** A typing for the serverless framework's "serverless.yml" file */
 export declare type IServerlessStage = "dev" | "prod" | "test" | "stage";
+export declare type IServerlessVariable = string;
 export declare type AWSRuntime = "nodejs6.10" | "nodejs8.10" | "nodejs10.x" | "node4" | "java8" | "python2.7" | "python3.6" | "go1.x";
 export interface IServerlessConfig<T = any> {
     service: string | {
@@ -236,7 +237,7 @@ export interface IServerlessEventHttp {
     cors?: boolean;
     /** not sure what other values can be set here */
     integration?: "lambda";
-    authorizer?: IServerlessAuthorizer;
+    authorizer?: IServerlessAuthorizer | IServerlessVariable;
     private?: true;
     request?: IServerlessRequest;
     statusCodes?: {

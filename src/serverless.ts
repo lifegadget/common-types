@@ -6,6 +6,8 @@ export type JSONSchema4 = import("json-schema").JSONSchema4;
 
 export type IServerlessStage = "dev" | "prod" | "test" | "stage";
 
+export type IServerlessVariable = string
+
 export type AWSRuntime =
   | "nodejs6.10"
   | "nodejs8.10"
@@ -300,7 +302,7 @@ export interface IServerlessEventHttp {
   cors?: boolean;
   /** not sure what other values can be set here */
   integration?: "lambda";
-  authorizer?: IServerlessAuthorizer;
+  authorizer?: IServerlessAuthorizer | IServerlessVariable;
   private?: true;
   request?: IServerlessRequest;
   statusCodes?: {
