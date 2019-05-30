@@ -6,6 +6,8 @@ export type JSONSchema4 = import("json-schema").JSONSchema4;
 
 export type IServerlessStage = "dev" | "prod" | "test" | "stage";
 
+export type IServerlessVariable = string
+
 export type AWSRuntime =
   | "nodejs6.10"
   | "nodejs8.10"
