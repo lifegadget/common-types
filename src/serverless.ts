@@ -302,7 +302,7 @@ export interface IServerlessEventHttp {
   cors?: boolean;
   /** not sure what other values can be set here */
   integration?: "lambda";
-  authorizer?: IServerlessAuthorizer;
+  authorizer?: IServerlessAuthorizer | IServerlessVariable;
   private?: true;
   request?: IServerlessRequest;
   statusCodes?: {
