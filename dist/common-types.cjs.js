@@ -209,9 +209,13 @@ function pathJoin(...args) {
                 .map(i => `${i.shortPath ? `${i.shortPath}/` : ""}${i.fn}() at line ${i.line}`)
                 .join("\n")
             : "";
-        console.warn(`pathJoin(...args) was called with ${args.filter(a => !a).length} undefined values. Undefined values will be ignored but may indicate a hidden problem. [ ${args
-            .map(a => (typeof a === "undefined" ? "undefined" : a))
-            .join(", ")} ]\n\n${stack}`);
+        // console.warn(
+        //   `pathJoin(...args) was called with ${
+        //     args.filter(a => !a).length
+        //   } undefined values. Undefined values will be ignored but may indicate a hidden problem. [ ${args
+        //     .map(a => (typeof a === "undefined" ? "undefined" : a))
+        //     .join(", ")} ]\n\n${stack}`
+        // );
         args = args.filter(a => a);
     }
     // remaining invalid types
@@ -221,11 +225,11 @@ function pathJoin(...args) {
     // JOIN paths
     try {
         const reducer = function (agg, pathPart) {
-            const parts = agg.split("/");
+            let { protocol, parts } = pullOutProtocols(agg);
             parts.push(typeof pathPart === "number"
                 ? String(pathPart)
                 : stripSlashesAtExtremities(pathPart));
-            return parts.filter(i => i).join("/");
+            return protocol + parts.filter(i => i).join("/");
         };
         const result = removeSingleDotExceptToStart(doubleDotOnlyToStart(args.reduce(reducer, "").replace(moreThanThreePeriods, "..")));
         return result;
@@ -238,6 +242,17 @@ function pathJoin(...args) {
             throw new PathJoinError(e.name || "unknown", e.message);
         }
     }
+}
+function pullOutProtocols(content) {
+    const protocols = ["https://", "http://", "file://", "tel://"];
+    let protocol = "";
+    protocols.forEach(p => {
+        if (content.includes(p)) {
+            protocol = p;
+            content = content.replace(p, "");
+        }
+    });
+    return { protocol, parts: content.split("/") };
 }
 function stripSlashesAtExtremities(pathPart) {
     const front = pathPart.slice(0, 1) === "/" ? pathPart.slice(1) : pathPart;

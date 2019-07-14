@@ -1,4 +1,3 @@
-import { createError } from "./errors/AppError";
 import { PathJoinError } from "./errors/PathJoinError";
 import { parseStack } from "./parseStack";
 
@@ -37,18 +36,21 @@ export function pathJoin(...args: any[]) {
         ? getStackInfo()
             .slice(1)
             .map(
-              i => `${i.shortPath ? `${i.shortPath}/` : ""}${i.fn}() at line ${i.line}`
+              i =>
+                `${i.shortPath ? `${i.shortPath}/` : ""}${i.fn}() at line ${
+                  i.line
+                }`
             )
             .join("\n")
         : "";
 
-    console.warn(
-      `pathJoin(...args) was called with ${
-        args.filter(a => !a).length
-      } undefined values. Undefined values will be ignored but may indicate a hidden problem. [ ${args
-        .map(a => (typeof a === "undefined" ? "undefined" : a))
-        .join(", ")} ]\n\n${stack}`
-    );
+    // console.warn(
+    //   `pathJoin(...args) was called with ${
+    //     args.filter(a => !a).length
+    //   } undefined values. Undefined values will be ignored but may indicate a hidden problem. [ ${args
+    //     .map(a => (typeof a === "undefined" ? "undefined" : a))
+    //     .join(", ")} ]\n\n${stack}`
+    // );
 
     args = args.filter(a => a);
   }
@@ -65,16 +67,18 @@ export function pathJoin(...args: any[]) {
   // JOIN paths
   try {
     const reducer = function(agg: string, pathPart: string | number) {
-      const parts = agg.split("/");
+      let { protocol, parts } = pullOutProtocols(agg);
       parts.push(
         typeof pathPart === "number"
           ? String(pathPart)
           : stripSlashesAtExtremities(pathPart)
       );
-      return parts.filter(i => i).join("/");
+      return protocol + parts.filter(i => i).join("/");
     };
     const result = removeSingleDotExceptToStart(
-      doubleDotOnlyToStart(args.reduce(reducer, "").replace(moreThanThreePeriods, ".."))
+      doubleDotOnlyToStart(
+        args.reduce(reducer, "").replace(moreThanThreePeriods, "..")
+      )
     );
     return result;
   } catch (e) {
@@ -86,9 +90,22 @@ export function pathJoin(...args: any[]) {
   }
 }
 
+function pullOutProtocols(content: string) {
+  const protocols = ["https://", "http://", "file://", "tel://"];
+  let protocol: string = "";
+  protocols.forEach(p => {
+    if (content.includes(p)) {
+      protocol = p;
+      content = content.replace(p, "");
+    }
+  });
+  return { protocol, parts: content.split("/") };
+}
+
 function stripSlashesAtExtremities(pathPart: string): string {
   const front = pathPart.slice(0, 1) === "/" ? pathPart.slice(1) : pathPart;
-  const back = front.slice(-1) === "/" ? front.slice(0, front.length - 1) : front;
+  const back =
+    front.slice(-1) === "/" ? front.slice(0, front.length - 1) : front;
   return back.slice(0, 1) === "/" || back.slice(-1) === "/"
     ? stripSlashesAtExtremities(back)
     : back;
@@ -130,7 +147,10 @@ function joinStringsWithSlash(str1: string, str2: string) {
   const str2StartsWithSlash = str2[0] === "/";
   var res =
     (str1EndsInSlash && str2StartsWithSlash && str1 + str2.slice(1)) ||
-    (!str1EndsInSlash && !str2StartsWithSlash && !str1isEmpty && str1 + "/" + str2) ||
+    (!str1EndsInSlash &&
+      !str2StartsWithSlash &&
+      !str1isEmpty &&
+      str1 + "/" + str2) ||
     str1 + str2;
   return res;
 }
