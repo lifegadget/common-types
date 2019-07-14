@@ -28,11 +28,11 @@
     "async-shelljs": "^0.1.2",
     "chai": "^4.2.0",
     "json-schema": "^0.2.3",
-    "mocha": "^6.1.2",
+    "mocha": "^6.1.4",
     "rimraf": "^2.6.3",
-    "rollup": "^1.9.0",
-    "rollup-plugin-typescript2": "^0.20.1",
-    "ts-node": "^8.0.3",
-    "typescript": "^3.4.2"
+    "rollup": "^1.16.7",
+    "rollup-plugin-typescript2": "^0.22.0",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
   }
 }
