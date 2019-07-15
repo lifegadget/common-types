@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.11.12",
+  "version": "1.11.13",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "dist/common-types.cjs.js",
@@ -28,10 +28,10 @@
     "async-shelljs": "^0.1.2",
     "chai": "^4.2.0",
     "json-schema": "^0.2.3",
-    "mocha": "^6.1.2",
+    "mocha": "^6.1.4",
     "rimraf": "^2.6.3",
-    "rollup": "^1.9.0",
-    "rollup-plugin-typescript2": "^0.20.1",
+    "rollup": "^1.16.7",
+    "rollup-plugin-typescript2": "^0.22.0",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"
   }

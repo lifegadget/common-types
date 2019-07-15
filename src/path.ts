@@ -28,30 +28,8 @@ function getStackInfo() {
  * leading and trailing delimiters are stripped
  */
 export function pathJoin(...args: any[]) {
-  // undefined segments
+  // strip undefined segments
   if (!args.every(i => !["undefined"].includes(typeof i))) {
-    // const stack = parseStack(new Error().stack, ["mocha/lib", "Object.pathJoin"]);
-    const stack =
-      getStackInfo().length > 0
-        ? getStackInfo()
-            .slice(1)
-            .map(
-              i =>
-                `${i.shortPath ? `${i.shortPath}/` : ""}${i.fn}() at line ${
-                  i.line
-                }`
-            )
-            .join("\n")
-        : "";
-
-    // console.warn(
-    //   `pathJoin(...args) was called with ${
-    //     args.filter(a => !a).length
-    //   } undefined values. Undefined values will be ignored but may indicate a hidden problem. [ ${args
-    //     .map(a => (typeof a === "undefined" ? "undefined" : a))
-    //     .join(", ")} ]\n\n${stack}`
-    // );
-
     args = args.filter(a => a);
   }
   // remaining invalid types

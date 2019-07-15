@@ -12,6 +12,10 @@ describe("pathJoin() =>", () => {
     expect(pathJoin("./foo///", "./bar", "/baz")).to.equal("./foo/bar/baz");
     expect(pathJoin("./foo///", "./bar", "./baz")).to.equal("./foo/bar/baz");
     expect(pathJoin("https://foo.bar", "baz")).to.equal("https://foo.bar/baz");
+    expect(pathJoin("https://foo.bar/", "baz")).to.equal("https://foo.bar/baz");
+    expect(pathJoin("https://foo.bar/", "/baz")).to.equal(
+      "https://foo.bar/baz"
+    );
   });
 
   it("not allowed to put .. in non-starting segments", async () => {
