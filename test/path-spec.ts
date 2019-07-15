@@ -11,6 +11,11 @@ describe("pathJoin() =>", () => {
     expect(pathJoin("./foo///", "/bar", "/baz")).to.equal("./foo/bar/baz");
     expect(pathJoin("./foo///", "./bar", "/baz")).to.equal("./foo/bar/baz");
     expect(pathJoin("./foo///", "./bar", "./baz")).to.equal("./foo/bar/baz");
+    expect(pathJoin("https://foo.bar", "baz")).to.equal("https://foo.bar/baz");
+    expect(pathJoin("https://foo.bar/", "baz")).to.equal("https://foo.bar/baz");
+    expect(pathJoin("https://foo.bar/", "/baz")).to.equal(
+      "https://foo.bar/baz"
+    );
   });
 
   it("not allowed to put .. in non-starting segments", async () => {
@@ -25,7 +30,9 @@ describe("pathJoin() =>", () => {
 
   it("sending in undefined segments as part of path is handled but with warning", async () => {
     expect(pathJoin("foo", "bar", undefined, "baz")).to.equal("foo/bar/baz");
-    expect(pathJoin("foo", undefined, "bar", undefined, "baz")).to.equal("foo/bar/baz");
+    expect(pathJoin("foo", undefined, "bar", undefined, "baz")).to.equal(
+      "foo/bar/baz"
+    );
   });
 
   it("sending in incorrect types will fail", async () => {

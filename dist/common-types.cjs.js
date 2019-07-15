@@ -182,36 +182,14 @@ if (!Array.isArray) {
         return Object.prototype.toString.call(arg) === "[object Array]";
     };
 }
-function getStackInfo() {
-    // GET stack info
-    try {
-        const result = parseStack(new Error().stack, {
-            ignorePatterns: ["mocha/lib", "timers.js", "runners/node"]
-        }).slice(1);
-        return result;
-    }
-    catch (e) {
-        return [];
-    }
-}
 /**
  * An ISO-morphic path join that works everywhere;
  * all paths are separated by the `/` character and both
  * leading and trailing delimiters are stripped
  */
 function pathJoin(...args) {
-    // undefined segments
+    // strip undefined segments
     if (!args.every(i => !["undefined"].includes(typeof i))) {
-        // const stack = parseStack(new Error().stack, ["mocha/lib", "Object.pathJoin"]);
-        const stack = getStackInfo().length > 0
-            ? getStackInfo()
-                .slice(1)
-                .map(i => `${i.shortPath ? `${i.shortPath}/` : ""}${i.fn}() at line ${i.line}`)
-                .join("\n")
-            : "";
-        console.warn(`pathJoin(...args) was called with ${args.filter(a => !a).length} undefined values. Undefined values will be ignored but may indicate a hidden problem. [ ${args
-            .map(a => (typeof a === "undefined" ? "undefined" : a))
-            .join(", ")} ]\n\n${stack}`);
         args = args.filter(a => a);
     }
     // remaining invalid types
@@ -221,11 +199,11 @@ function pathJoin(...args) {
     // JOIN paths
     try {
         const reducer = function (agg, pathPart) {
-            const parts = agg.split("/");
+            let { protocol, parts } = pullOutProtocols(agg);
             parts.push(typeof pathPart === "number"
                 ? String(pathPart)
                 : stripSlashesAtExtremities(pathPart));
-            return parts.filter(i => i).join("/");
+            return protocol + parts.filter(i => i).join("/");
         };
         const result = removeSingleDotExceptToStart(doubleDotOnlyToStart(args.reduce(reducer, "").replace(moreThanThreePeriods, "..")));
         return result;
@@ -238,6 +216,17 @@ function pathJoin(...args) {
             throw new PathJoinError(e.name || "unknown", e.message);
         }
     }
+}
+function pullOutProtocols(content) {
+    const protocols = ["https://", "http://", "file://", "tel://"];
+    let protocol = "";
+    protocols.forEach(p => {
+        if (content.includes(p)) {
+            protocol = p;
+            content = content.replace(p, "");
+        }
+    });
+    return { protocol, parts: content.split("/") };
 }
 function stripSlashesAtExtremities(pathPart) {
     const front = pathPart.slice(0, 1) === "/" ? pathPart.slice(1) : pathPart;
