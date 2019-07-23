@@ -134,6 +134,33 @@ function parsed(input: IAWSLambdaProxyIntegrationRequest) {
   }
 }
 
+export interface IAwsLambdaProxyRequestContext extends IDictionary {
+  requestTime: string;
+  path: string;
+  accountId: string;
+  protocol: string;
+  resourceId: string;
+  stage: string;
+  requestTimeEpoch: number;
+  requestId: string;
+  identity: {
+    cognitoIdentityPoolId?: string;
+    accountId?: string;
+    cognitoIdentityId: string;
+    caller: string;
+    sourceIp: string;
+    accessKey: string;
+    cognitoAuthenticationType: string;
+    cognitoAuthenticationProvider: string;
+    userArn: string;
+    userAgent: string;
+    user: string;
+  };
+  resourcePath: string;
+  httpMethod: RestMethod;
+  apiId: string;
+}
+
 /**
  * **getBodyFromPossibleLambdaProxyRequest**
  *
@@ -184,32 +211,7 @@ export interface IAWSLambdaProxyIntegrationRequest {
   };
   queryStringParameters?: any;
   pathParameters?: any;
-  requestContext: {
-    requestTime: string;
-    path: string;
-    accountId: string;
-    protocol: string;
-    resourceId: string;
-    stage: string;
-    requestTimeEpoch: number;
-    requestId: string;
-    identity: {
-      cognitoIdentityPoolId?: string;
-      accountId?: string;
-      cognitoIdentityId: string;
-      caller: string;
-      sourceIp: string;
-      accessKey: string;
-      cognitoAuthenticationType: string;
-      cognitoAuthenticationProvider: string;
-      userArn: string;
-      userAgent: string;
-      user: string;
-    };
-    resourcePath: string;
-    httpMethod: RestMethod;
-    apiId: string;
-  };
+  requestContext: IAwsLambdaProxyRequestContext;
   /** The payload that the client has sent to you; if the content was originally in JSON/object format you will need to parse it */
   body: string;
   isBase64Encoded: boolean;
@@ -271,7 +273,10 @@ export interface IAWSGatewayRequest {
   parentRequestId?: string;
 }
 /** A decorator signature for a class property */
-export declare type PropertyDecorator = (target: any, key: string | symbol) => void;
+export declare type PropertyDecorator = (
+  target: any,
+  key: string | symbol
+) => void;
 /** A decorator signature for a class */
 export declare type ClassDecorator = <TFunction extends Function>(
   target: TFunction
