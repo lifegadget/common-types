@@ -93,6 +93,32 @@ export declare type RestMethod = "GET" | "POST" | "PUT" | "DELETE";
  * @param message the body of the request (which is either of type T or a LambdaProxy event)
  */
 export declare function isLambdaProxyRequest<T>(message: T | IAWSLambdaProxyIntegrationRequest): message is IAWSLambdaProxyIntegrationRequest;
+export interface IAwsLambdaProxyRequestContext extends IDictionary {
+    requestTime: string;
+    path: string;
+    accountId: string;
+    protocol: string;
+    resourceId: string;
+    stage: string;
+    requestTimeEpoch: number;
+    requestId: string;
+    identity: {
+        cognitoIdentityPoolId?: string;
+        accountId?: string;
+        cognitoIdentityId: string;
+        caller: string;
+        sourceIp: string;
+        accessKey: string;
+        cognitoAuthenticationType: string;
+        cognitoAuthenticationProvider: string;
+        userArn: string;
+        userAgent: string;
+        user: string;
+    };
+    resourcePath: string;
+    httpMethod: RestMethod;
+    apiId: string;
+}
 /**
  * **getBodyFromPossibleLambdaProxyRequest**
  *
@@ -138,32 +164,7 @@ export interface IAWSLambdaProxyIntegrationRequest {
     };
     queryStringParameters?: any;
     pathParameters?: any;
-    requestContext: {
-        requestTime: string;
-        path: string;
-        accountId: string;
-        protocol: string;
-        resourceId: string;
-        stage: string;
-        requestTimeEpoch: number;
-        requestId: string;
-        identity: {
-            cognitoIdentityPoolId?: string;
-            accountId?: string;
-            cognitoIdentityId: string;
-            caller: string;
-            sourceIp: string;
-            accessKey: string;
-            cognitoAuthenticationType: string;
-            cognitoAuthenticationProvider: string;
-            userArn: string;
-            userAgent: string;
-            user: string;
-        };
-        resourcePath: string;
-        httpMethod: RestMethod;
-        apiId: string;
-    };
+    requestContext: IAwsLambdaProxyRequestContext;
     /** The payload that the client has sent to you; if the content was originally in JSON/object format you will need to parse it */
     body: string;
     isBase64Encoded: boolean;
