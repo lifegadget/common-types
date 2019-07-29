@@ -59,11 +59,11 @@
 
   function createError(fullName, message, priorError) {
       const messagePrefix = `[${fullName}] `;
-      console.log("full", fullName);
-      const e = new AppError(!priorError ? messagePrefix + message : messagePrefix + priorError.message + message);
+      const e = new AppError(!priorError
+          ? messagePrefix + message
+          : messagePrefix + priorError.message + message);
       e.name = priorError ? priorError.code || priorError.name : fullName;
       const parts = fullName.split("/");
-      console.log(parts);
       e.code = [...parts].pop();
       e.stack = priorError
           ? priorError.stack ||
