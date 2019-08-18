@@ -3,6 +3,7 @@ export * from "./serverless";
 export * from "./basics";
 export * from "./aws";
 export * from "./package";
+export * from "./npm";
 export * from "./errors/AppError";
 export * from "./errors/ApiGatewayError";
 export * from "./async";
