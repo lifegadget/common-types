@@ -37,6 +37,10 @@ export declare type epochWithMilliseconds = number;
 export declare type minutes = number;
 /** a numeric value representing the number of seconds */
 export declare type seconds = number;
+/** a string blob that represents JSON structured data */
+export declare type json = string;
+/** a string blob that represents CSV structured data */
+export declare type csv = string;
 /** foreign key reference */
 export declare type fk = string;
 /** primary key reference */
