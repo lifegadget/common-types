@@ -5,7 +5,9 @@ export interface IDictionary<T = any> {
   [key: string]: T;
 }
 
-export type INameValuePair<T = any> = INameValuePairWithId<T> | INameValuePairWithKey<T>;
+export type INameValuePair<T = any> =
+  | INameValuePairWithId<T>
+  | INameValuePairWithKey<T>;
 export interface INameValuePairWithId<T = any> {
   id: string | number;
   value: T;
@@ -40,6 +42,10 @@ export declare type epochWithMilliseconds = number;
 export declare type minutes = number;
 /** a numeric value representing the number of seconds */
 export declare type seconds = number;
+/** a string blob that represents JSON structured data */
+export declare type json = string;
+/** a string blob that represents CSV structured data */
+export declare type csv = string;
 /** foreign key reference */
 export declare type fk = string;
 /** primary key reference */
@@ -72,7 +78,9 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
  * useful when working with a database like Firebase where setting a value to
  * `null` is equivalent to telling the DB to "remove" the property.
  */
-export type Nullable<T, K extends keyof T = keyof T> = { [key in keyof T]: T[K] | null };
+export type Nullable<T, K extends keyof T = keyof T> = {
+  [key in keyof T]: T[K] | null
+};
 
 /**
  * For a given hash/object, this produces a type which is just the
