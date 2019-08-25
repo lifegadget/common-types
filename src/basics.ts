@@ -56,6 +56,8 @@ export declare type url = string;
 export declare type uri = string;
 /** a string which represents zipped content run through a base64 conversion process to a string */
 export declare type Base64Zip = string;
+/** an email address (alias to string) */
+export declare type email = string;
 /** a numeric value which is represented as a string */
 export declare type numberAsString = string;
 export declare const STAGE_MAP: IDictionary<string>;
@@ -79,7 +81,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
  * `null` is equivalent to telling the DB to "remove" the property.
  */
 export type Nullable<T, K extends keyof T = keyof T> = {
-  [key in keyof T]: T[K] | null
+  [key in keyof T]: T[K] | null;
 };
 
 /**
@@ -87,7 +89,7 @@ export type Nullable<T, K extends keyof T = keyof T> = {
  * names of functions contained within hash.
  */
 type FunctionPropertyNames<T> = {
-  [K in keyof T]: T[K] extends Function ? K : never
+  [K in keyof T]: T[K] extends Function ? K : never;
 }[keyof T];
 
 type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
@@ -96,7 +98,7 @@ type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
  * The properties on a given hash/object
  */
 type NonFunctionPropertyNames<T> = {
-  [K in keyof T]: T[K] extends Function ? never : K
+  [K in keyof T]: T[K] extends Function ? never : K;
 }[keyof T];
 /**
  * A type definition which reduces the type of the T to just those non-function
