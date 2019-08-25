@@ -51,6 +51,8 @@ export declare type url = string;
 export declare type uri = string;
 /** a string which represents zipped content run through a base64 conversion process to a string */
 export declare type Base64Zip = string;
+/** an email address (alias to string) */
+export declare type email = string;
 /** a numeric value which is represented as a string */
 export declare type numberAsString = string;
 export declare const STAGE_MAP: IDictionary<string>;
