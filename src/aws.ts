@@ -2,6 +2,8 @@ import { IDictionary, BooleanAsString, epoch } from "./basics";
 import { apiGatewayError } from ".";
 import { ApiGatewayError } from "./errors/ApiGatewayError";
 
+export type arn = string;
+
 /**
  * **IAwsHandlerFunction**
  *
@@ -126,9 +128,7 @@ function parsed(input: IAWSLambdaProxyIntegrationRequest) {
   } catch (e) {
     const err: ApiGatewayError = apiGatewayError(
       400,
-      `The body of the POST message is meant to contain a valid JSON stringified object but there were problems parsing it: ${
-        e.message
-      }`
+      `The body of the POST message is meant to contain a valid JSON stringified object but there were problems parsing it: ${e.message}`
     );
     throw err;
   }

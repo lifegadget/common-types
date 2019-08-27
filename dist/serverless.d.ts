@@ -1,11 +1,22 @@
 import { IDictionary, datetime } from "./basics";
 import { IApiGatewayAliasConfig } from "./serverless-alias";
+import { arn } from "./aws";
 export declare type JSONSchema4 = import("json-schema").JSONSchema4;
 /** A typing for the serverless framework's "serverless.yml" file */
 export declare type IServerlessStage = "dev" | "prod" | "test" | "stage";
 export declare type IServerlessVariable = string;
 export declare type AWSRuntime = "nodejs6.10" | "nodejs8.10" | "nodejs10.x" | "node4" | "java8" | "python2.7" | "python3.6" | "go1.x";
-export interface IServerlessConfig<T = any> {
+export interface IServerlessConfigCustomDefault {
+    stage?: string;
+    region?: string;
+    accountId?: string;
+    webpack?: IDictionary;
+    logForwarding?: {
+        /** a fully qualified ARN to the function who will act as the "shipper" */
+        destinationARN: arn;
+    };
+}
+export interface IServerlessConfig<T = IServerlessConfigCustomDefault> {
     service: string | {
         name: string;
     };
