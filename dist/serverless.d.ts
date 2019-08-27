@@ -60,9 +60,7 @@ export interface IServerlessProvider {
     /** this refers to the AWS profile in your ~/aws/credentials file */
     profile?: string;
     /** Service wide environment variables */
-    environment?: string | {
-        serviceEnvVar: string;
-    };
+    environment?: string | IDictionary<string>;
     /** Set the default stage used. Default is "dev". */
     stage?: string;
     /** Set the default region. Default is "us-east-1". */
