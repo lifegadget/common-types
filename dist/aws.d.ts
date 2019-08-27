@@ -1,4 +1,5 @@
 import { IDictionary, BooleanAsString, epoch } from "./basics";
+export declare type arn = string;
 /**
  * **IAwsHandlerFunction**
  *
