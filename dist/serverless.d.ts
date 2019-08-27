@@ -6,7 +6,7 @@ export declare type JSONSchema4 = import("json-schema").JSONSchema4;
 export declare type IServerlessStage = "dev" | "prod" | "test" | "stage";
 export declare type IServerlessVariable = string;
 export declare type AWSRuntime = "nodejs6.10" | "nodejs8.10" | "nodejs10.x" | "node4" | "java8" | "python2.7" | "python3.6" | "go1.x";
-export interface IServerlessConfigCustomDefault {
+export interface IServerlessConfigCustom extends IDictionary {
     stage?: string;
     region?: string;
     accountId?: string;
@@ -16,7 +16,7 @@ export interface IServerlessConfigCustomDefault {
         destinationARN: arn;
     };
 }
-export interface IServerlessConfig<T = IServerlessConfigCustomDefault> {
+export interface IServerlessConfig<T = IServerlessConfigCustom> {
     service: string | {
         name: string;
     };

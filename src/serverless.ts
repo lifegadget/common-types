@@ -19,7 +19,7 @@ export type AWSRuntime =
   | "python3.6"
   | "go1.x";
 
-export interface IServerlessConfigCustomDefault {
+export interface IServerlessConfigCustom extends IDictionary {
   stage?: string;
   region?: string;
   accountId?: string;
@@ -29,7 +29,7 @@ export interface IServerlessConfigCustomDefault {
     destinationARN: arn;
   };
 }
-export interface IServerlessConfig<T = IServerlessConfigCustomDefault> {
+export interface IServerlessConfig<T = IServerlessConfigCustom> {
   service: string | { name: string };
   custom?: T;
   plugins?: string[];
