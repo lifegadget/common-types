@@ -4,7 +4,6 @@ import { arn } from "./aws";
 export declare type JSONSchema4 = import("json-schema").JSONSchema4;
 /** A typing for the serverless framework's "serverless.yml" file */
 export declare type IServerlessStage = "dev" | "prod" | "test" | "stage";
-export declare type arn = string;
 export declare type IServerlessVariable = string;
 export interface IServerlessAccountInfo {
     name?: string;
