@@ -4,7 +4,22 @@ import { arn } from "./aws";
 export declare type JSONSchema4 = import("json-schema").JSONSchema4;
 /** A typing for the serverless framework's "serverless.yml" file */
 export declare type IServerlessStage = "dev" | "prod" | "test" | "stage";
+export declare type arn = string;
 export declare type IServerlessVariable = string;
+export interface IServerlessAccountInfo {
+    name?: string;
+    accountId?: string;
+    region?: string;
+    profile?: string;
+    /**
+     * if you want to forward logs to another lambda you can state the **ARN** here
+     */
+    logForwarding?: arn;
+    /**
+     * a list of serverless plugins installed
+     */
+    pluginsInstalled: string[];
+}
 export declare type AWSRuntime = "nodejs6.10" | "nodejs8.10" | "nodejs10.x" | "node4" | "java8" | "python2.7" | "python3.6" | "go1.x";
 export interface IServerlessConfigCustom extends IDictionary {
     stage?: string;

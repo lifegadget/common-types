@@ -1,5 +1,4 @@
 import { IDictionary, datetime } from "./basics";
-import { IApiGatewayMethodSetting } from "./serverless-bind-deployment-id";
 import { IApiGatewayAliasConfig } from "./serverless-alias";
 import { arn } from "./aws";
 export type JSONSchema4 = import("json-schema").JSONSchema4;
@@ -7,7 +6,22 @@ export type JSONSchema4 = import("json-schema").JSONSchema4;
 
 export type IServerlessStage = "dev" | "prod" | "test" | "stage";
 
+export type arn = string;
 export type IServerlessVariable = string;
+export interface IServerlessAccountInfo {
+  name?: string;
+  accountId?: string;
+  region?: string;
+  profile?: string;
+  /**
+   * if you want to forward logs to another lambda you can state the **ARN** here
+   */
+  logForwarding?: arn;
+  /**
+   * a list of serverless plugins installed
+   */
+  pluginsInstalled: string[];
+}
 
 export type AWSRuntime =
   | "nodejs6.10"
