@@ -6,7 +6,6 @@ export type JSONSchema4 = import("json-schema").JSONSchema4;
 
 export type IServerlessStage = "dev" | "prod" | "test" | "stage";
 
-export type arn = string;
 export type IServerlessVariable = string;
 export interface IServerlessAccountInfo {
   name?: string;
