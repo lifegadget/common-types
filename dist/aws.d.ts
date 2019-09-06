@@ -70,7 +70,7 @@ export interface IAwsLambdaFailureCallback<E = IAPIGatewayErrorResponse> {
  */
 export interface IAwsApiGatewayResponse {
     statusCode: number;
-    headers?: IDictionary<string>;
+    headers?: IDictionary<string | boolean | number>;
     body?: string;
     error?: string;
 }
