@@ -84,7 +84,7 @@ export interface IAwsLambdaFailureCallback<E = IAPIGatewayErrorResponse> {
  * A Lambda function called that is returning to an API Gateway endpoint
  */
 export interface IAwsApiGatewayResponse {
-  statusCode: keyof ApiGatewayStatusCode;
+  statusCode: number;
   headers?: IDictionary<string>;
   body?: string;
   error?: string;
