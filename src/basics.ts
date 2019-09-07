@@ -18,6 +18,156 @@ export interface INameValuePairWithKey<T = any> {
   value: T;
 }
 
+/**
+ * Identifies the most common properties included
+ * in HTTP headers while leaving the structure the
+ * flexibility to add more name/value pairs
+ */
+export interface IHttpHeaders extends IDictionary {
+  /**
+   * The `Accept` _request_ HTTP header advertises which content types, expressed as
+   * MIME types, the client is able to understand. Using content negotiation, the
+   * server then selects one of the proposals, uses it and informs the client of
+   * its choice with the `Content-Type` response header. Browsers set adequate
+   * values for this header depending on the context where the request is done:
+   * when fetching a CSS stylesheet a different value is set for the request
+   * than when fetching an image, video or a script.
+   *
+   * [...more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept)
+   */
+  Accept?: string;
+  /**
+   * The `Allow` header lists the set of methods support by a resource.
+   *
+   * [...more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Allow)
+   */
+  Allow?: string;
+  /**
+   * The `Accept-Encoding` request advertises which content encoding,
+   * usually a compression algorithm, the client is able to understand. Using
+   * content negotiation, the server selects one of the proposals, uses it and
+   * informs the client of its choice with the Content-Encoding response header.
+   *
+   * > [More info](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding)
+   */
+  ["Accept-Encoding"]?: string;
+  /**
+   * The HTTP Authorization request header contains the credentials to authenticate
+   * a user agent with a server, usually after the server has responded with
+   * a `401 Unauthorized` status and the `WWW-Authenticate` header.
+   */
+  Authorization?: string;
+  /**
+   * The `If-Match` HTTP _request_ header makes the request conditional. For **GET** and
+   * **HEAD** methods, the server will send back the requested resource only if it
+   * matches one of the listed ETags. For **PUT** and other non-safe methods, it
+   * will only upload the resource in this case.
+   */
+  ["If-Match"]?: string;
+  /**
+   * The `Expires` header contains the date/time after which the _response_ is considered
+   * stale.
+   *
+   * > Example: `Expires: Wed, 21 Oct 2015 07:28:00 GMT`
+   *
+   * [...more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expires)
+   */
+  Expires?: string;
+  /**
+   * A comma-separated list of parameters, each consisting of an identifier
+   * and a value separated by the equal sign ('='); of the format:
+   * `timeout=5, max=1000`
+   */
+  ["Keep-Alive"]?: string;
+  /**
+   * The Last-Modified response HTTP header contains the date and time at which the
+   * origin server believes the resource was last modified. It is used as a validator
+   * to determine if a resource received or stored is the same. Less accurate than
+   * an ETag header, it is a fallback mechanism. Conditional requests containing
+   * `If-Modified-Since` or `If-Unmodified-Since` headers make use of this field.
+   *
+   * > example: `Last-Modified: Wed, 21 Oct 2015 07:28:00 GMT`
+   */
+  ["Last-Modified"]?: string;
+
+  /**
+   * The `Access-Control-Allow-Origin` response header indicates whether the response
+   * can be shared with requesting code from the given origin.
+   *
+   * Examples:
+   *   - `Access-Control-Allow-Origin: *`
+   *   - `Access-Control-Allow-Origin: https://developer.mozilla.org`
+   *
+   * For requests without credentials, the literal value `*` can be specified, as
+   * a wildcard; the value tells browsers to allow requesting code from any origin
+   * to access the resource. Attempting to use the wildcard with credentials will
+   * result in an error.
+   *
+   * [...more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
+   */
+  "Access-Control-Allow-Origin"?: string;
+  /**
+   * The `Access-Control-Allow-Credentials` _response_ header tells browsers whether
+   * to expose the response to frontend JavaScript code when the request's
+   * credentials mode (Request.credentials) is "include".
+   */
+  "Access-Control-Allow-Credentials"?: boolean;
+  /**
+   * The HTTP `Cross-Origin-Resource-Policy` _response_ header conveys a desire
+   * that the browser blocks no-cors cross-origin/cross-site requests to
+   * the given resource.
+   *
+   * > Example: `Cross-Origin-Resource-Policy: same-site | same-origin | cross-site`
+   *
+   * [...more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Resource-Policy)
+   */
+  ["Cross-Origin-Resource-Policy"]?: string;
+  /**
+   * The `Content-Type` entity header is used to indicate the media type of
+   * the resource.
+   *
+   * In responses, a `Content-Type` header tells the client what the content
+   * type of the returned content actually is. Browsers will do MIME sniffing
+   * in some cases and will not necessarily follow the value of this header;
+   * to prevent this behavior, the header `X-Content-Type-Options` can be set
+   * to **nosniff**.
+   */
+  "Content-Type"?: string;
+  /**
+   * an identifying property that an application has placed on
+   * a set of of message to _group_ them into a logical grouping.
+   */
+  "x-correlation-id"?: string;
+  /**
+   * The ETag HTTP response header is an identifier for a specific version of
+   * a resource. It lets caches be more efficient and save bandwidth, as a web
+   * server does not need to resend a full response if the content has not
+   * changed. Additionally, etags help prevent simultaneous updates of a
+   * resource from overwriting each other ("mid-air collisions").
+   *
+   * [...more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag)
+   */
+  etag?: string;
+  /**
+   * The body of the message. This is always a _string_ but is often
+   * a stringified JSON object which can be parsed back to a structured
+   * object.
+   */
+  body?: string;
+  /**
+   * The Cookie HTTP request header contains stored HTTP cookies previously
+   * sent by the server with the Set-Cookie header.
+   */
+  cookie?: string;
+  /**
+   * The HTTP `WWW-Authenticate` _response_ header defines the authentication method
+   * that should be used to gain access to a resource.
+   *
+   * [...more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/WWW-Authenticate)
+   */
+  ["WWW-Authenticate"]?: string;
+}
+
 export enum HttpStatusCodes {
   /**
    * The client SHOULD continue with its request. This interim response is used to inform
