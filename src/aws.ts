@@ -46,12 +46,22 @@ export type IAwsHandlerFunction<T, R = IDictionary, E = Error> = (
  */
 export type IAwsLambdaEvent<T> = T | IAWSLambdaProxyIntegrationRequest;
 
-export interface IAPIGatewayErrorResponse<T = any> {
-  errorCode?: string | number;
+/**
+ * A hash/dictionary structure that will convey the aspects of an error
+ * to AWS's **API Gateway**.
+ */
+export interface IApiGatewayErrorResponse<T = any> {
+  /** the HTTP style error code number for this reponse */
+  errorCode?: number;
   errorMessage?: string;
-  errorType: "Error";
-  errors?: T[];
-  stackTrace?: string[];
+  errorType: "Error" | string;
+  /**
+   * You may optionally list out all of the errors which occurred. This
+   * is of type _string_ but would typically be a `JSON.stringify()` string
+   * of an array of Errors.
+   */
+  errors?: string;
+  stackTrace?: string;
 }
 
 /**
@@ -64,17 +74,15 @@ export interface IAPIGatewayErrorResponse<T = any> {
  * optional and will be expressed simply as the type of `Error` if
  * left off.
  */
-export type IAwsLambdaCallback<
-  T,
-  E = IAPIGatewayErrorResponse
-> = IAwsLambdaSuccessCallback<T> & IAwsLambdaFailureCallback<E>;
+export type IAwsLambdaCallback<T, E = any> = IAwsLambdaSuccessCallback<T> &
+  IAwsLambdaFailureCallback<E>;
 
 /** A Lambda function called to indicate the SUCCESSFUL end-state of a lambda function */
 export interface IAwsLambdaSuccessCallback<T = IDictionary> {
   (error: null, response: T): void;
 }
 /** A Lambda function called to indicate a FAILED end-state of a lambda function */
-export interface IAwsLambdaFailureCallback<E = IAPIGatewayErrorResponse> {
+export interface IAwsLambdaFailureCallback<E = any> {
   (error: E | Error, response?: null): void;
 }
 
@@ -88,18 +96,6 @@ export interface IAwsApiGatewayResponse {
   headers?: IDictionary<string | boolean | number>;
   body?: string;
   error?: string;
-}
-
-export enum ApiGatewayStatusCode {
-  Success = 200,
-  BadRequest = 400,
-  Unauthorized = 401,
-  Forbidden = 403,
-  NotFound = 404,
-  UnprocessableEntity = 422,
-  InternalServerError = 500,
-  BadGateway = 502,
-  GatewayTimeout = 504
 }
 
 export type RestMethod = "GET" | "POST" | "PUT" | "DELETE";
