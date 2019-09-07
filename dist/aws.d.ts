@@ -143,32 +143,38 @@ export interface IAWSLambdaProxyIntegrationRequest {
     resource: string;
     path: string;
     httpMethod: RestMethod;
-    headers: {
-        Accept: string;
-        ["Accept-Encoding"]: string;
-        ["cache-control"]: string;
-        ["CloudFront-Forwarded-Proto"]: BooleanAsString;
-        ["CloudFront-Is-Desktop-Viewer"]: BooleanAsString;
-        ["CloudFront-Is-Mobile-Viewer"]: BooleanAsString;
-        ["CloudFront-Is-SmartTV-Viewer"]: BooleanAsString;
-        ["CloudFront-Is-Tablet-Viewer"]: BooleanAsString;
-        ["CloudFront-Viewer-Country"]: string;
-        ["Content-Type"]: string;
-        ["Host"]: string;
-        ["User-Agent"]: string;
-        ["Via"]: string;
-        ["X-Amz-Cf-Id"]: string;
-        ["X-Amzn-Trace-Id"]: string;
-        ["X-Forwarded-For"]: string;
-        ["X-Forwarded-Proto"]: string;
-        ["x-correlation-id"]: string;
-    };
+    headers: IAWSLambdaProxyIntegrationRequestHeaders;
     queryStringParameters?: any;
     pathParameters?: any;
     requestContext: IAwsLambdaProxyRequestContext;
     /** The payload that the client has sent to you; if the content was originally in JSON/object format you will need to parse it */
     body: string;
     isBase64Encoded: boolean;
+}
+/** The header values of an AWS _proxy integration_ event/request */
+export interface IAWSLambdaProxyIntegrationRequestHeaders {
+    Accept: string;
+    /** CORs scoping  */
+    ["Access-Control-Allow-Origin"]?: string;
+    /** CORs parameter */
+    ["Access-Control-Allow-Credentials"]?: boolean;
+    ["Accept-Encoding"]: string;
+    ["cache-control"]: string;
+    ["CloudFront-Forwarded-Proto"]: BooleanAsString;
+    ["CloudFront-Is-Desktop-Viewer"]: BooleanAsString;
+    ["CloudFront-Is-Mobile-Viewer"]: BooleanAsString;
+    ["CloudFront-Is-SmartTV-Viewer"]: BooleanAsString;
+    ["CloudFront-Is-Tablet-Viewer"]: BooleanAsString;
+    ["CloudFront-Viewer-Country"]: string;
+    ["Content-Type"]: string;
+    ["Host"]: string;
+    ["User-Agent"]: string;
+    ["Via"]: string;
+    ["X-Amz-Cf-Id"]: string;
+    ["X-Amzn-Trace-Id"]: string;
+    ["X-Forwarded-For"]: string;
+    ["X-Forwarded-Proto"]: string;
+    ["x-correlation-id"]: string;
 }
 export interface IAWSLambaContext {
     /** The default value is true. This property is useful only to modify the default behavior of the callback. By default, the callback will wait until the Node.js runtime event loop is empty before freezing the process and returning the results to the caller. You can set this property to false to request AWS Lambda to freeze the process soon after the callback is called, even if there are events in the event loop. AWS Lambda will freeze the process, any state data and the events in the Node.js event loop (any remaining events in the event loop processed when the Lambda function is called next and if AWS Lambda chooses to use the frozen process). For more information about callback, see Using the Callback Parameter. */
