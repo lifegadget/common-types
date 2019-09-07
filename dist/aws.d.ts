@@ -28,7 +28,7 @@ export declare type IAwsHandlerFunction<T, R = IDictionary, E = Error> = (event:
  * callbacks are no longer required and it is preferred that you simply return
  * the results
  */
-cb?: IAwsLambdaCallback<R, E>) => Promise<void> | Promise<R> | Promise<IAwsApiGatewayResponse>;
+cb?: IAwsLambdaCallback<R, E>) => Promise<void> | Promise<R> | Promise<IApiGatewayResponse>;
 /**
  * **IAwsLambdaEvent**
  *
@@ -42,6 +42,7 @@ export declare type IAwsLambdaEvent<T> = T | IAWSLambdaProxyIntegrationRequest;
  * to AWS's **API Gateway**.
  */
 export interface IApiGatewayErrorResponse<T = any> {
+    headers?: IDictionary;
     /** the HTTP style error code number for this reponse */
     errorCode?: number;
     errorMessage?: string;
@@ -78,7 +79,7 @@ export interface IAwsLambdaFailureCallback<E = any> {
  *
  * A Lambda function called that is returning to an API Gateway endpoint
  */
-export interface IAwsApiGatewayResponse {
+export interface IApiGatewayResponse {
     statusCode: number;
     headers?: IDictionary<string | boolean | number>;
     body?: string;
