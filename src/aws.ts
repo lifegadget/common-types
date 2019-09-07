@@ -35,7 +35,7 @@ export type IAwsHandlerFunction<T, R = IDictionary, E = Error> = (
    * the results
    */
   cb?: IAwsLambdaCallback<R, E>
-) => Promise<void> | Promise<R> | Promise<IAwsApiGatewayResponse>;
+) => Promise<void> | Promise<R> | Promise<IApiGatewayResponse>;
 
 /**
  * **IAwsLambdaEvent**
