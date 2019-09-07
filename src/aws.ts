@@ -51,6 +51,7 @@ export type IAwsLambdaEvent<T> = T | IAWSLambdaProxyIntegrationRequest;
  * to AWS's **API Gateway**.
  */
 export interface IApiGatewayErrorResponse<T = any> {
+  headers?: IDictionary;
   /** the HTTP style error code number for this reponse */
   errorCode?: number;
   errorMessage?: string;
@@ -91,7 +92,7 @@ export interface IAwsLambdaFailureCallback<E = any> {
  *
  * A Lambda function called that is returning to an API Gateway endpoint
  */
-export interface IAwsApiGatewayResponse {
+export interface IApiGatewayResponse {
   statusCode: number;
   headers?: IDictionary<string | boolean | number>;
   body?: string;

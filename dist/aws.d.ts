@@ -42,6 +42,7 @@ export declare type IAwsLambdaEvent<T> = T | IAWSLambdaProxyIntegrationRequest;
  * to AWS's **API Gateway**.
  */
 export interface IApiGatewayErrorResponse<T = any> {
+    headers?: IDictionary;
     /** the HTTP style error code number for this reponse */
     errorCode?: number;
     errorMessage?: string;
