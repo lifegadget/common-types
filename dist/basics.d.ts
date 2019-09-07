@@ -15,10 +15,10 @@ export interface INameValuePairWithKey<T = any> {
 }
 /**
  * Identifies the most common properties included
- * in HTTP headers while leaving the structure the
+ * in HTTP _**request**_ headers while leaving the structure the
  * flexibility to add more name/value pairs
  */
-export interface IHttpHeaders extends IDictionary {
+export interface IHttpRequestHeaders extends IDictionary {
     /**
      * The `Accept` _request_ HTTP header advertises which content types, expressed as
      * MIME types, the client is able to understand. Using content negotiation, the
@@ -32,12 +32,6 @@ export interface IHttpHeaders extends IDictionary {
      */
     Accept?: string;
     /**
-     * The `Allow` header lists the set of methods support by a resource.
-     *
-     * [...more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Allow)
-     */
-    Allow?: string;
-    /**
      * The `Accept-Encoding` request advertises which content encoding,
      * usually a compression algorithm, the client is able to understand. Using
      * content negotiation, the server selects one of the proposals, uses it and
@@ -47,11 +41,40 @@ export interface IHttpHeaders extends IDictionary {
      */
     ["Accept-Encoding"]?: string;
     /**
-     * The HTTP Authorization request header contains the credentials to authenticate
+     * The HTTP Authorization _request_ header contains the credentials to authenticate
      * a user agent with a server, usually after the server has responded with
      * a `401 Unauthorized` status and the `WWW-Authenticate` header.
      */
     Authorization?: string;
+    /**
+     * The body of the message. This is always a _string_ but is often
+     * a stringified JSON object which can be parsed back to a structured
+     * object.
+     */
+    body?: string;
+    /**
+     * The Cookie HTTP _request_ header contains stored HTTP cookies previously
+     * sent by the server with the Set-Cookie header.
+     */
+    cookie?: string;
+    /**
+     * an identifying property that an application has placed on
+     * a set of of message to _group_ them into a logical grouping.
+     */
+    "X-Correlation-Id"?: string;
+}
+/**
+ * Identifies the most common properties in the
+ * HTTP _**Response**_ headers while leaving
+ * the flexiblility to add more name/value pairs
+ */
+export interface IHttpResponseHeaders extends IDictionary {
+    /**
+     * The `Allow` header lists the set of methods supported by a resource.
+     *
+     * [...more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Allow)
+     */
+    Allow?: string;
     /**
      * The `If-Match` HTTP _request_ header makes the request conditional. For **GET** and
      * **HEAD** methods, the server will send back the requested resource only if it
@@ -131,7 +154,7 @@ export interface IHttpHeaders extends IDictionary {
      * an identifying property that an application has placed on
      * a set of of message to _group_ them into a logical grouping.
      */
-    "x-correlation-id"?: string;
+    "X-Correlation-Id"?: string;
     /**
      * The ETag HTTP response header is an identifier for a specific version of
      * a resource. It lets caches be more efficient and save bandwidth, as a web
@@ -148,11 +171,6 @@ export interface IHttpHeaders extends IDictionary {
      * object.
      */
     body?: string;
-    /**
-     * The Cookie HTTP request header contains stored HTTP cookies previously
-     * sent by the server with the Set-Cookie header.
-     */
-    cookie?: string;
     /**
      * The HTTP `WWW-Authenticate` _response_ header defines the authentication method
      * that should be used to gain access to a resource.
