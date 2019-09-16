@@ -112,8 +112,9 @@ export function isLambdaProxyRequest<T>(
   message: T | IAWSLambdaProxyIntegrationRequest
 ): message is IAWSLambdaProxyIntegrationRequest {
   return typeof message === "object" &&
-    (message as IAWSLambdaProxyIntegrationRequest).headers &&
-    (message as IAWSLambdaProxyIntegrationRequest).body
+    (message as IAWSLambdaProxyIntegrationRequest).isBase64Encoded &&
+    (message as IAWSLambdaProxyIntegrationRequest).path &&
+    (message as IAWSLambdaProxyIntegrationRequest).httpMethod
     ? true
     : false;
 }
