@@ -189,7 +189,7 @@ var HttpStatusCodes;
  */
 function isLambdaProxyRequest(message) {
     return typeof message === "object" &&
-        message.isBase64Encoded &&
+        message.resource &&
         message.path &&
         message.httpMethod
         ? true
