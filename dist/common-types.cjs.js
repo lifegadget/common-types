@@ -192,8 +192,9 @@ Object.defineProperty(exports, '__esModule', { value: true });
  */
 function isLambdaProxyRequest(message) {
     return typeof message === "object" &&
-        message.headers &&
-        message.body
+        message.isBase64Encoded &&
+        message.path &&
+        message.httpMethod
         ? true
         : false;
 }
