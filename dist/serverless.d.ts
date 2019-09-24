@@ -200,11 +200,7 @@ export interface IServerlessFunction {
   ```
      * as this will ensure that your layer's NPM modules are included in your path
      */
-    layers?: IArnStringReference | ICloudformationReference | {
-        [name: string]: {
-            path: string;
-        };
-    };
+    layers?: IArnStringReference[] | ICloudformationReference[];
 }
 export interface ICloudformationReference {
     Ref: string;
