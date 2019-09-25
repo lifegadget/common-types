@@ -124,7 +124,7 @@ function parsed(input: IAWSLambdaProxyIntegrationRequest) {
     const output = JSON.parse(input.body.replace(/[\n\t]/g, ""));
     return output;
   } catch (e) {
-    return input;
+    return input.body;
   }
 }
 

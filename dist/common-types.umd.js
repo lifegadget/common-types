@@ -206,7 +206,7 @@
           return output;
       }
       catch (e) {
-          return input;
+          return input.body;
       }
   }
   /**
