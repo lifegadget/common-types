@@ -461,7 +461,9 @@
        * the event came from **API Gateway** otherwise it will be undefined.
        */
       static parse(event) {
-          const request = isLambdaProxyRequest(event) ? JSON.parse(event.body) : event;
+          const request = isLambdaProxyRequest(event)
+              ? JSON.parse(event.body)
+              : event;
           if (isLambdaProxyRequest(event)) {
               delete event.body;
           }
