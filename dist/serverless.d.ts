@@ -43,7 +43,7 @@ export interface IServerlessConfig<T = IServerlessConfigCustom> {
         activities?: string[];
     };
     functions?: IDictionary<IServerlessFunction>;
-    layers?: ILayerDefinition;
+    layers?: IArnStringReference[] | ICloudformationReference[] | ILayerDefinition;
 }
 export interface ILayerDefinition {
     [layerName: string]: {
@@ -200,7 +200,7 @@ export interface IServerlessFunction {
   ```
      * as this will ensure that your layer's NPM modules are included in your path
      */
-    layers?: ILayerDefinition;
+    layers?: IArnStringReference[] | ICloudformationReference[] | ILayerDefinition;
 }
 export interface ICloudformationReference {
     Ref: string;
