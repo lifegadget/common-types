@@ -255,8 +255,8 @@ export interface IServerlessEventScheduleLongForm {
 export interface IServerlessEventS3 {
     bucket: string;
     event: IS3EventType;
-    rules: IS3Rule[];
-    existing: boolean;
+    rules?: IS3Rule[];
+    existing?: boolean;
 }
 export interface IS3Rule {
     prefix: string;
