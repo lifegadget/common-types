@@ -255,12 +255,12 @@ export interface IServerlessEventScheduleLongForm {
 export interface IServerlessEventS3 {
     bucket: string;
     event: IS3EventType;
-    rules: IS3Rule[];
-    existing: boolean;
+    rules?: IS3Rule[];
+    existing?: boolean;
 }
 export interface IS3Rule {
-    prefix: string;
-    suffix: string;
+    prefix?: string;
+    suffix?: string;
 }
 export declare type IS3EventType = "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:ReducedRedundancyLostObject";
 export interface IServerlessEventHttp {
