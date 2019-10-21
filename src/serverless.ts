@@ -336,8 +336,8 @@ export interface IServerlessEventS3 {
 }
 
 export interface IS3Rule {
-  prefix: string;
-  suffix: string;
+  prefix?: string;
+  suffix?: string;
 }
 
 export type IS3EventType =
