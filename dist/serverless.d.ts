@@ -230,6 +230,8 @@ export interface IServerlessEvent {
      * define with a hash which provides the "topicName" and "displayName" properties.
      **/
     sns?: string | IServerlessEventExistingSNS | IServerlessEventVerboseSNS;
+    /** Sets a S3 Event as a Lambda trigger. */
+    s3?: IServerlessEventS3;
 }
 /** used to attach a function to a pre-existing  */
 export interface IServerlessEventExistingSNS {
@@ -250,6 +252,17 @@ export interface IServerlessEventScheduleLongForm {
     input?: IDictionary;
     inputPath?: string;
 }
+export interface IServerlessEventS3 {
+    bucket: string;
+    event: IS3EventType;
+    rules: IS3Rule[];
+    existing: boolean;
+}
+export interface IS3Rule {
+    prefix: string;
+    suffix: string;
+}
+export declare type IS3EventType = "s3:ObjectCreated:*" | "s3:ObjectCreated:Put" | "s3:ObjectCreated:Post" | "s3:ObjectCreated:Copy" | "s3:ObjectCreated:CompleteMultipartUpload" | "s3:ObjectRemoved:*" | "s3:ObjectRemoved:Delete" | "s3:ObjectRemoved:DeleteMarkerCreated" | "s3:ObjectRestore:Post" | "s3:ObjectRestore:Completed" | "s3:ReducedRedundancyLostObject";
 export interface IServerlessEventHttp {
     method: "get" | "put" | "post" | "delete";
     path: string;
