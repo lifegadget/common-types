@@ -521,7 +521,7 @@ function createBindDeploymentConfig(config, methodSettings) {
             }
         }
     };
-    return Object.assign({}, defaultConfig, config);
+    return Object.assign(Object.assign({}, defaultConfig), config);
 }
 
 exports.ApiGatewayError = ApiGatewayError;
