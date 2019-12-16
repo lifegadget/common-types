@@ -19,7 +19,7 @@ export interface IServerlessAccountInfo {
      */
     pluginsInstalled: string[];
 }
-export declare type AWSRuntime = "nodejs6.10" | "nodejs8.10" | "nodejs10.x" | "node4" | "java8" | "python2.7" | "python3.6" | "go1.x";
+export declare type AWSRuntime = "nodejs6.10" | "nodejs8.10" | "nodejs10.x" | "nodejs12.x" | "node4" | "java8" | "python2.7" | "python3.6" | "go1.x";
 export interface IServerlessConfigCustom extends IDictionary {
     stage?: string;
     region?: string;
