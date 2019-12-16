@@ -379,9 +379,9 @@ export declare type timestring = string;
  *
  * example:
  * ```typescript
- * const tod: todTuple = [5,15]
+ * const tod: todStructured = [5,15]
  * const date = new Date();
- * date.setHours(...todTuple)
+ * date.setHours(...todStructured)
  * ```
  */
 export declare type todStructured = [hours, minutes] | [hours, minutes, seconds] | [hours, minutes, seconds, ms];
