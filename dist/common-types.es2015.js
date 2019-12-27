@@ -518,7 +518,7 @@ function createBindDeploymentConfig(config, methodSettings) {
             }
         }
     };
-    return Object.assign(Object.assign({}, defaultConfig), config);
+    return Object.assign({}, defaultConfig, config);
 }
 
 export { ApiGatewayError, AppError, HttpStatusCodes, LambdaEventParser, apiGatewayError, createBindDeploymentConfig, createError, dotNotation, getBodyFromPossibleLambdaProxyRequest, isLambdaProxyRequest, parseStack, pathJoin, wait };
