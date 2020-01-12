@@ -18,7 +18,7 @@ export interface INameValuePairWithKey<T = any> {
  * in HTTP _**request**_ headers while leaving the structure the
  * flexibility to add more name/value pairs
  */
-export interface IHttpRequestHeaders extends IDictionary {
+export interface IHttpRequestHeaders extends IDictionary<string | boolean | number> {
     /**
      * The `Accept` _request_ HTTP header advertises which content types, expressed as
      * MIME types, the client is able to understand. Using content negotiation, the
@@ -68,7 +68,7 @@ export interface IHttpRequestHeaders extends IDictionary {
  * HTTP _**Response**_ headers while leaving
  * the flexiblility to add more name/value pairs
  */
-export interface IHttpResponseHeaders extends IDictionary {
+export interface IHttpResponseHeaders extends IDictionary<string | boolean | number> {
     /**
      * The `Allow` header lists the set of methods supported by a resource.
      *
