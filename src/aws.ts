@@ -1,4 +1,9 @@
-import { IDictionary, BooleanAsString, epoch } from "./basics";
+import {
+  IDictionary,
+  BooleanAsString,
+  epoch,
+  IHttpResponseHeaders
+} from "./basics";
 import { apiGatewayError } from ".";
 import { ApiGatewayError } from "./errors/ApiGatewayError";
 
@@ -193,7 +198,8 @@ export interface IAWSLambdaProxyIntegrationRequest {
 }
 
 /** The header values of an AWS _proxy integration_ event/request */
-export interface IAWSLambdaProxyIntegrationRequestHeaders {
+export interface IAWSLambdaProxyIntegrationRequestHeaders
+  extends IHttpResponseHeaders {
   Accept: string;
   /** CORs scoping  */
   ["Access-Control-Allow-Origin"]?: string;
@@ -215,7 +221,7 @@ export interface IAWSLambdaProxyIntegrationRequestHeaders {
   ["X-Amzn-Trace-Id"]: string;
   ["X-Forwarded-For"]: string;
   ["X-Forwarded-Proto"]: string;
-  ["x-correlation-id"]: string;
+  ["X-Correlation-Id"]?: string;
 }
 
 export interface IAWSLambaContext {
