@@ -1,4 +1,4 @@
-import { IDictionary, BooleanAsString, epoch } from "./basics";
+import { IDictionary, BooleanAsString, epoch, IHttpResponseHeaders } from "./basics";
 export declare type arn = string;
 /**
  * **IAwsHandlerFunction**
@@ -152,7 +152,7 @@ export interface IAWSLambdaProxyIntegrationRequest {
     isBase64Encoded: boolean;
 }
 /** The header values of an AWS _proxy integration_ event/request */
-export interface IAWSLambdaProxyIntegrationRequestHeaders {
+export interface IAWSLambdaProxyIntegrationRequestHeaders extends IHttpResponseHeaders {
     Accept: string;
     /** CORs scoping  */
     ["Access-Control-Allow-Origin"]?: string;
@@ -174,7 +174,7 @@ export interface IAWSLambdaProxyIntegrationRequestHeaders {
     ["X-Amzn-Trace-Id"]: string;
     ["X-Forwarded-For"]: string;
     ["X-Forwarded-Proto"]: string;
-    ["x-correlation-id"]: string;
+    ["X-Correlation-Id"]?: string;
 }
 export interface IAWSLambaContext {
     /** The default value is true. This property is useful only to modify the default behavior of the callback. By default, the callback will wait until the Node.js runtime event loop is empty before freezing the process and returning the results to the caller. You can set this property to false to request AWS Lambda to freeze the process soon after the callback is called, even if there are events in the event loop. AWS Lambda will freeze the process, any state data and the events in the Node.js event loop (any remaining events in the event loop processed when the Lambda function is called next and if AWS Lambda chooses to use the frozen process). For more information about callback, see Using the Callback Parameter. */
