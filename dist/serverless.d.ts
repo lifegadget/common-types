@@ -11,6 +11,12 @@ export interface IServerlessAccountInfo {
     region?: string;
     profile?: string;
     /**
+     * Add X-RAY tracing to API Gateway and Lambda. Using the boolean flags
+     * you are setting both but if you only want one you can state which one
+     * as the value.
+     */
+    tracing?: boolean | "lambda" | "api-gateway";
+    /**
      * if you want to forward logs to another lambda you can state the **ARN** here
      */
     logForwarding?: arn;
