@@ -24,6 +24,10 @@ export interface IServerlessAccountInfo {
      * a list of serverless plugins installed
      */
     pluginsInstalled: string[];
+    /**
+     * a list of all Development Dependencies
+     */
+    devDependencies: string[];
 }
 export declare type AWSRuntime = "nodejs6.10" | "nodejs8.10" | "nodejs10.x" | "nodejs12.x" | "node4" | "java8" | "python2.7" | "python3.6" | "go1.x";
 export interface IServerlessConfigCustom extends IDictionary {
