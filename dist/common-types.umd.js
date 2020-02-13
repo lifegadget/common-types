@@ -2,7 +2,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = global || self, factory(global['common-types'] = {}));
-}(this, function (exports) { 'use strict';
+}(this, (function (exports) { 'use strict';
 
   (function (HttpStatusCodes) {
       /**
@@ -523,7 +523,7 @@
               }
           }
       };
-      return Object.assign({}, defaultConfig, config);
+      return Object.assign(Object.assign({}, defaultConfig), config);
   }
 
   exports.ApiGatewayError = ApiGatewayError;
@@ -541,5 +541,5 @@
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));
 //# sourceMappingURL=common-types.umd.js.map

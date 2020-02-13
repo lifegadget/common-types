@@ -26,6 +26,10 @@ export interface IServerlessAccountInfo {
    * a list of serverless plugins installed
    */
   pluginsInstalled: string[];
+  /**
+   * a list of all Development Dependencies
+   */
+  devDependencies: string[];
 }
 
 export type AWSRuntime =
