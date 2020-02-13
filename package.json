@@ -27,12 +27,12 @@
     "@types/rimraf": "^2.0.2",
     "async-shelljs": "^0.1.2",
     "chai": "^4.2.0",
-    "json-schema": "^0.2.3",
-    "mocha": "^6.1.4",
+    "json-schema": "^0.2.5",
+    "mocha": "^7.0.1",
     "rimraf": "^2.6.3",
-    "rollup": "^1.16.7",
-    "rollup-plugin-typescript2": "^0.22.0",
-    "ts-node": "^8.4.1",
-    "typescript": "^3.6.4"
+    "rollup": "^1.31.0",
+    "rollup-plugin-typescript2": "^0.26.0",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
   }
 }
