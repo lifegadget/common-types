@@ -10,7 +10,8 @@ import {
   IServerlessEventHttp,
   IServerlessEventHttpWithDocumentation,
   IDictionary,
-  IServerlessFunction
+  IServerlessFunction,
+  IServerlessAccountInfo
 } from "../src";
 
 const stepFns: IServerlessConfig = {
@@ -163,10 +164,10 @@ const mixedBag: IDictionary<IStepFunctionStep> = {
 };
 
 const fooHttp: IServerlessEventHttp = {
-  method: 'get',
-  path: 'foo',
+  method: "get",
+  path: "foo",
   cors: true
-}
+};
 
 const fooBarHttpWithDocs: IServerlessEventHttpWithDocumentation = {
   method: "post",
@@ -182,7 +183,7 @@ const fooBarHttpWithDocs: IServerlessEventHttpWithDocumentation = {
       {
         statusCode: 200,
         responseBody: {
-          description: "Successful response",
+          description: "Successful response"
         },
         responseModels: {
           "application/json": "PostDocumentResponse"
@@ -190,7 +191,7 @@ const fooBarHttpWithDocs: IServerlessEventHttpWithDocumentation = {
       }
     ]
   }
-}
+};
 
 const serverlessFun: IServerlessFunction = {
   description: "listens for FooBar events",
@@ -205,4 +206,15 @@ const serverlessFun: IServerlessFunction = {
       http: fooBarHttpWithDocs
     }
   ]
-}
+};
+
+const xray: IServerlessAccountInfo = {
+  devDependencies: [],
+  pluginsInstalled: [],
+  accountId: "12345",
+  tracing: { lambda: true, apiGateway: true }
+};
+
+// if (xray.tracing.lambda) {
+//   //
+// }

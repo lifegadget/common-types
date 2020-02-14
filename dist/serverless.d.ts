@@ -15,10 +15,7 @@ export interface IServerlessAccountInfo {
      * you are setting both but if you only want one you can state which one
      * as the value.
      */
-    tracing?: boolean | {
-        apiGateway?: boolean;
-        lambda?: boolean;
-    };
+    tracing?: IServerlessDiscreteTracingConfig | boolean;
     /**
      * if you want to forward logs to another lambda you can state the **ARN** here
      */
@@ -31,6 +28,10 @@ export interface IServerlessAccountInfo {
      * a list of all Development Dependencies
      */
     devDependencies: string[];
+}
+export interface IServerlessDiscreteTracingConfig {
+    apiGateway?: boolean;
+    lambda?: boolean;
 }
 export declare type AWSRuntime = "nodejs6.10" | "nodejs8.10" | "nodejs10.x" | "nodejs12.x" | "node4" | "java8" | "python2.7" | "python3.6" | "go1.x";
 export interface IServerlessConfigCustom extends IDictionary {
@@ -57,6 +58,7 @@ export interface IServerlessConfig<T = IServerlessConfigCustom> {
     };
     functions?: IDictionary<IServerlessFunction>;
     layers?: IArnStringReference[] | ICloudformationReference[] | ILayerDefinition;
+    tracing: boolean | IServerlessDiscreteTracingConfig;
 }
 export interface ILayerDefinition {
     [layerName: string]: {
