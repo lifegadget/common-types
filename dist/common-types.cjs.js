@@ -145,6 +145,13 @@ Object.defineProperty(exports, '__esModule', { value: true });
      * of time -- that is left to the discretion of the server owner.
      */
     HttpStatusCodes[HttpStatusCodes["Gone"] = 410] = "Gone";
+    /**
+     * Indicates that the server refuses to brew coffee because it is, permanently, a teapot.
+     * A combined coffee/tea pot that is temporarily out of coffee should instead return 503.
+     * This error is a reference to Hyper Text Coffee Pot Control Protocol defined in April
+     * Fools' jokes in 1998 and 2014.
+     */
+    HttpStatusCodes[HttpStatusCodes["IAmATeapot"] = 418] = "IAmATeapot";
     HttpStatusCodes[HttpStatusCodes["UnprocessableEntity"] = 422] = "UnprocessableEntity";
     /**
      * The 429 status code indicates that the user has sent too many requests in a given
@@ -167,6 +174,14 @@ Object.defineProperty(exports, '__esModule', { value: true });
      * the upstream server it accessed in attempting to fulfill the request.
      */
     HttpStatusCodes[HttpStatusCodes["BadGateway"] = 502] = "BadGateway";
+    /**
+     * Indicates that the server is not ready to handle the request.
+     *
+     * Common causes are a server that is down for maintenance or that is overloaded.
+     * This response should be used for temporary conditions and the `Retry-After` HTTP
+     * header should, if possible, contain the estimated time for the recovery of the
+     * service.
+     */
     HttpStatusCodes[HttpStatusCodes["ServiceUnavailable"] = 503] = "ServiceUnavailable";
     HttpStatusCodes[HttpStatusCodes["GatewayTimeout"] = 504] = "GatewayTimeout";
     /**
