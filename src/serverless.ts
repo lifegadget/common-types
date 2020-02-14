@@ -71,7 +71,6 @@ export interface IServerlessConfig<T = IServerlessConfigCustom> {
   };
   functions?: IDictionary<IServerlessFunction>;
   layers?: IArnStringReference[] | ICloudformationReference[] | ILayerDefinition;
-  tracing: boolean | IServerlessDiscreteTracingConfig;
 }
 
 export interface ILayerDefinition {
