@@ -15,8 +15,8 @@ export interface IServerlessAccountInfo {
      * you are setting both but if you only want one you can state which one
      * as the value.
      */
-    tracing?: {
-        apiGateway: boolean;
+    tracing?: boolean | {
+        apiGateway?: boolean;
         lambda?: boolean;
     };
     /**
@@ -100,8 +100,8 @@ export interface IServerlessProvider {
     stackPolicy?: any;
     /** if you are using the serverless-plugin-tracing then you can enable tracing with this flag */
     tracing?: boolean | {
-        lambda: boolean;
-        apiGateway: boolean;
+        lambda?: boolean;
+        apiGateway?: boolean;
     };
     deploymentBucket?: {
         /** overwrite the default deployment bucket */

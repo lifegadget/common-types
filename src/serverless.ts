@@ -17,10 +17,12 @@ export interface IServerlessAccountInfo {
    * you are setting both but if you only want one you can state which one
    * as the value.
    */
-  tracing?: {
-    apiGateway: boolean;
-    lambda?: boolean;
-  };
+  tracing?:
+    | boolean
+    | {
+        apiGateway?: boolean;
+        lambda?: boolean;
+      };
   /**
    * if you want to forward logs to another lambda you can state the **ARN** here
    */
@@ -117,8 +119,8 @@ export interface IServerlessProvider {
   tracing?:
     | boolean
     | {
-        lambda: boolean;
-        apiGateway: boolean;
+        lambda?: boolean;
+        apiGateway?: boolean;
       };
   deploymentBucket?: {
     /** overwrite the default deployment bucket */
