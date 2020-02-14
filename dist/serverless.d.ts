@@ -15,7 +15,10 @@ export interface IServerlessAccountInfo {
      * you are setting both but if you only want one you can state which one
      * as the value.
      */
-    tracing?: boolean | "lambda" | "api-gateway";
+    tracing?: {
+        apiGateway: boolean;
+        lambda?: boolean;
+    };
     /**
      * if you want to forward logs to another lambda you can state the **ARN** here
      */
@@ -163,6 +166,19 @@ export interface IServerlessFunction {
      * HANDLER_FN is typically "handler".
      */
     handler: string;
+    /**
+     * A functions X-Ray tracing configuration.
+     *
+     * **Pass Through:**
+     * This is the default setting for all Lambda functions if you have added tracing permissions to your
+     * function's execution role. This approach means the Lambda function is only traced if X-Ray has been
+     * enabled on an upstream service, such as AWS Elastic Beanstalk.
+     *
+     * **Active:**
+     * When a Lambda function has this setting, Lambda automatically samples invocation requests, based
+     * on the sampling algorithm specified by X-Ray.
+     */
+    tracing?: "Active" | "Passthrough";
     runtime?: AWSRuntime;
     /** how many miliseconds before the function times out */
     timeout?: number;
@@ -181,11 +197,6 @@ export interface IServerlessFunction {
      * Events which may call this function
      */
     events?: IServerlessEvent[];
-    /**
-     * used in conjunction with the serverless-plugin-tracing plugin,
-     * this overrides the tracing setting at a function level
-     */
-    tracing?: boolean;
     /**
      * **aliasStage**
      *

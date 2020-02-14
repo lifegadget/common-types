@@ -1,11 +1,4 @@
-import {
-  IDictionary,
-  BooleanAsString,
-  epoch,
-  IHttpResponseHeaders
-} from "./basics";
-import { apiGatewayError } from ".";
-import { ApiGatewayError } from "./errors/ApiGatewayError";
+import { IDictionary, BooleanAsString, epoch, IHttpResponseHeaders } from "./basics";
 
 export type arn = string;
 
@@ -80,8 +73,7 @@ export interface IApiGatewayErrorResponse<T = any> {
  * optional and will be expressed simply as the type of `Error` if
  * left off.
  */
-export type IAwsLambdaCallback<T, E = any> = IAwsLambdaSuccessCallback<T> &
-  IAwsLambdaFailureCallback<E>;
+export type IAwsLambdaCallback<T, E = any> = IAwsLambdaSuccessCallback<T> & IAwsLambdaFailureCallback<E>;
 
 /** A Lambda function called to indicate the SUCCESSFUL end-state of a lambda function */
 export interface IAwsLambdaSuccessCallback<T = IDictionary> {
@@ -170,9 +162,7 @@ export interface IAwsLambdaProxyRequestContext extends IDictionary {
  * or type `T` as defined by consumer
  * @return type of `T`
  */
-export function getBodyFromPossibleLambdaProxyRequest<T>(
-  input: T | IAWSLambdaProxyIntegrationRequest
-): T {
+export function getBodyFromPossibleLambdaProxyRequest<T>(input: T | IAWSLambdaProxyIntegrationRequest): T {
   return isLambdaProxyRequest<T>(input) ? (parsed(input) as T) : (input as T);
 }
 
@@ -198,8 +188,7 @@ export interface IAWSLambdaProxyIntegrationRequest {
 }
 
 /** The header values of an AWS _proxy integration_ event/request */
-export interface IAWSLambdaProxyIntegrationRequestHeaders
-  extends IHttpResponseHeaders {
+export interface IAWSLambdaProxyIntegrationRequestHeaders extends IHttpResponseHeaders {
   Accept: string;
   /** CORs scoping  */
   ["Access-Control-Allow-Origin"]?: string;
@@ -280,14 +269,9 @@ export interface IAWSGatewayRequest {
   parentRequestId?: string;
 }
 /** A decorator signature for a class property */
-export declare type PropertyDecorator = (
-  target: any,
-  key: string | symbol
-) => void;
+export declare type PropertyDecorator = (target: any, key: string | symbol) => void;
 /** A decorator signature for a class */
-export declare type ClassDecorator = <TFunction extends Function>(
-  target: TFunction
-) => TFunction | void;
+export declare type ClassDecorator = <TFunction extends Function>(target: TFunction) => TFunction | void;
 export interface ReflectionProperty<T> {
   get: () => T;
   set: (value?: any) => void;

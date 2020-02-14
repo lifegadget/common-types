@@ -17,7 +17,10 @@ export interface IServerlessAccountInfo {
    * you are setting both but if you only want one you can state which one
    * as the value.
    */
-  tracing?: boolean | "lambda" | "api-gateway";
+  tracing?: {
+    apiGateway: boolean;
+    lambda?: boolean;
+  };
   /**
    * if you want to forward logs to another lambda you can state the **ARN** here
    */
@@ -53,6 +56,7 @@ export interface IServerlessConfigCustom extends IDictionary {
     destinationARN: arn;
   };
 }
+
 export interface IServerlessConfig<T = IServerlessConfigCustom> {
   service: string | { name: string };
   custom?: T;
@@ -64,10 +68,7 @@ export interface IServerlessConfig<T = IServerlessConfigCustom> {
     activities?: string[];
   };
   functions?: IDictionary<IServerlessFunction>;
-  layers?:
-    | IArnStringReference[]
-    | ICloudformationReference[]
-    | ILayerDefinition;
+  layers?: IArnStringReference[] | ICloudformationReference[] | ILayerDefinition;
 }
 
 export interface ILayerDefinition {
@@ -227,6 +228,19 @@ export interface IServerlessFunction {
    * HANDLER_FN is typically "handler".
    */
   handler: string;
+  /**
+   * A functions X-Ray tracing configuration.
+   *
+   * **Pass Through:**
+   * This is the default setting for all Lambda functions if you have added tracing permissions to your
+   * function's execution role. This approach means the Lambda function is only traced if X-Ray has been
+   * enabled on an upstream service, such as AWS Elastic Beanstalk.
+   *
+   * **Active:**
+   * When a Lambda function has this setting, Lambda automatically samples invocation requests, based
+   * on the sampling algorithm specified by X-Ray.
+   */
+  tracing?: "Active" | "Passthrough";
   runtime?: AWSRuntime;
   /** how many miliseconds before the function times out */
   timeout?: number;
@@ -245,11 +259,6 @@ export interface IServerlessFunction {
    * Events which may call this function
    */
   events?: IServerlessEvent[];
-  /**
-   * used in conjunction with the serverless-plugin-tracing plugin,
-   * this overrides the tracing setting at a function level
-   */
-  tracing?: boolean;
 
   /**
    * **aliasStage**
@@ -275,10 +284,7 @@ const fn: IServerlessFunction = {
 ```
    * as this will ensure that your layer's NPM modules are included in your path
    */
-  layers?:
-    | IArnStringReference[]
-    | ICloudformationReference[]
-    | ILayerDefinition;
+  layers?: IArnStringReference[] | ICloudformationReference[] | ILayerDefinition;
 }
 
 export interface ICloudformationReference {
@@ -291,9 +297,7 @@ export interface IServerlessEvent {
   /**
    * Sets up a time based event trigger to run the function
    */
-  schedule?:
-    | IServerlessEventScheduleLongForm
-    | IServerlessEventScheduleShortForm;
+  schedule?: IServerlessEventScheduleLongForm | IServerlessEventScheduleShortForm;
   /**
    * creates a API endpoint using API-Gateway
    */
@@ -441,30 +445,21 @@ export declare type IStepFunctionStep<T = IDictionary> =
   | IStepFunctionPass<T>
   | IStepFunctionFail
   | IStepFunctionSucceed;
-export declare type IStepFunctionType =
-  | "Task"
-  | "Wait"
-  | "Parallel"
-  | "Choice"
-  | "Succeed"
-  | "Fail"
-  | "Pass";
+export declare type IStepFunctionType = "Task" | "Wait" | "Parallel" | "Choice" | "Succeed" | "Fail" | "Pass";
 export interface IStepFunctionBaseState {
   Type: IStepFunctionType;
   /** A human readable description of the state */
   Comment?: string;
 }
 
-export interface IStepFunctionBaseWithPathMapping
-  extends IStepFunctionBaseState {
+export interface IStepFunctionBaseWithPathMapping extends IStepFunctionBaseState {
   /** A path that selects a portion of the state's input to be passed to the state's task for processing. If omitted, it has the value $ which designates the entire input. For more information, see Input and Output Processing). */
   InputPath?: string;
   /** A path that selects a portion of the state's input to be passed to the state's output. If omitted, it has the value $ which designates the entire input. For more information, see Input and Output Processing. */
   OutputPath?: string;
 }
 
-export interface IStepFunctionTask<T = IDictionary>
-  extends IStepFunctionBaseWithPathMapping {
+export interface IStepFunctionTask<T = IDictionary> extends IStepFunctionBaseWithPathMapping {
   Type: "Task";
   /** string of the format arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-FUNCTION_NAME */
   Resource: AwsFunctionArn;
@@ -479,19 +474,16 @@ export interface IStepFunctionTask<T = IDictionary>
   HeartbeatSeconds?: number;
 }
 
-export interface IStepFunctionChoice<T = IDictionary>
-  extends IStepFunctionBaseState {
+export interface IStepFunctionChoice<T = IDictionary> extends IStepFunctionBaseState {
   Type: "Choice";
   Choices: IStepFunctionChoiceItem<T>[];
   /** The name of the state to transition to if none of the transitions in Choices is taken. */
   Default?: keyof T;
 }
 
-export type IStepFunctionChoiceItem<T> = Partial<IStepFunctionOperand> &
-  IStepFunctionComplexChoiceItem<T>;
+export type IStepFunctionChoiceItem<T> = Partial<IStepFunctionOperand> & IStepFunctionComplexChoiceItem<T>;
 
-export interface IStepFunctionComplexChoiceItem<T>
-  extends IStepFunctionBaseChoice<T> {
+export interface IStepFunctionComplexChoiceItem<T> extends IStepFunctionBaseChoice<T> {
   // complex operators
   And?: IStepFunctionOperand[];
   Or?: IStepFunctionOperand[];
@@ -517,61 +509,50 @@ export type IStepFunctionOperand =
   | IStepFunctionOperand_NumericLessThan
   | IStepFunctionOperand_NumericLessThanEquals;
 
-export interface IStepFunctionOperand_BooleanEquals
-  extends IStepFunctionBaseLogicalOperand {
+export interface IStepFunctionOperand_BooleanEquals extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
   BooleanEquals?: boolean;
 }
-export interface IStepFunctionOperand_StringEquals
-  extends IStepFunctionBaseLogicalOperand {
+export interface IStepFunctionOperand_StringEquals extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
   StringEquals?: string;
 }
-export interface IStepFunctionOperand_StringGreaterThan
-  extends IStepFunctionBaseLogicalOperand {
+export interface IStepFunctionOperand_StringGreaterThan extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
   StringGreaterThan?: string;
 }
-export interface IStepFunctionOperand_StringGreaterThanEquals
-  extends IStepFunctionBaseLogicalOperand {
+export interface IStepFunctionOperand_StringGreaterThanEquals extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
   StringGreaterThanEquals?: string;
 }
-export interface IStepFunctionOperand_StringLessThan
-  extends IStepFunctionBaseLogicalOperand {
+export interface IStepFunctionOperand_StringLessThan extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
   StringLessThan?: string;
 }
-export interface IStepFunctionOperand_StringLessThanEquals
-  extends IStepFunctionBaseLogicalOperand {
+export interface IStepFunctionOperand_StringLessThanEquals extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
   StringLessThanEquals?: string;
 }
 
-export interface IStepFunctionOperand_NumericEquals
-  extends IStepFunctionBaseLogicalOperand {
+export interface IStepFunctionOperand_NumericEquals extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be numerically equal to a stated number */
   NumericEquals?: number;
 }
-export interface IStepFunctionOperand_NumericGreaterThan
-  extends IStepFunctionBaseLogicalOperand {
+export interface IStepFunctionOperand_NumericGreaterThan extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be numerically equal to a stated number */
   NumericGreaterThan?: number;
 }
 
-export interface IStepFunctionOperand_NumericGreaterThanEquals
-  extends IStepFunctionBaseLogicalOperand {
+export interface IStepFunctionOperand_NumericGreaterThanEquals extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be numerically equal to a stated number */
   NumericGreaterThanEquals?: number;
 }
-export interface IStepFunctionOperand_NumericLessThan
-  extends IStepFunctionBaseLogicalOperand {
+export interface IStepFunctionOperand_NumericLessThan extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be numerically equal to a stated number */
   NumericLessThan?: number;
 }
 
-export interface IStepFunctionOperand_NumericLessThanEquals
-  extends IStepFunctionBaseLogicalOperand {
+export interface IStepFunctionOperand_NumericLessThanEquals extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be numerically equal to a stated number */
   NumericLessThanEquals?: number;
 }
@@ -588,8 +569,7 @@ export interface IStepFunctionBaseChoice<T> {
   End?: boolean;
 }
 
-export interface IStepFunctionWait<T = IDictionary>
-  extends IStepFunctionBaseState {
+export interface IStepFunctionWait<T = IDictionary> extends IStepFunctionBaseState {
   Type: "Wait";
   /** A time, in seconds, to wait before beginning the state specified in the Next field. */
   Seconds?: number;
@@ -607,8 +587,7 @@ export interface IStepFunctionSucceed extends IStepFunctionBaseState {
   Type: "Succeed";
 }
 
-export interface IStepFunctionPass<T = IDictionary>
-  extends IStepFunctionBaseState {
+export interface IStepFunctionPass<T = IDictionary> extends IStepFunctionBaseState {
   Type: "Pass";
   /** Treated as the output of a virtual task to be passed on to the next state, and filtered as prescribed by the ResultPath field (if present). */
   Result?: any;
@@ -623,8 +602,7 @@ export interface IStepFunctionFail extends IStepFunctionBaseState {
   Cause?: string;
 }
 
-export interface IStepFunctionParallel<T = IDictionary>
-  extends IStepFunctionBaseState {
+export interface IStepFunctionParallel<T = IDictionary> extends IStepFunctionBaseState {
   Type: "Parallel";
   Branches: IStepFunctionParallelBranch[];
   Next?: keyof T;
@@ -698,8 +676,7 @@ interface IServerlessOpenApiDocumentation {
   methodResponses?: IServerlessOpenApiDocumentationMethodResponses[];
 }
 
-export interface IServerlessEventHttpWithDocumentation
-  extends IServerlessEventHttp {
+export interface IServerlessEventHttpWithDocumentation extends IServerlessEventHttp {
   documentation?: IServerlessOpenApiDocumentation;
 }
 
