@@ -114,7 +114,12 @@ export interface IServerlessProvider {
   stackTags?: IDictionary<string>;
   stackPolicy?: any;
   /** if you are using the serverless-plugin-tracing then you can enable tracing with this flag */
-  tracing?: boolean;
+  tracing?:
+    | boolean
+    | {
+        lambda: boolean;
+        apiGateway: boolean;
+      };
   deploymentBucket?: {
     /** overwrite the default deployment bucket */
     name: string;
