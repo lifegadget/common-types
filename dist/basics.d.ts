@@ -451,6 +451,17 @@ export declare type BooleanAsString = "true" | "false";
  * property before a record is saved, etc.
  */
 export declare type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export declare type Callback<T, P extends Array<any> = any[]> = (...args: P) => T;
+export declare type AsyncCallback<T, P extends Array<any> = any[]> = (...args: P) => Promise<T>;
+/**
+ * **CallbackOption**
+ *
+ * Allows values to be typed as defined by `T[K]` but also will allow a callback function
+ * which returns the same `T[K]`
+ */
+export declare type CallbackOption<T, K extends keyof T = keyof T> = {
+    [key in keyof T]: T[K] | Callback<T[K]>;
+};
 /**
  * **Nullable**
  *
