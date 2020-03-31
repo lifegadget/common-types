@@ -15,4 +15,5 @@ export * from "./github-webhooks";
 export * from "./LambdaEventParser";
 export * from "./serverless-bind-deployment-id";
 export * from "./serverless-alias";
+export * from "./serverless-http";
 export * from "./parseStack";

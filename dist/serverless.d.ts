@@ -1,6 +1,7 @@
 import { IDictionary, datetime } from "./basics";
 import { IApiGatewayAliasConfig } from "./serverless-alias";
 import { arn } from "./aws";
+import { IHttpApiComplex, IHttpApiSimple } from "./serverless-http";
 export declare type JSONSchema4 = import("json-schema").JSONSchema4;
 /** A typing for the serverless framework's "serverless.yml" file */
 export declare type IServerlessStage = "dev" | "prod" | "test" | "stage";
@@ -237,9 +238,25 @@ export interface IServerlessEvent {
      */
     schedule?: IServerlessEventScheduleLongForm | IServerlessEventScheduleShortForm;
     /**
-     * creates a API endpoint using API-Gateway
+     * creates a API endpoint using API-Gateway's **REST API**
+     *
+     * > Note: in many cases now you should consider whether using the HTTP API is
+     * a better optoin. This options can be configured off of the `httpApi` property.
+     * For more on the two options see: [Comparison of REST versus HTTP API's](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html)
      */
     http?: IServerlessEventHttp;
+    /**
+     * creates an API endpoint using API-Gateway's **HTTP API**. You may use either the simple
+     * or more complex signature:
+     *
+     * - `IHttpApiSimple` - _a single string signature_
+     * - `IHttpApiComplex` - _a structured configuration with more options_
+     *
+     * > Note: this the **HTTP API** is in contrast to the older REST API which is in some areas more
+     * functionally complete ... but in most cases the HTTP API is the better option. See
+     * [Comparison of REST versus HTTP API's](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html) for more details.
+     */
+    httpApi?: IHttpApiSimple | IHttpApiComplex;
     /**
      * Allows subscription (and optionally the creation of) an SNS topic.
      *

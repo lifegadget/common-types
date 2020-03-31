@@ -20,10 +20,6 @@ export type arn = string;
  * for the errors your function _may_ return. Defining this will make your function
  * even more clear and descriptive but if left off it will just default to a
  * standard Javascript `Error` typing.
- *
- * **Note:** a handler function can be either _synchronous_ or _asynchronous_ but in both
- * cases should not return anything (the concept of "returning" something is handled through
- * the passed in callback).
  */
 export type IAwsHandlerFunction<T, R = IDictionary, E = Error> = (
   event: IAwsLambdaEvent<T>,
