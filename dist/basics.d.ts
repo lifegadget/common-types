@@ -422,6 +422,8 @@ export declare type epochWithMilliseconds = number;
 export declare type minutes = number;
 /** a numeric value representing the number of seconds */
 export declare type seconds = number;
+/** a given year in the gregorian calendar*/
+export declare type year = number;
 /** a number which should represent a percentage value */
 export declare type percentage = number;
 /** a string blob that represents JSON structured data */
