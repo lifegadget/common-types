@@ -466,10 +466,11 @@ export declare type IStepFunctionStep<T = IDictionary> =
   | IStepFunctionChoice<T>
   | IStepFunctionWait<T>
   | IStepFunctionParallel<T>
+  | IStepFunctionMap<T>
   | IStepFunctionPass<T>
   | IStepFunctionFail
   | IStepFunctionSucceed;
-export declare type IStepFunctionType = "Task" | "Wait" | "Parallel" | "Choice" | "Succeed" | "Fail" | "Pass";
+export declare type IStepFunctionType = "Task" | "Wait" | "Parallel" | "Map" | "Choice" | "Succeed" | "Fail" | "Pass";
 export interface IStepFunctionBaseState {
   Type: IStepFunctionType;
   /** A human readable description of the state */
@@ -629,6 +630,32 @@ export interface IStepFunctionFail extends IStepFunctionBaseState {
 export interface IStepFunctionParallel<T = IDictionary> extends IStepFunctionBaseState {
   Type: "Parallel";
   Branches: IStepFunctionParallelBranch[];
+  Next?: keyof T;
+  End?: true;
+  /** An array of objects, called Retriers that define a retry policy in case the state encounters runtime errors. */
+  Retry?: string[];
+  Catch?: IStepFunctionCatcher[];
+}
+
+export interface IStepFunctionMap<T = IDictionary>
+  extends IStepFunctionBaseWithPathMapping {
+  Type: "Map";
+  /**
+   * The `ItemsPath` field’s value is a reference path identifying where in the effective input the array field is found.
+   *
+   * States within an `Iterator` field can only transition to each other, and no state outside the `ItemsPath` field can transition to a state within it.
+   * If any iteration fails, entire Map state fails, and all iterations are terminated.
+   */
+  ItemsPath?: string;
+  /** The `Iterator` field’s value is an object that defines a state machine which will process each element of the array.  */
+  Iterator: { 
+    StartAt: string; 
+    States?: IDictionary<IStepFunctionStep> 
+  };
+  /**
+   * The `MaxConcurrency`field’s value is an integer that provides an upper bound on how many invocations of the Iterator may run in parallel. For instance, a `MaxConcurrency` value of 10 will limit your Map state to 10 concurrent iterations running at one time.
+   */
+  MaxConcurrency?: number;
   Next?: keyof T;
   End?: true;
   /** An array of objects, called Retriers that define a retry policy in case the state encounters runtime errors. */
