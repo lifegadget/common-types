@@ -345,6 +345,8 @@ export interface IServerlessAuthorizer {
 export declare type AwsFunctionArn = string;
 export declare type StepFunctionBuiltinStates = "States.Timeout" | "States.ALL" | "States.TaskFailed" | "States.Permissions";
 export interface IStateMachine {
+    /** To declare an express workflow, specify type as _EXPRESS_ */
+    type?: "EXPRESS";
     /** the name of the function; can include variables like ${opt:stage} */
     name?: string;
     /** Schedule or HTTP events which trigger the step function */
@@ -513,11 +515,11 @@ export interface IStepFunctionMap<T = IDictionary> extends IStepFunctionBaseWith
         StartAt: string;
         States?: IDictionary<IStepFunctionStep>;
     };
-    /**
-     * The `MaxConcurrency`field’s value is an integer that provides an upper bound on how many invocations of the Iterator may run in parallel. For instance, a `MaxConcurrency` value of 10 will limit your Map state to 10 concurrent iterations running at one time.
-     */
+    /** The `MaxConcurrency`field’s value is an integer that provides an upper bound on how many invocations of the Iterator may run in parallel. For instance, a `MaxConcurrency` value of 10 will limit your Map state to 10 concurrent iterations running at one time. */
     MaxConcurrency?: number;
+    /** A string that must exactly match one of the state machine's state names. */
     Next?: keyof T;
+    /** Designates this state as a terminal state (ends the execution) if set to true. There can be any number of terminal states per state machine. Only one of Next or End can be used in a state. Some state types, such as Choice, don't support or use the End field.  */
     End?: true;
     /** An array of objects, called Retriers that define a retry policy in case the state encounters runtime errors. */
     Retry?: string[];
