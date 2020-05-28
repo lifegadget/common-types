@@ -16,8 +16,19 @@ export interface IPackageJson {
     url: string;
     email: string;
   };
-  /** points to the TypeScript type file for the module */
+  /**
+   * points to the TypeScript type file for the modules
+   */
   typings: string;
+  /**
+   * points to the TypeScript type file for the modules
+   * > **note:** the modern alternative to "typings"
+   */
+  types: string;
+  /**
+   * Indicates the module system exported; the default is _commonjs_
+   */
+  type?: "module" | "commonjs";
   /** the full list of SPDX license IDs (https://spdx.org/licenses/) */
   license?: string;
   author?: IPackageJsonPerson;
