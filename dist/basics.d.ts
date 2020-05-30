@@ -7,7 +7,7 @@ export interface IDictionary<T = any> {
 /**
  * The class constructor for a class (or _interface_ for class)
  */
-export declare type ConstructorFor<T> = new () => T;
+export declare type ConstructorFor<TInstance, TParams extends Array<any> = any[]> = new (...params: TParams[]) => TInstance;
 export declare type INameValuePair<T = any> = INameValuePairWithId<T> | INameValuePairWithKey<T>;
 export interface INameValuePairWithId<T = any> {
     id: string | number;
