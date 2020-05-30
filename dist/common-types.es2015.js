@@ -1,3 +1,97 @@
+/**
+ * Provides a logical test to see if the passed in event is a LambdaProxy request or just a
+ * straight JS object response. This is useful when you have both an HTTP event and a Lambda-to-Lambda
+ * or Step-Function-to-Lambda interaction.
+ *
+ * @param message the body of the request (which is either of type T or a LambdaProxy event)
+ */
+function isLambdaProxyRequest(message) {
+    return typeof message === "object" &&
+        message.resource &&
+        message.path &&
+        message.httpMethod
+        ? true
+        : false;
+}
+function parsed(input) {
+    try {
+        const output = JSON.parse(input.body.replace(/[\n\t]/g, ""));
+        return output;
+    }
+    catch (e) {
+        return input.body;
+    }
+}
+/**
+ * **getBodyFromPossibleLambdaProxyRequest**
+ *
+ * Returns the message body/payload regardless of whether Lambda was called by API Gateway's LambdaProxy
+ * or from another Lambda function.
+ *
+ * @param input either a [Lambda Proxy Request](https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html)
+ * or type `T` as defined by consumer
+ * @return type of `T`
+ */
+function getBodyFromPossibleLambdaProxyRequest(input) {
+    return isLambdaProxyRequest(input) ? parsed(input) : input;
+}
+
+/**
+ * **LambdaEventParser**
+ *
+ * Ensures that the _typed_ `request` is separated from a possible Proxy Integration
+ * Request that would have originated from API Gateway; also returns the `apiGateway`
+ * payload with the "body" removed (as it would be redundant to the request).
+ *
+ * Typical usage is:
+ *
+```typescript
+const { request, apiGateway } = LambdaEventParser.parse(event);
+```
+ *
+ * this signature is intended to mimic the `LambdaSequence.from(event)` API but
+ * without the parsing of a `sequence` property being extracted.
+ *
+ */
+class LambdaEventParser {
+    /**
+     * **parse**
+     *
+     * A static method which returns an object with both `request` and `apiGateway`
+     * properties. The `request` is typed to **T** and the `apiGateway` will be a
+     * `IAWSLambdaProxyIntegrationRequest` object with the "body" removed _if_
+     * the event came from **API Gateway** otherwise it will be undefined.
+     */
+    static parse(event) {
+        const request = isLambdaProxyRequest(event)
+            ? JSON.parse(event.body)
+            : event;
+        if (isLambdaProxyRequest(event)) {
+            delete event.body;
+        }
+        else {
+            event = undefined;
+        }
+        return {
+            request,
+            apiGateway: event
+        };
+    }
+}
+
+/**
+ * **LambdaResponse**
+ *
+ * Not implemented yet
+ */
+class LambdaResponse {
+}
+
+/** provides a friendly way to pause execution when using async/await symantics */
+async function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 var HttpStatusCodes;
 (function (HttpStatusCodes) {
     /**
@@ -195,104 +289,6 @@ var HttpStatusCodes;
     HttpStatusCodes[HttpStatusCodes["AuthenticationRequired"] = 511] = "AuthenticationRequired";
 })(HttpStatusCodes || (HttpStatusCodes = {}));
 
-/**
- * Provides a logical test to see if the passed in event is a LambdaProxy request or just a
- * straight JS object response. This is useful when you have both an HTTP event and a Lambda-to-Lambda
- * or Step-Function-to-Lambda interaction.
- *
- * @param message the body of the request (which is either of type T or a LambdaProxy event)
- */
-function isLambdaProxyRequest(message) {
-    return typeof message === "object" &&
-        message.resource &&
-        message.path &&
-        message.httpMethod
-        ? true
-        : false;
-}
-function parsed(input) {
-    try {
-        const output = JSON.parse(input.body.replace(/[\n\t]/g, ""));
-        return output;
-    }
-    catch (e) {
-        return input.body;
-    }
-}
-/**
- * **getBodyFromPossibleLambdaProxyRequest**
- *
- * Returns the message body/payload regardless of whether Lambda was called by API Gateway's LambdaProxy
- * or from another Lambda function.
- *
- * @param input either a [Lambda Proxy Request](https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html)
- * or type `T` as defined by consumer
- * @return type of `T`
- */
-function getBodyFromPossibleLambdaProxyRequest(input) {
-    return isLambdaProxyRequest(input) ? parsed(input) : input;
-}
-
-function stackTrace(trace) {
-    return trace ? trace.split("\n") : [];
-}
-
-function createError(fullName, message, priorError) {
-    const messagePrefix = `[${fullName}] `;
-    const e = new AppError(!priorError
-        ? messagePrefix + message
-        : messagePrefix + priorError.message + message);
-    e.name = priorError ? priorError.code || priorError.name : fullName;
-    const parts = fullName.split("/");
-    e.code = [...parts].pop();
-    e.stack = priorError
-        ? priorError.stack ||
-            stackTrace(e.stack)
-                .slice(2)
-                .join("\n")
-        : stackTrace(e.stack)
-            .slice(2)
-            .join("\n");
-    return e;
-}
-class AppError extends Error {
-}
-
-function apiGatewayError(code, message, priorError) {
-    const messagePrefix = `[${code}] `;
-    const e = new ApiGatewayError(priorError ? priorError.message : "");
-    e.errorMessage = !priorError
-        ? messagePrefix + message
-        : messagePrefix + priorError.message + message;
-    e.name = priorError ? priorError.name : "ApiGatewayError";
-    e.errorCode = code;
-    e.stack = priorError
-        ? priorError.stack ||
-            stackTrace(e.stack)
-                .slice(2)
-                .join("\n")
-        : stackTrace(e.stack)
-            .slice(2)
-            .join("\n");
-    return e;
-}
-class ApiGatewayError extends Error {
-}
-
-/** provides a friendly way to pause execution when using async/await symantics */
-async function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-class PathJoinError extends Error {
-    constructor(code, message) {
-        super();
-        this.message = `[pathJoin/${code}] ` + message;
-        this.code = code;
-        this.name = `pathJoin/${code}`;
-    }
-}
-
 class ParseStackError extends Error {
     constructor(code, message, originalString, structuredString) {
         super();
@@ -355,6 +351,15 @@ stack, options = {}) {
         throw new ParseStackError("parsing-error", e.message, stack, structured);
     }
     return parsed;
+}
+
+class PathJoinError extends Error {
+    constructor(code, message) {
+        super();
+        this.message = `[pathJoin/${code}] ` + message;
+        this.code = code;
+        this.name = `pathJoin/${code}`;
+    }
 }
 
 var moreThanThreePeriods = /\.{3,}/g;
@@ -444,49 +449,6 @@ function dotNotation(input) {
     return input.replace(/\//g, ".");
 }
 
-/**
- * **LambdaEventParser**
- *
- * Ensures that the _typed_ `request` is separated from a possible Proxy Integration
- * Request that would have originated from API Gateway; also returns the `apiGateway`
- * payload with the "body" removed (as it would be redundant to the request).
- *
- * Typical usage is:
- *
-```typescript
-const { request, apiGateway } = LambdaEventParser.parse(event);
-```
- *
- * this signature is intended to mimic the `LambdaSequence.from(event)` API but
- * without the parsing of a `sequence` property being extracted.
- *
- */
-class LambdaEventParser {
-    /**
-     * **parse**
-     *
-     * A static method which returns an object with both `request` and `apiGateway`
-     * properties. The `request` is typed to **T** and the `apiGateway` will be a
-     * `IAWSLambdaProxyIntegrationRequest` object with the "body" removed _if_
-     * the event came from **API Gateway** otherwise it will be undefined.
-     */
-    static parse(event) {
-        const request = isLambdaProxyRequest(event)
-            ? JSON.parse(event.body)
-            : event;
-        if (isLambdaProxyRequest(event)) {
-            delete event.body;
-        }
-        else {
-            event = undefined;
-        }
-        return {
-            request,
-            apiGateway: event
-        };
-    }
-}
-
 function createBindDeploymentConfig(config, methodSettings) {
     const defaultMethodSettings = [
         {
@@ -536,5 +498,25 @@ function createBindDeploymentConfig(config, methodSettings) {
     return Object.assign(Object.assign({}, defaultConfig), config);
 }
 
-export { ApiGatewayError, AppError, HttpStatusCodes, LambdaEventParser, apiGatewayError, createBindDeploymentConfig, createError, dotNotation, getBodyFromPossibleLambdaProxyRequest, isLambdaProxyRequest, parseStack, pathJoin, wait };
+const AWS_REGIONS = [
+    "us-east-1",
+    "us-east-2",
+    "us-west-1",
+    "us-west-2",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "eu-north-1",
+    "eu-central-1",
+    "sa-east-1",
+    "ca-central-1",
+    "ap-south-1",
+    "ap-northeast-1",
+    "ap-northeast-2",
+    "ap-northeast-3",
+    "ap-southeast-1",
+    "ap-southeast-2",
+];
+
+export { AWS_REGIONS, HttpStatusCodes, LambdaEventParser, LambdaResponse, createBindDeploymentConfig, dotNotation, getBodyFromPossibleLambdaProxyRequest, isLambdaProxyRequest, parseStack, pathJoin, wait };
 //# sourceMappingURL=common-types.es2015.js.map
