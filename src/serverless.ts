@@ -11,10 +11,10 @@ export type IServerlessStage = "dev" | "prod" | "test" | "stage";
 
 export type IServerlessVariable = string;
 export interface IServerlessAccountInfo {
-  name?: string;
-  accountId?: string;
-  region?: string;
-  profile?: string;
+  name: string;
+  accountId: string;
+  region: string;
+  profile: string;
   /**
    * Add X-RAY tracing to API Gateway and Lambda. Using the boolean flags
    * you are setting both but if you only want one you can state which one
