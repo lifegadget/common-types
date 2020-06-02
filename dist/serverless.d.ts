@@ -1,7 +1,7 @@
 import { IDictionary, datetime } from "./basics";
+import { IHttpApiComplex, IHttpApiSimple } from "./serverless-http";
 import { IApiGatewayAliasConfig } from "./serverless-alias";
 import { arn } from "./aws";
-import { IHttpApiComplex, IHttpApiSimple } from "./serverless-http";
 export declare type JSONSchema4 = import("json-schema").JSONSchema4;
 /** A typing for the serverless framework's "serverless.yml" file */
 export declare type IServerlessStage = "dev" | "prod" | "test" | "stage";
@@ -30,6 +30,8 @@ export interface IServerlessAccountInfo {
      */
     devDependencies: string[];
 }
+export declare function serverlessConfigHasApiGatewayTracing(config: IServerlessAccountInfo): boolean;
+export declare function serverlessConfigHasLambdaTracing(config: IServerlessAccountInfo): boolean;
 export interface IServerlessDiscreteTracingConfig {
     apiGateway?: boolean;
     lambda?: boolean;
