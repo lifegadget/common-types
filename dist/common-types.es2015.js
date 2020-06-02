@@ -518,5 +518,63 @@ const AWS_REGIONS = [
     "ap-southeast-2",
 ];
 
-export { AWS_REGIONS, HttpStatusCodes, LambdaEventParser, LambdaResponse, createBindDeploymentConfig, dotNotation, getBodyFromPossibleLambdaProxyRequest, isLambdaProxyRequest, parseStack, pathJoin, wait };
+function serverlessConfigHasApiGatewayTracing(config) {
+    return ((config === null || config === void 0 ? void 0 : config.tracing) && (config === null || config === void 0 ? void 0 : config.tracing) === true) ||
+        (typeof config.tracing === "object" && config.tracing.apiGateway)
+        ? true
+        : false;
+}
+function serverlessConfigHasLambdaTracing(config) {
+    return ((config === null || config === void 0 ? void 0 : config.tracing) && (config === null || config === void 0 ? void 0 : config.tracing) === true) || (typeof config.tracing === "object" && config.tracing.lambda)
+        ? true
+        : false;
+}
+
+function stackTrace(trace) {
+    return trace ? trace.split("\n") : [];
+}
+
+function apiGatewayError(code, message, priorError) {
+    const messagePrefix = `[${code}] `;
+    const e = new ApiGatewayError(priorError ? priorError.message : "");
+    e.errorMessage = !priorError
+        ? messagePrefix + message
+        : messagePrefix + priorError.message + message;
+    e.name = priorError ? priorError.name : "ApiGatewayError";
+    e.errorCode = code;
+    e.stack = priorError
+        ? priorError.stack ||
+            stackTrace(e.stack)
+                .slice(2)
+                .join("\n")
+        : stackTrace(e.stack)
+            .slice(2)
+            .join("\n");
+    return e;
+}
+class ApiGatewayError extends Error {
+}
+
+function createError(fullName, message, priorError) {
+    const messagePrefix = `[${fullName}] `;
+    const e = new AppError(!priorError
+        ? messagePrefix + message
+        : messagePrefix + priorError.message + message);
+    e.name = priorError ? priorError.code || priorError.name : fullName;
+    const parts = fullName.split("/");
+    e.code = [...parts].pop();
+    e.stack = priorError
+        ? priorError.stack ||
+            stackTrace(e.stack)
+                .slice(2)
+                .join("\n")
+        : stackTrace(e.stack)
+            .slice(2)
+            .join("\n");
+    return e;
+}
+class AppError extends Error {
+}
+
+export { AWS_REGIONS, ApiGatewayError, AppError, HttpStatusCodes, LambdaEventParser, LambdaResponse, ParseStackError, PathJoinError, apiGatewayError, createBindDeploymentConfig, createError, dotNotation, getBodyFromPossibleLambdaProxyRequest, isLambdaProxyRequest, parseStack, pathJoin, serverlessConfigHasApiGatewayTracing, serverlessConfigHasLambdaTracing, wait };
 //# sourceMappingURL=common-types.es2015.js.map

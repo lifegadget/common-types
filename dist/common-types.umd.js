@@ -523,15 +523,81 @@
       "ap-southeast-2",
   ];
 
+  function serverlessConfigHasApiGatewayTracing(config) {
+      return ((config === null || config === void 0 ? void 0 : config.tracing) && (config === null || config === void 0 ? void 0 : config.tracing) === true) ||
+          (typeof config.tracing === "object" && config.tracing.apiGateway)
+          ? true
+          : false;
+  }
+  function serverlessConfigHasLambdaTracing(config) {
+      return ((config === null || config === void 0 ? void 0 : config.tracing) && (config === null || config === void 0 ? void 0 : config.tracing) === true) || (typeof config.tracing === "object" && config.tracing.lambda)
+          ? true
+          : false;
+  }
+
+  function stackTrace(trace) {
+      return trace ? trace.split("\n") : [];
+  }
+
+  function apiGatewayError(code, message, priorError) {
+      const messagePrefix = `[${code}] `;
+      const e = new ApiGatewayError(priorError ? priorError.message : "");
+      e.errorMessage = !priorError
+          ? messagePrefix + message
+          : messagePrefix + priorError.message + message;
+      e.name = priorError ? priorError.name : "ApiGatewayError";
+      e.errorCode = code;
+      e.stack = priorError
+          ? priorError.stack ||
+              stackTrace(e.stack)
+                  .slice(2)
+                  .join("\n")
+          : stackTrace(e.stack)
+              .slice(2)
+              .join("\n");
+      return e;
+  }
+  class ApiGatewayError extends Error {
+  }
+
+  function createError(fullName, message, priorError) {
+      const messagePrefix = `[${fullName}] `;
+      const e = new AppError(!priorError
+          ? messagePrefix + message
+          : messagePrefix + priorError.message + message);
+      e.name = priorError ? priorError.code || priorError.name : fullName;
+      const parts = fullName.split("/");
+      e.code = [...parts].pop();
+      e.stack = priorError
+          ? priorError.stack ||
+              stackTrace(e.stack)
+                  .slice(2)
+                  .join("\n")
+          : stackTrace(e.stack)
+              .slice(2)
+              .join("\n");
+      return e;
+  }
+  class AppError extends Error {
+  }
+
   exports.AWS_REGIONS = AWS_REGIONS;
+  exports.ApiGatewayError = ApiGatewayError;
+  exports.AppError = AppError;
   exports.LambdaEventParser = LambdaEventParser;
   exports.LambdaResponse = LambdaResponse;
+  exports.ParseStackError = ParseStackError;
+  exports.PathJoinError = PathJoinError;
+  exports.apiGatewayError = apiGatewayError;
   exports.createBindDeploymentConfig = createBindDeploymentConfig;
+  exports.createError = createError;
   exports.dotNotation = dotNotation;
   exports.getBodyFromPossibleLambdaProxyRequest = getBodyFromPossibleLambdaProxyRequest;
   exports.isLambdaProxyRequest = isLambdaProxyRequest;
   exports.parseStack = parseStack;
   exports.pathJoin = pathJoin;
+  exports.serverlessConfigHasApiGatewayTracing = serverlessConfigHasApiGatewayTracing;
+  exports.serverlessConfigHasLambdaTracing = serverlessConfigHasLambdaTracing;
   exports.wait = wait;
 
   Object.defineProperty(exports, '__esModule', { value: true });

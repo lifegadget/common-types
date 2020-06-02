@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.15.0",
+  "version": "1.15.1",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "dist/common-types.cjs.js",
@@ -13,7 +13,9 @@
   "scripts": {
     "test": "./node_modules/.bin/ts-node ./scripts/test.ts ",
     "deploy": "rollup -c && yarn publish",
-    "build": "rollup -c",
+    "build": "run-s build:autoindex build:rollup",
+    "build:autoindex": "yarn do autoindex",
+    "build:rollup": "rollup -c",
     "build:tsc": "tsc && tsc -P tsconfig-esm.json"
   },
   "author": "Ken Snyder <ken@ken.net>",
