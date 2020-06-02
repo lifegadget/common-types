@@ -4,7 +4,7 @@ export interface IPackageJsonPerson {
     email?: string;
     url?: string;
 }
-export interface IPackageJson {
+export interface IPackageJson extends IDictionary {
     name: string;
     version: string;
     description?: string;
