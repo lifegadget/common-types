@@ -1,7 +1,9 @@
 import { IDictionary, datetime } from "./basics";
+import { IHttpApiComplex, IHttpApiSimple } from "./serverless-http";
+
 import { IApiGatewayAliasConfig } from "./serverless-alias";
 import { arn } from "./aws";
-import { IHttpApiComplex, IHttpApiSimple } from "./serverless-http";
+
 export type JSONSchema4 = import("json-schema").JSONSchema4;
 /** A typing for the serverless framework's "serverless.yml" file */
 
@@ -31,6 +33,19 @@ export interface IServerlessAccountInfo {
    * a list of all Development Dependencies
    */
   devDependencies: string[];
+}
+
+export function serverlessConfigHasApiGatewayTracing(config: IServerlessAccountInfo) {
+  return (config?.tracing && config?.tracing === true) ||
+    (typeof config.tracing === "object" && config.tracing.apiGateway)
+    ? true
+    : false;
+}
+
+export function serverlessConfigHasLambdaTracing(config: IServerlessAccountInfo) {
+  return (config?.tracing && config?.tracing === true) || (typeof config.tracing === "object" && config.tracing.lambda)
+    ? true
+    : false;
 }
 
 export interface IServerlessDiscreteTracingConfig {

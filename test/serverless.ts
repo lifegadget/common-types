@@ -1,17 +1,17 @@
 import {
-  IStepFunctionParallel,
-  IStepFunctionChoice,
-  IStepFunctionStep,
-  IStepFunctionPass,
-  IStepFunctionSucceed,
-  IStepFunctionTask,
-  IStepFunctionWait,
+  IDictionary,
+  IServerlessAccountInfo,
   IServerlessConfig,
   IServerlessEventHttp,
   IServerlessEventHttpWithDocumentation,
-  IDictionary,
   IServerlessFunction,
-  IServerlessAccountInfo
+  IStepFunctionChoice,
+  IStepFunctionParallel,
+  IStepFunctionPass,
+  IStepFunctionStep,
+  IStepFunctionSucceed,
+  IStepFunctionTask,
+  IStepFunctionWait,
 } from "../src";
 
 const stepFns: IServerlessConfig = {
@@ -23,12 +23,12 @@ const stepFns: IServerlessConfig = {
           http: {
             method: "get",
             path: "myFunc/foobar",
-            cors: true
-          }
-        }
+            cors: true,
+          },
+        },
       ],
-      handler: "src/handle"
-    }
+      handler: "src/handle",
+    },
   },
   stepFunctions: {
     stateMachines: {
@@ -41,12 +41,12 @@ const stepFns: IServerlessConfig = {
             xxx: {
               Type: "Task",
               Resource: "arn:test",
-              End: true
+              End: true,
             },
             yyy: {
               Type: "Task",
               Resource: "arn:yyy",
-              Next: "xxx"
+              Next: "xxx",
             },
             zzz: {
               Type: "Choice",
@@ -54,47 +54,47 @@ const stepFns: IServerlessConfig = {
                 {
                   Variable: "$.foo",
                   NumericEquals: 10,
-                  Next: "yyy"
+                  Next: "yyy",
                 },
                 {
                   Variable: "$.bar",
                   NumericEquals: 20,
-                  Next: "xxx"
-                }
-              ]
-            }
-          }
-        }
-      }
-    }
-  }
+                  Next: "xxx",
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 const task: IDictionary<IStepFunctionTask> = {
   xxx: {
     Type: "Task",
     Resource: "arn",
-    Next: "x2"
+    Next: "x2",
   },
   x2: {
     Type: "Task",
     Resource: "arn2",
-    End: true
-  }
+    End: true,
+  },
 };
 
 const wait: IDictionary<IStepFunctionWait> = {
   yyy: {
     Type: "Wait",
     Seconds: 12,
-    Next: "foo"
-  }
+    Next: "foo",
+  },
 };
 
 const succeed: IDictionary<IStepFunctionSucceed> = {
   sss: {
-    Type: "Succeed"
-  }
+    Type: "Succeed",
+  },
 };
 
 const pass: IDictionary<IStepFunctionPass> = {
@@ -102,11 +102,11 @@ const pass: IDictionary<IStepFunctionPass> = {
     Type: "Pass",
     Result: {
       foo: 1,
-      bar: 2
+      bar: 2,
     },
     ResultPath: "$.info",
-    Next: "baz"
-  }
+    Next: "baz",
+  },
 };
 
 const choice: IDictionary<IStepFunctionChoice> = {
@@ -116,10 +116,10 @@ const choice: IDictionary<IStepFunctionChoice> = {
       {
         Variable: "$.bar",
         NumericEquals: 1,
-        Next: "xxx"
-      }
-    ]
-  }
+        Next: "xxx",
+      },
+    ],
+  },
 };
 
 const parallel: IDictionary<IStepFunctionParallel> = {
@@ -132,9 +132,9 @@ const parallel: IDictionary<IStepFunctionParallel> = {
         States: {
           first: {
             Type: "Pass",
-            Next: "second"
-          }
-        }
+            Next: "second",
+          },
+        },
       },
       {
         StartAt: "a",
@@ -142,16 +142,16 @@ const parallel: IDictionary<IStepFunctionParallel> = {
           a: {
             Type: "Wait",
             Seconds: 10,
-            Next: "b"
+            Next: "b",
           },
           b: {
             Type: "Pass",
-            Next: "c"
-          }
-        }
-      }
-    ]
-  }
+            Next: "c",
+          },
+        },
+      },
+    ],
+  },
 };
 
 const mixedBag: IDictionary<IStepFunctionStep> = {
@@ -160,13 +160,13 @@ const mixedBag: IDictionary<IStepFunctionStep> = {
   ...wait,
   ...succeed,
   ...pass,
-  ...parallel
+  ...parallel,
 };
 
 const fooHttp: IServerlessEventHttp = {
   method: "get",
   path: "foo",
-  cors: true
+  cors: true,
 };
 
 const fooBarHttpWithDocs: IServerlessEventHttpWithDocumentation = {
@@ -177,20 +177,20 @@ const fooBarHttpWithDocs: IServerlessEventHttpWithDocumentation = {
     summary: "Send message to bar from foo",
     description: "This function will send a post message over to bar from foo.",
     requestModels: {
-      "application/json": "PostDocumentRequest"
+      "application/json": "PostDocumentRequest",
     },
     methodResponses: [
       {
         statusCode: 200,
         responseBody: {
-          description: "Successful response"
+          description: "Successful response",
         },
         responseModels: {
-          "application/json": "PostDocumentResponse"
-        }
-      }
-    ]
-  }
+          "application/json": "PostDocumentResponse",
+        },
+      },
+    ],
+  },
 };
 
 const serverlessFun: IServerlessFunction = {
@@ -200,19 +200,19 @@ const serverlessFun: IServerlessFunction = {
   memorySize: 512,
   events: [
     {
-      http: fooHttp
+      http: fooHttp,
     },
     {
-      http: fooBarHttpWithDocs
-    }
-  ]
+      http: fooBarHttpWithDocs,
+    },
+  ],
 };
 
 const xray: IServerlessAccountInfo = {
   devDependencies: [],
   pluginsInstalled: [],
   accountId: "12345",
-  tracing: { lambda: true, apiGateway: true }
+  tracing: { lambda: true, apiGateway: true },
 };
 
 // if (xray.tracing.lambda) {
