@@ -14,13 +14,6 @@ export default {
       format: "umd",
       name: "common-types",
       sourcemap: true,
-      // globals: {
-      //   lodash: "lodash",
-      //   "firebase-key": "fbKey",
-      //   "wait-in-parallel": "Parallel",
-      //   "common-types": "common-types",
-      //   "serialized-query": "serialized-query"
-      // }
     },
     {
       dir: "dist/es",
@@ -28,13 +21,7 @@ export default {
       sourcemap: true,
     },
   ],
-  // external: [
-  //   "firebase-key",
-  //   "reflect-metadata",
-  //   "serialized-query",
-  //   "lodash",
-  //   "common-types"
-  // ],
+
   plugins: [
     typescript({
       tsconfig: "tsconfig-esm.json",
