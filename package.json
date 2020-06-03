@@ -3,17 +3,18 @@
   "version": "1.15.1",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
-  "main": "dist/common-types.cjs.js",
-  "module": "dist/common-types.es2015.js",
-  "browser": "dist/common-types.umd.js",
-  "typings": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
+  "browser": "dist/umd/index.js",
+  "typings": "dist/es/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "test": "./node_modules/.bin/ts-node ./scripts/test.ts ",
+    "clear": "rimraf dist",
     "deploy": "rollup -c && yarn publish",
-    "build": "run-s build:autoindex build:rollup",
+    "build": "run-s clear build:autoindex build:rollup",
     "build:autoindex": "yarn do autoindex",
     "build:rollup": "rollup -c",
     "build:tsc": "tsc && tsc -P tsconfig-esm.json"

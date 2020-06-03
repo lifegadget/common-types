@@ -4,16 +4,16 @@ export default {
   input: "src/index.ts",
   output: [
     {
-      file: "dist/common-types.cjs.js",
+      dir: "dist/cjs",
       format: "cjs",
       name: "common-types",
-      sourcemap: true
+      sourcemap: true,
     },
     {
-      file: "dist/common-types.umd.js",
+      dir: "dist/umd",
       format: "umd",
       name: "common-types",
-      sourcemap: true
+      sourcemap: true,
       // globals: {
       //   lodash: "lodash",
       //   "firebase-key": "fbKey",
@@ -23,10 +23,10 @@ export default {
       // }
     },
     {
-      file: "dist/common-types.es2015.js",
+      dir: "dist/es",
       format: "es",
-      sourcemap: true
-    }
+      sourcemap: true,
+    },
   ],
   // external: [
   //   "firebase-key",
@@ -37,7 +37,7 @@ export default {
   // ],
   plugins: [
     typescript({
-      tsconfig: "tsconfig-esm.json"
-    })
-  ]
+      tsconfig: "tsconfig-esm.json",
+    }),
+  ],
 };

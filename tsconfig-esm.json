@@ -1,19 +1,9 @@
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "module": "es2015",
-    "moduleResolution": "node",
-    "target": "es2017",
-    "noImplicitAny": true,
-    "outDir": "./dist",
-    "preserveConstEnums": true,
-    "removeComments": false,
-    "typeRoots": ["./node_modules/@types"]
+    "module": "ESNext",
+    "outDir": "./dist/es"
   },
-  "include": ["src/**/*"],
-  "exclude": [
-    "node_modules",
-    "**/*-spec.ts",
-    "node_modules/firebase-admin/lib/index.d.ts"
-  ]
+  "include": ["src/**/*"]
 }

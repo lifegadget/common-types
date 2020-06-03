@@ -1,7 +1,3 @@
-// #autoindex:named
-
-//#region autoindexed files
-// indexed at: 6th Jun, 2020, 07:29 AM ( GMT-7 )
 export * from "./LambdaEventParser";
 export * from "./LambdaResponse";
 export * from "./async";
@@ -22,5 +18,3 @@ export * from "./serverless-constants";
 export * from "./serverless-http";
 export * from "./serverless";
 export * from "./errors/index";
-//#endregion
-
