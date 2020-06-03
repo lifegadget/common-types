@@ -1,30 +1,24 @@
-import typescript from "rollup-plugin-typescript2";
+import typescript from "@rollup/plugin-typescript";
+// import typescript from "rollup-plugin-typescript2";
 
-export default {
+const moduleRun = (moduleSystem) => ({
   input: "src/index.ts",
-  output: [
-    {
-      dir: "dist/cjs",
-      format: "cjs",
-      name: "common-types",
-      sourcemap: true,
-    },
-    {
-      dir: "dist/umd",
-      format: "umd",
-      name: "common-types",
-      sourcemap: true,
-    },
-    {
-      dir: "dist/es",
-      format: "es",
-      sourcemap: true,
-    },
-  ],
+  output: {
+    dir: `dist/${moduleSystem}`,
+    format: moduleSystem,
+    ...(moduleSystem !== "es" ? { name: "common-types" } : {}),
+    sourcemap: true,
+  },
 
   plugins: [
     typescript({
-      tsconfig: "tsconfig-esm.json",
+      tsconfig: `tsconfig-${moduleSystem}.json`,
     }),
   ],
+});
+
+export default () => {
+  moduleRun("es");
+  moduleRun("cjs");
+  moduleRun("umd");
 };

@@ -2,8 +2,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "module": "ESNext",
-    "outDir": "./dist/es"
+    "noEmit": false,
+    "module": "umd",
+    "outDir": "./dist/umd"
   },
   "include": ["src/**/*"]
 }
