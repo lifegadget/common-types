@@ -1,43 +1,24 @@
-import typescript from "rollup-plugin-typescript2";
+import typescript from "@rollup/plugin-typescript";
+// import typescript from "rollup-plugin-typescript2";
 
-export default {
+const moduleRun = (moduleSystem) => ({
   input: "src/index.ts",
-  output: [
-    {
-      file: "dist/common-types.cjs.js",
-      format: "cjs",
-      name: "common-types",
-      sourcemap: true
-    },
-    {
-      file: "dist/common-types.umd.js",
-      format: "umd",
-      name: "common-types",
-      sourcemap: true
-      // globals: {
-      //   lodash: "lodash",
-      //   "firebase-key": "fbKey",
-      //   "wait-in-parallel": "Parallel",
-      //   "common-types": "common-types",
-      //   "serialized-query": "serialized-query"
-      // }
-    },
-    {
-      file: "dist/common-types.es2015.js",
-      format: "es",
-      sourcemap: true
-    }
-  ],
-  // external: [
-  //   "firebase-key",
-  //   "reflect-metadata",
-  //   "serialized-query",
-  //   "lodash",
-  //   "common-types"
-  // ],
+  output: {
+    dir: `dist/${moduleSystem}`,
+    format: moduleSystem,
+    ...(moduleSystem !== "es" ? { name: "common-types" } : {}),
+    sourcemap: true,
+  },
+
   plugins: [
     typescript({
-      tsconfig: "tsconfig-esm.json"
-    })
-  ]
+      tsconfig: `tsconfig-${moduleSystem}.json`,
+    }),
+  ],
+});
+
+export default () => {
+  moduleRun("es");
+  moduleRun("cjs");
+  moduleRun("umd");
 };
