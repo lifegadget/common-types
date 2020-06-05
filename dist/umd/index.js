@@ -15,16 +15,17 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "./LambdaEventParser", "./LambdaResponse", "./async", "./aws", "./basics", "./github-commit", "./github-event", "./github-release", "./github-webhooks", "./github", "./npm", "./package", "./parseStack", "./path", "./serverless-alias", "./serverless-bind-deployment-id", "./serverless-constants", "./serverless-http", "./serverless", "./errors/index"], factory);
+        define(["require", "exports", "./LambdaEventParser", "./LambdaResponse", "./async", "./aws-layers", "./aws", "./basics", "./github-commit", "./github-event", "./github-release", "./github-webhooks", "./github", "./npm", "./package", "./parseStack", "./path", "./serverless-alias", "./serverless-bind-deployment-id", "./serverless-constants", "./serverless-http", "./serverless", "./errors/index"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     //#region autoindexed files
-    // indexed at: 6th Jun, 2020, 08:20 AM ( GMT-7 )
+    // indexed at: 6th Jun, 2020, 06:22 AM ( GMT-7 )
     __exportStar(require("./LambdaEventParser"), exports);
     __exportStar(require("./LambdaResponse"), exports);
     __exportStar(require("./async"), exports);
+    __exportStar(require("./aws-layers"), exports);
     __exportStar(require("./aws"), exports);
     __exportStar(require("./basics"), exports);
     __exportStar(require("./github-commit"), exports);

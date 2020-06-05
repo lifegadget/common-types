@@ -1,6 +1,7 @@
 export * from "./LambdaEventParser";
 export * from "./LambdaResponse";
 export * from "./async";
+export * from "./aws-layers";
 export * from "./aws";
 export * from "./basics";
 export * from "./github-commit";
