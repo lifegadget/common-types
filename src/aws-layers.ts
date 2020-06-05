@@ -69,7 +69,7 @@ export interface IAWSLayerVersion {
   description?: string;
   /**
    * Provides a full fingerprint of the underlying modules which are being handled
-   * by this
+   * by this Layer. This _can_ be **npm** modules but doesn't need to be.
    */
-  externals?: IDictionary;
+  packages?: IDictionary;
 }
