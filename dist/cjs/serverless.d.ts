@@ -166,6 +166,10 @@ export declare type ServerlessFunctionMemorySize = 128 | 192 | 256 | 320 | 384 |
  * function to call within the file.
  */
 export interface IServerlessFunction {
+    /**
+     * Allows you to set environment variables specific to that
+     * function.
+     */
     environment?: string | IDictionary;
     description?: string;
     /**
