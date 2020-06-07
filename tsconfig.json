@@ -3,15 +3,13 @@
     "declaration": false,
     "noEmit": true,
     "module": "commonjs",
-    "lib": ["esnext.asynciterable"],
     "target": "es2020",
     "moduleResolution": "node",
     "noImplicitAny": true,
     "removeComments": false,
     "preserveConstEnums": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "typeRoots": ["./node_modules/@types"]
+    "emitDecoratorMetadata": true
   },
   "include": ["src/**/*"]
 }
