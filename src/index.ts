@@ -1,7 +1,7 @@
 // #autoindex:named
 
 //#region autoindexed files
-// indexed at: 6th Jun, 2020, 10:13 AM ( GMT-7 )
+// indexed at: 6th Jun, 2020, 01:05 AM ( GMT+0 )
 export * from "./LambdaEventParser";
 export * from "./LambdaResponse";
 export * from "./async";

@@ -1,5 +1,5 @@
-import typescript from "@rollup/plugin-typescript";
-// import typescript from "rollup-plugin-typescript2";
+import typescript from "rollup-plugin-typescript2";
+import commonjs from "@rollup/plugin-commonjs";
 
 const moduleRun = (moduleSystem) => ({
   input: "src/index.ts",
@@ -12,13 +12,16 @@ const moduleRun = (moduleSystem) => ({
 
   plugins: [
     typescript({
-      tsconfig: `tsconfig-${moduleSystem}.json`,
+      tsconfig: `tsconfig-es.json`,
+      outDir: `dist/${moduleSystem}`
     }),
+    ...(moduleSystem === "cjs" ? [commonjs()] : [])
   ],
 });
 
 export default () => {
-  moduleRun("es");
-  moduleRun("cjs");
-  moduleRun("umd");
+  return [
+    moduleRun("es"),
+    moduleRun("cjs"),
+  ]
 };
