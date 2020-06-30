@@ -1,7 +1,9 @@
 import { IDictionary, datetime } from "./basics";
+import { IHttpApiComplex, IHttpApiSimple } from "./serverless-http";
+
 import { IApiGatewayAliasConfig } from "./serverless-alias";
 import { arn } from "./aws";
-import { IHttpApiComplex, IHttpApiSimple } from "./serverless-http";
+
 export type JSONSchema4 = import("json-schema").JSONSchema4;
 /** A typing for the serverless framework's "serverless.yml" file */
 
@@ -9,10 +11,10 @@ export type IServerlessStage = "dev" | "prod" | "test" | "stage";
 
 export type IServerlessVariable = string;
 export interface IServerlessAccountInfo {
-  name?: string;
-  accountId?: string;
-  region?: string;
-  profile?: string;
+  name: string;
+  accountId: string;
+  region: string;
+  profile: string;
   /**
    * Add X-RAY tracing to API Gateway and Lambda. Using the boolean flags
    * you are setting both but if you only want one you can state which one
@@ -31,6 +33,19 @@ export interface IServerlessAccountInfo {
    * a list of all Development Dependencies
    */
   devDependencies: string[];
+}
+
+export function serverlessConfigHasApiGatewayTracing(config: IServerlessAccountInfo) {
+  return (config.tracing && config.tracing === true) ||
+    (typeof config.tracing === "object" && config.tracing.apiGateway)
+    ? true
+    : false;
+}
+
+export function serverlessConfigHasLambdaTracing(config: IServerlessAccountInfo) {
+  return (config.tracing && config.tracing === true) || (typeof config.tracing === "object" && config.tracing.lambda)
+    ? true
+    : false;
 }
 
 export interface IServerlessDiscreteTracingConfig {
@@ -229,6 +244,10 @@ export type ServerlessFunctionMemorySize =
  * function to call within the file.
  */
 export interface IServerlessFunction {
+  /**
+   * Allows you to set environment variables specific to that
+   * function.
+   */
   environment?: string | IDictionary;
   description?: string;
   /**

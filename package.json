@@ -1,20 +1,22 @@
 {
   "name": "common-types",
-  "version": "1.14.3",
+  "version": "1.15.7",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
-  "main": "dist/common-types.cjs.js",
-  "module": "dist/common-types.es2015.js",
-  "browser": "dist/common-types.umd.js",
-  "typings": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
+  "typings": "dist/es/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "test": "./node_modules/.bin/ts-node ./scripts/test.ts ",
+    "clear": "rimraf dist",
     "deploy": "rollup -c && yarn publish",
-    "build": "rollup -c",
-    "build:tsc": "tsc && tsc -P tsconfig-esm.json"
+    "build": "run-s clear build:autoindex build:rollup",
+    "build:autoindex": "yarn do autoindex",
+    "build:rollup": "rollup -c",
+    "build:tsc": "tsc -P tsconfig-es.json && tsc -P tsconfig-cjs.json && tsc -P tsconfig-umd.json"
   },
   "author": "Ken Snyder <ken@ken.net>",
   "license": "MIT",
@@ -22,17 +24,20 @@
     "@types/json-schema": "^7.0.4"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^13.0.0",
     "@types/chai": "^4.2.11",
     "@types/mocha": "^7.0.2",
     "@types/rimraf": "^2.0.2",
     "async-shelljs": "^0.1.4",
     "chai": "^4.2.0",
+    "do-devops": "^0.3.16",
     "json-schema": "^0.2.5",
     "mocha": "^7.1.1",
+    "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
-    "rollup": "^2.3.1",
-    "rollup-plugin-typescript2": "^0.27.0",
-    "ts-node": "^8.8.1",
-    "typescript": "^3.8.3"
+    "rollup": "^2.13.1",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.3"
   }
 }
