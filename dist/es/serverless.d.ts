@@ -351,6 +351,8 @@ export interface IServerlessAuthorizer {
 export declare type AwsFunctionArn = string;
 export declare type StepFunctionBuiltinStates = "States.Timeout" | "States.ALL" | "States.TaskFailed" | "States.Permissions";
 export interface IStateMachine {
+    /** To declare an express workflow, specify type as _EXPRESS_ */
+    type?: "STANDARD" | "EXPRESS";
     /** the name of the function; can include variables like ${opt:stage} */
     name?: string;
     /** Schedule or HTTP events which trigger the step function */
@@ -359,6 +361,15 @@ export interface IStateMachine {
     role?: string;
     /** The definition of the State Machine */
     definition: IStepFunction;
+    /** Defines what execution history events are logged and where they are logged. */
+    loggingConfig?: {
+        /** Defines which category of execution history events are logged. */
+        level?: "ALL" | "ERROR" | "INFO";
+        /** Determines whether execution data is included in your log. When set to `FALSE`, data is excluded.  */
+        includeExecutionData?: boolean;
+        /** An array of objects that describes where your execution history events will be logged. Limited to size 1. Required, if your log level is not set to `OFF`. */
+        destinations: string[];
+    };
 }
 export interface IStepFunction {
     /** Prose description of what this Step is about */
@@ -369,8 +380,8 @@ export interface IStepFunction {
     States: IDictionary<IStepFunctionStep>;
 }
 /** A generic type that allows for any of the various types of state to be applied */
-export declare type IStepFunctionStep<T = IDictionary> = IStepFunctionTask<T> | IStepFunctionChoice<T> | IStepFunctionWait<T> | IStepFunctionParallel<T> | IStepFunctionPass<T> | IStepFunctionFail | IStepFunctionSucceed;
-export declare type IStepFunctionType = "Task" | "Wait" | "Parallel" | "Choice" | "Succeed" | "Fail" | "Pass";
+export declare type IStepFunctionStep<T = IDictionary> = IStepFunctionTask<T> | IStepFunctionChoice<T> | IStepFunctionWait<T> | IStepFunctionParallel<T> | IStepFunctionMap<T> | IStepFunctionPass<T> | IStepFunctionFail | IStepFunctionSucceed;
+export declare type IStepFunctionType = "Task" | "Wait" | "Parallel" | "Map" | "Choice" | "Succeed" | "Fail" | "Pass";
 export interface IStepFunctionBaseState {
     Type: IStepFunctionType;
     /** A human readable description of the state */
@@ -500,6 +511,32 @@ export interface IStepFunctionParallel<T = IDictionary> extends IStepFunctionBas
     Type: "Parallel";
     Branches: IStepFunctionParallelBranch[];
     Next?: keyof T;
+    End?: true;
+    /** An array of objects, called Retriers that define a retry policy in case the state encounters runtime errors. */
+    Retry?: string[];
+    Catch?: IStepFunctionCatcher[];
+}
+export interface IStepFunctionMap<T = IDictionary> extends IStepFunctionBaseWithPathMapping {
+    Type: "Map";
+    /**
+     * The `ItemsPath` field’s value is a reference path identifying where in the effective input the array field is found.
+     *
+     * States within an `Iterator` field can only transition to each other, and no state outside the `ItemsPath` field can transition to a state within it.
+     * If any iteration fails, entire Map state fails, and all iterations are terminated.
+     */
+    ItemsPath?: string;
+    Parameters?: IDictionary;
+    ResultPath?: string;
+    /** The `Iterator` field’s value is an object that defines a state machine which will process each element of the array.  */
+    Iterator: {
+        StartAt: string;
+        States?: IDictionary<IStepFunctionStep>;
+    };
+    /** The `MaxConcurrency`field’s value is an integer that provides an upper bound on how many invocations of the Iterator may run in parallel. For instance, a `MaxConcurrency` value of 10 will limit your Map state to 10 concurrent iterations running at one time. */
+    MaxConcurrency?: number;
+    /** A string that must exactly match one of the state machine's state names. */
+    Next?: keyof T;
+    /** Designates this state as a terminal state (ends the execution) if set to true. There can be any number of terminal states per state machine. Only one of Next or End can be used in a state. Some state types, such as Choice, don't support or use the End field.  */
     End?: true;
     /** An array of objects, called Retriers that define a retry policy in case the state encounters runtime errors. */
     Retry?: string[];
