@@ -355,6 +355,15 @@ export interface IStateMachine {
     role?: string;
     /** The definition of the State Machine */
     definition: IStepFunction;
+    /** Defines what execution history events are logged and where they are logged. */
+    loggingConfig?: {
+        /** Defines which category of execution history events are logged. */
+        level?: "ALL" | "ERROR" | "INFO";
+        /** Determines whether execution data is included in your log. When set to `FALSE`, data is excluded.  */
+        includeExecutionData?: boolean;
+        /** An array of objects that describes where your execution history events will be logged. Limited to size 1. Required, if your log level is not set to `OFF`. */
+        destinations: string[];
+    };
 }
 export interface IStepFunction {
     /** Prose description of what this Step is about */
@@ -510,6 +519,8 @@ export interface IStepFunctionMap<T = IDictionary> extends IStepFunctionBaseWith
      * If any iteration fails, entire Map state fails, and all iterations are terminated.
      */
     ItemsPath?: string;
+    Parameters?: IDictionary;
+    ResultPath?: string;
     /** The `Iterator` field’s value is an object that defines a state machine which will process each element of the array.  */
     Iterator: {
         StartAt: string;
