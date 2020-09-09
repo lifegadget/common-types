@@ -520,6 +520,8 @@ export interface IStepFunctionTask<T = IDictionary> extends IStepFunctionBaseWit
   Resource: AwsFunctionArn;
   /** A string that must exactly match one of the state machine's state names. */
   Next?: keyof T;
+  /** A path which determines what is sent as input to the state specified by the Next field. */
+  ResultPath?: string;
   Parameters?: IDictionary;
   End?: true;
   Retry?: IStepFunctionRetrier[];
