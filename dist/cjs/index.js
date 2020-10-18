@@ -528,7 +528,8 @@ function serverlessConfigHasApiGatewayTracing(config) {
         : false;
 }
 function serverlessConfigHasLambdaTracing(config) {
-    return (config.tracing && config.tracing === true) || (typeof config.tracing === "object" && config.tracing.lambda)
+    return (config.tracing && config.tracing === true) ||
+        (typeof config.tracing === "object" && config.tracing.lambda)
         ? true
         : false;
 }

@@ -2,7 +2,6 @@ import { IDictionary, datetime } from "./basics";
 import { IHttpApiComplex, IHttpApiSimple } from "./serverless-http";
 import { IApiGatewayAliasConfig } from "./serverless-alias";
 import { arn } from "./aws";
-export declare type JSONSchema4 = import("json-schema").JSONSchema4;
 /** A typing for the serverless framework's "serverless.yml" file */
 export declare type IServerlessStage = "dev" | "prod" | "test" | "stage";
 export declare type IServerlessVariable = string;
@@ -329,14 +328,14 @@ export interface IServerlessStatusCode {
     template?: string | IDictionary;
     headers: IDictionary;
 }
-export interface IServerlessRequest {
+export interface IServerlessRequest<T = unknown> {
     template?: IDictionary;
     parameters?: {
         querystrings?: IDictionary;
         headers?: IDictionary;
         paths?: IDictionary;
     };
-    schema: JSONSchema4;
+    schema: T;
     passThrough?: "NEVER" | "WHEN_NO_MATCH" | "WHEN_NO_TEMPLATES";
 }
 export interface IServerlessAuthorizer {

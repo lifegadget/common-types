@@ -4,7 +4,6 @@ import { IHttpApiComplex, IHttpApiSimple } from "./serverless-http";
 import { IApiGatewayAliasConfig } from "./serverless-alias";
 import { arn } from "./aws";
 
-export type JSONSchema4 = import("json-schema").JSONSchema4;
 /** A typing for the serverless framework's "serverless.yml" file */
 
 export type IServerlessStage = "dev" | "prod" | "test" | "stage";
@@ -43,7 +42,8 @@ export function serverlessConfigHasApiGatewayTracing(config: IServerlessAccountI
 }
 
 export function serverlessConfigHasLambdaTracing(config: IServerlessAccountInfo) {
-  return (config.tracing && config.tracing === true) || (typeof config.tracing === "object" && config.tracing.lambda)
+  return (config.tracing && config.tracing === true) ||
+    (typeof config.tracing === "object" && config.tracing.lambda)
     ? true
     : false;
 }
@@ -431,14 +431,14 @@ export interface IServerlessStatusCode {
   headers: IDictionary;
 }
 
-export interface IServerlessRequest {
+export interface IServerlessRequest<T = unknown> {
   template?: IDictionary;
   parameters?: {
     querystrings?: IDictionary;
     headers?: IDictionary;
     paths?: IDictionary;
   };
-  schema: JSONSchema4;
+  schema: T;
   passThrough?: "NEVER" | "WHEN_NO_MATCH" | "WHEN_NO_TEMPLATES";
 }
 
@@ -500,7 +500,15 @@ export declare type IStepFunctionStep<T = IDictionary> =
   | IStepFunctionPass<T>
   | IStepFunctionFail
   | IStepFunctionSucceed;
-export declare type IStepFunctionType = "Task" | "Wait" | "Parallel" | "Map" | "Choice" | "Succeed" | "Fail" | "Pass";
+export declare type IStepFunctionType =
+  | "Task"
+  | "Wait"
+  | "Parallel"
+  | "Map"
+  | "Choice"
+  | "Succeed"
+  | "Fail"
+  | "Pass";
 export interface IStepFunctionBaseState {
   Type: IStepFunctionType;
   /** A human readable description of the state */
@@ -539,7 +547,8 @@ export interface IStepFunctionChoice<T = IDictionary> extends IStepFunctionBaseS
   Default?: keyof T;
 }
 
-export type IStepFunctionChoiceItem<T> = Partial<IStepFunctionOperand> & IStepFunctionComplexChoiceItem<T>;
+export type IStepFunctionChoiceItem<T> = Partial<IStepFunctionOperand> &
+  IStepFunctionComplexChoiceItem<T>;
 
 export interface IStepFunctionComplexChoiceItem<T> extends IStepFunctionBaseChoice<T> {
   // complex operators
@@ -579,7 +588,8 @@ export interface IStepFunctionOperand_StringGreaterThan extends IStepFunctionBas
   /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
   StringGreaterThan?: string;
 }
-export interface IStepFunctionOperand_StringGreaterThanEquals extends IStepFunctionBaseLogicalOperand {
+export interface IStepFunctionOperand_StringGreaterThanEquals
+  extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be equal to a stated string */
   StringGreaterThanEquals?: string;
 }
@@ -601,7 +611,8 @@ export interface IStepFunctionOperand_NumericGreaterThan extends IStepFunctionBa
   NumericGreaterThan?: number;
 }
 
-export interface IStepFunctionOperand_NumericGreaterThanEquals extends IStepFunctionBaseLogicalOperand {
+export interface IStepFunctionOperand_NumericGreaterThanEquals
+  extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be numerically equal to a stated number */
   NumericGreaterThanEquals?: number;
 }
@@ -610,7 +621,8 @@ export interface IStepFunctionOperand_NumericLessThan extends IStepFunctionBaseL
   NumericLessThan?: number;
 }
 
-export interface IStepFunctionOperand_NumericLessThanEquals extends IStepFunctionBaseLogicalOperand {
+export interface IStepFunctionOperand_NumericLessThanEquals
+  extends IStepFunctionBaseLogicalOperand {
   /** compare the value passed in -- and scoped by "Variable" -- to be numerically equal to a stated number */
   NumericLessThanEquals?: number;
 }
@@ -670,8 +682,7 @@ export interface IStepFunctionParallel<T = IDictionary> extends IStepFunctionBas
   Catch?: IStepFunctionCatcher[];
 }
 
-export interface IStepFunctionMap<T = IDictionary>
-  extends IStepFunctionBaseWithPathMapping {
+export interface IStepFunctionMap<T = IDictionary> extends IStepFunctionBaseWithPathMapping {
   Type: "Map";
   /**
    * The `ItemsPath` field’s value is a reference path identifying where in the effective input the array field is found.

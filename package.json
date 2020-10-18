@@ -23,9 +23,6 @@
   },
   "author": "Ken Snyder <ken@ken.net>",
   "license": "MIT",
-  "dependencies": {
-    "@types/json-schema": "^7.0.4"
-  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^13.0.0",
     "@types/chai": "^4.2.11",
