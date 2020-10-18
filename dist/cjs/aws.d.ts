@@ -1,4 +1,5 @@
-import { IDictionary, BooleanAsString, epoch, IHttpResponseHeaders } from "./basics";
+import { IDictionary, BooleanAsString, epoch } from "./basics";
+import { IHttpResponseHeaders } from "./http";
 export declare type arn = string;
 /**
  * **IAwsHandlerFunction**
