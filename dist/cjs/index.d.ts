@@ -9,6 +9,7 @@ export * from "./github-event";
 export * from "./github-release";
 export * from "./github-webhooks";
 export * from "./github";
+export * from "./http";
 export * from "./npm";
 export * from "./package";
 export * from "./parseStack";
