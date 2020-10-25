@@ -69,6 +69,11 @@ export interface IServerlessApiGatewayLoggingConfig {
     /** custom domain name */
     domainName?: string;
 }
+/**
+ * @deprecated createBindDeploymentConfig() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 export declare function createBindDeploymentConfig(config: IServerlessApiGatewayLoggingConfig, methodSettings?: IApiGatewayMethodSetting[]): {
     /** the service name */
     service: string;
