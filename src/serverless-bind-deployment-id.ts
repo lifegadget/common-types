@@ -74,6 +74,11 @@ export interface IServerlessApiGatewayLoggingConfig {
   domainName?: string;
 }
 
+/**
+ * @deprecated createBindDeploymentConfig() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 export function createBindDeploymentConfig(
   config: IServerlessApiGatewayLoggingConfig,
   methodSettings?: IApiGatewayMethodSetting[]
@@ -84,8 +89,8 @@ export function createBindDeploymentConfig(
       HttpMethod: "*",
       LoggingLevel: "INFO",
       ResourcePath: "/*",
-      MetricsEnabled: true
-    }
+      MetricsEnabled: true,
+    },
   ];
   const stageName = `${config.service}-${config.stage}`;
   const defaultConfig: IServerlessBindDeploymentIdPlugin = {
@@ -97,31 +102,31 @@ export function createBindDeploymentConfig(
           Properties: {
             DomainName: config.domainName ? config.domainName : undefined,
             RestApiId: {
-              Ref: "ApiGatewayRestApi"
+              Ref: "ApiGatewayRestApi",
             },
-            Stage: stageName
-          }
+            Stage: stageName,
+          },
         },
         __deployment__: {
           Properties: {
-            Description: "(default deployment description)"
-          }
+            Description: "(default deployment description)",
+          },
         },
         ApiGatewayStage: {
           Type: "AWS::ApiGateway::Stage",
           Properties: {
             DeploymentId: {
-              Ref: "__deployment__"
+              Ref: "__deployment__",
             },
             RestApiId: {
-              Ref: "ApiGatewayRestApi"
+              Ref: "ApiGatewayRestApi",
             },
             StageName: stageName,
-            MethodSettings: methodSettings || defaultMethodSettings
-          }
-        }
-      }
-    }
+            MethodSettings: methodSettings || defaultMethodSettings,
+          },
+        },
+      },
+    },
   };
   return { ...defaultConfig, ...config };
 }
