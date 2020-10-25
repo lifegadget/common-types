@@ -8,7 +8,11 @@ export interface IStackFrame {
   shortPath?: string;
   file: string;
 }
-
+/**
+ * @deprecated separateFileAndFilepath() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 function separateFileAndFilepath(fileinfo: string) {
   const parts = fileinfo.split("/");
   return parts.length < 2
@@ -16,19 +20,22 @@ function separateFileAndFilepath(fileinfo: string) {
     : { file: parts.pop(), filePath: parts.slice(0, parts.length - 1).join("/") };
 }
 
+/**
+ * @deprecated fileMapper() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 function fileMapper(i: IStackFrame) {
   const { file, filePath } = separateFileAndFilepath(i.file);
   i.file = file;
   if (filePath) {
     i.filePath = filePath;
-    i.shortPath = filePath
-      .split("/")
-      .slice(-3)
-      .join("/");
+    i.shortPath = filePath.split("/").slice(-3).join("/");
   }
   return i;
 }
 
+/** @deprecated */
 export interface IParseStackOptions {
   /**
    * state text to look for in the function name or file
@@ -43,8 +50,9 @@ export interface IParseStackOptions {
 }
 
 /**
- * parses an Error's `stack` property into a structured
- * object. Optionally allowing for filtering and size limiting
+ * @deprecated getStackInfo() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
  */
 export function parseStack(
   /** the default stack trace string */
@@ -65,7 +73,7 @@ export function parseStack(
     parsed = JSON.parse(`[ ${structured.replace(/\,$/, "")} ]`)
       .filter((i: IStackFrame) => {
         let result = true;
-        ignorePatterns.forEach(pattern => {
+        ignorePatterns.forEach((pattern) => {
           if (i.fn.includes(pattern) || i.file.includes(pattern)) {
             result = false;
           }

@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "dist/cjs/index.js",
@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "./node_modules/.bin/ts-node ./scripts/test.ts ",
+    "test": "yarn tsc ",
     "clear": "rimraf dist",
     "deploy": "rollup -c && yarn publish",
     "build": "run-s clear build:autoindex build:rollup",

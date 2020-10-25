@@ -5,16 +5,21 @@ var moreThanThreePeriods = /\.{3,}/g;
 
 // polyfill Array.isArray if necessary
 if (!Array.isArray) {
-  (Array.isArray as any) = function(arg: any) {
+  (Array.isArray as any) = function (arg: any) {
     return Object.prototype.toString.call(arg) === "[object Array]";
   };
 }
 
+/**
+ * @deprecated getStackInfo() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 function getStackInfo() {
   // GET stack info
   try {
     const result = parseStack(new Error().stack, {
-      ignorePatterns: ["mocha/lib", "timers.js", "runners/node"]
+      ignorePatterns: ["mocha/lib", "timers.js", "runners/node"],
     }).slice(1);
     return result;
   } catch (e) {
@@ -26,37 +31,37 @@ function getStackInfo() {
  * An ISO-morphic path join that works everywhere;
  * all paths are separated by the `/` character and both
  * leading and trailing delimiters are stripped
+ *
+ * @deprecated getStackInfo() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
  */
 export function pathJoin(...args: any[]) {
   // strip undefined segments
-  if (!args.every(i => !["undefined"].includes(typeof i))) {
-    args = args.filter(a => a);
+  if (!args.every((i) => !["undefined"].includes(typeof i))) {
+    args = args.filter((a) => a);
   }
   // remaining invalid types
-  if (!args.every(i => ["string", "number"].includes(typeof i))) {
+  if (!args.every((i) => ["string", "number"].includes(typeof i))) {
     throw new PathJoinError(
       "invalid-path-part",
       `Attempt to use pathJoin() failed because some of the path parts were of the wrong type. Path parts must be either a string or an number: ${args.map(
-        i => typeof i
+        (i) => typeof i
       )}`
     );
   }
 
   // JOIN paths
   try {
-    const reducer = function(agg: string, pathPart: string | number) {
+    const reducer = function (agg: string, pathPart: string | number) {
       let { protocol, parts } = pullOutProtocols(agg);
       parts.push(
-        typeof pathPart === "number"
-          ? String(pathPart)
-          : stripSlashesAtExtremities(pathPart)
+        typeof pathPart === "number" ? String(pathPart) : stripSlashesAtExtremities(pathPart)
       );
-      return protocol + parts.filter(i => i).join("/");
+      return protocol + parts.filter((i) => i).join("/");
     };
     const result = removeSingleDotExceptToStart(
-      doubleDotOnlyToStart(
-        args.reduce(reducer, "").replace(moreThanThreePeriods, "..")
-      )
+      doubleDotOnlyToStart(args.reduce(reducer, "").replace(moreThanThreePeriods, ".."))
     );
     return result;
   } catch (e) {
@@ -68,10 +73,15 @@ export function pathJoin(...args: any[]) {
   }
 }
 
+/**
+ * @deprecated pullOutProtocols() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 function pullOutProtocols(content: string) {
   const protocols = ["https://", "http://", "file://", "tel://"];
   let protocol: string = "";
-  protocols.forEach(p => {
+  protocols.forEach((p) => {
     if (content.includes(p)) {
       protocol = p;
       content = content.replace(p, "");
@@ -80,10 +90,14 @@ function pullOutProtocols(content: string) {
   return { protocol, parts: content.split("/") };
 }
 
+/**
+ * @deprecated stripSlashesAtExtremities() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 function stripSlashesAtExtremities(pathPart: string): string {
   const front = pathPart.slice(0, 1) === "/" ? pathPart.slice(1) : pathPart;
-  const back =
-    front.slice(-1) === "/" ? front.slice(0, front.length - 1) : front;
+  const back = front.slice(-1) === "/" ? front.slice(0, front.length - 1) : front;
   return back.slice(0, 1) === "/" || back.slice(-1) === "/"
     ? stripSlashesAtExtremities(back)
     : back;
@@ -92,6 +106,10 @@ function stripSlashesAtExtremities(pathPart: string): string {
 /**
  * checks to ensure that a ".." path notation is only employed at the
  * very start of the path or else throws an error
+ *
+ * @deprecated doubleDotOnlyToStart() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
  */
 function doubleDotOnlyToStart(path: string) {
   if (path.slice(2).includes("..")) {
@@ -104,7 +122,9 @@ function doubleDotOnlyToStart(path: string) {
 }
 
 /**
- * removes `./` in path parts other than leading segment
+ * @deprecated removeSingleDotExceptToStart() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
  */
 function removeSingleDotExceptToStart(path: string) {
   let parts = path.split("/");
@@ -114,26 +134,32 @@ function removeSingleDotExceptToStart(path: string) {
     "/" +
     parts
       .slice(1)
-      .filter(i => i !== ".")
+      .filter((i) => i !== ".")
       .join("/")
   );
 }
 
+/**
+ * @deprecated joinStringsWithSlash() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 function joinStringsWithSlash(str1: string, str2: string) {
   const str1isEmpty = !str1.length;
   const str1EndsInSlash = str1[str1.length - 1] === "/";
   const str2StartsWithSlash = str2[0] === "/";
   var res =
     (str1EndsInSlash && str2StartsWithSlash && str1 + str2.slice(1)) ||
-    (!str1EndsInSlash &&
-      !str2StartsWithSlash &&
-      !str1isEmpty &&
-      str1 + "/" + str2) ||
+    (!str1EndsInSlash && !str2StartsWithSlash && !str1isEmpty && str1 + "/" + str2) ||
     str1 + str2;
   return res;
 }
 
-/** converts a slash delimited filepath to a dot notation path */
+/**
+ * @deprecated dotNotation() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 export function dotNotation(input: string) {
   return input.replace(/\//g, ".");
 }

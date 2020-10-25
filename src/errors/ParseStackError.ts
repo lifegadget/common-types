@@ -1,3 +1,6 @@
+/**
+ * @deprecated ParseStackError you should not use this class; consider using a library like `brilliant-errors`.
+ */
 export class ParseStackError extends Error {
   public code: string;
   public name: string;
