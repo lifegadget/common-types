@@ -6,6 +6,7 @@ export interface IStackFrame {
     shortPath?: string;
     file: string;
 }
+/** @deprecated */
 export interface IParseStackOptions {
     /**
      * state text to look for in the function name or file
@@ -19,8 +20,9 @@ export interface IParseStackOptions {
     limit?: number;
 }
 /**
- * parses an Error's `stack` property into a structured
- * object. Optionally allowing for filtering and size limiting
+ * @deprecated getStackInfo() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
  */
 export declare function parseStack(
 /** the default stack trace string */

@@ -29,7 +29,17 @@ export interface IServerlessAccountInfo {
      */
     devDependencies: string[];
 }
+/**
+ * @deprecated serverlessConfigHasApiGatewayTracing() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 export declare function serverlessConfigHasApiGatewayTracing(config: IServerlessAccountInfo): boolean;
+/**
+ * @deprecated serverlessConfigHasLambdaTracing() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 export declare function serverlessConfigHasLambdaTracing(config: IServerlessAccountInfo): boolean;
 export interface IServerlessDiscreteTracingConfig {
     apiGateway?: boolean;

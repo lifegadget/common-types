@@ -87,9 +87,12 @@ class LambdaEventParser {
 class LambdaResponse {
 }
 
-/** provides a friendly way to pause execution when using async/await symantics */
+/**
+ * provides a friendly way to pause execution when using
+ * async/await symantics
+ */
 async function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 var HttpStatusCodes;
@@ -289,6 +292,9 @@ var HttpStatusCodes;
     HttpStatusCodes[HttpStatusCodes["AuthenticationRequired"] = 511] = "AuthenticationRequired";
 })(HttpStatusCodes || (HttpStatusCodes = {}));
 
+/**
+ * @deprecated ParseStackError you should not use this class; consider using a library like `brilliant-errors`.
+ */
 class ParseStackError extends Error {
     constructor(code, message, originalString, structuredString) {
         super();
@@ -300,27 +306,35 @@ class ParseStackError extends Error {
     }
 }
 
+/**
+ * @deprecated separateFileAndFilepath() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 function separateFileAndFilepath(fileinfo) {
     const parts = fileinfo.split("/");
     return parts.length < 2
         ? { file: fileinfo, filePath: "" }
         : { file: parts.pop(), filePath: parts.slice(0, parts.length - 1).join("/") };
 }
+/**
+ * @deprecated fileMapper() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 function fileMapper(i) {
     const { file, filePath } = separateFileAndFilepath(i.file);
     i.file = file;
     if (filePath) {
         i.filePath = filePath;
-        i.shortPath = filePath
-            .split("/")
-            .slice(-3)
-            .join("/");
+        i.shortPath = filePath.split("/").slice(-3).join("/");
     }
     return i;
 }
 /**
- * parses an Error's `stack` property into a structured
- * object. Optionally allowing for filtering and size limiting
+ * @deprecated getStackInfo() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
  */
 function parseStack(
 /** the default stack trace string */
@@ -335,7 +349,7 @@ stack, options = {}) {
         parsed = JSON.parse(`[ ${structured.replace(/\,$/, "")} ]`)
             .filter((i) => {
             let result = true;
-            ignorePatterns.forEach(pattern => {
+            ignorePatterns.forEach((pattern) => {
                 if (i.fn.includes(pattern) || i.file.includes(pattern)) {
                     result = false;
                 }
@@ -353,6 +367,9 @@ stack, options = {}) {
     return parsed;
 }
 
+/**
+ * @deprecated PathJoinError you should not use this class; consider using a library like `brilliant-errors`.
+ */
 class PathJoinError extends Error {
     constructor(code, message) {
         super();
@@ -373,24 +390,26 @@ if (!Array.isArray) {
  * An ISO-morphic path join that works everywhere;
  * all paths are separated by the `/` character and both
  * leading and trailing delimiters are stripped
+ *
+ * @deprecated getStackInfo() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
  */
 function pathJoin(...args) {
     // strip undefined segments
-    if (!args.every(i => !["undefined"].includes(typeof i))) {
-        args = args.filter(a => a);
+    if (!args.every((i) => !["undefined"].includes(typeof i))) {
+        args = args.filter((a) => a);
     }
     // remaining invalid types
-    if (!args.every(i => ["string", "number"].includes(typeof i))) {
-        throw new PathJoinError("invalid-path-part", `Attempt to use pathJoin() failed because some of the path parts were of the wrong type. Path parts must be either a string or an number: ${args.map(i => typeof i)}`);
+    if (!args.every((i) => ["string", "number"].includes(typeof i))) {
+        throw new PathJoinError("invalid-path-part", `Attempt to use pathJoin() failed because some of the path parts were of the wrong type. Path parts must be either a string or an number: ${args.map((i) => typeof i)}`);
     }
     // JOIN paths
     try {
         const reducer = function (agg, pathPart) {
             let { protocol, parts } = pullOutProtocols(agg);
-            parts.push(typeof pathPart === "number"
-                ? String(pathPart)
-                : stripSlashesAtExtremities(pathPart));
-            return protocol + parts.filter(i => i).join("/");
+            parts.push(typeof pathPart === "number" ? String(pathPart) : stripSlashesAtExtremities(pathPart));
+            return protocol + parts.filter((i) => i).join("/");
         };
         const result = removeSingleDotExceptToStart(doubleDotOnlyToStart(args.reduce(reducer, "").replace(moreThanThreePeriods, "..")));
         return result;
@@ -404,10 +423,15 @@ function pathJoin(...args) {
         }
     }
 }
+/**
+ * @deprecated pullOutProtocols() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 function pullOutProtocols(content) {
     const protocols = ["https://", "http://", "file://", "tel://"];
     let protocol = "";
-    protocols.forEach(p => {
+    protocols.forEach((p) => {
         if (content.includes(p)) {
             protocol = p;
             content = content.replace(p, "");
@@ -415,6 +439,11 @@ function pullOutProtocols(content) {
     });
     return { protocol, parts: content.split("/") };
 }
+/**
+ * @deprecated stripSlashesAtExtremities() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 function stripSlashesAtExtremities(pathPart) {
     const front = pathPart.slice(0, 1) === "/" ? pathPart.slice(1) : pathPart;
     const back = front.slice(-1) === "/" ? front.slice(0, front.length - 1) : front;
@@ -425,6 +454,10 @@ function stripSlashesAtExtremities(pathPart) {
 /**
  * checks to ensure that a ".." path notation is only employed at the
  * very start of the path or else throws an error
+ *
+ * @deprecated doubleDotOnlyToStart() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
  */
 function doubleDotOnlyToStart(path) {
     if (path.slice(2).includes("..")) {
@@ -433,7 +466,9 @@ function doubleDotOnlyToStart(path) {
     return path;
 }
 /**
- * removes `./` in path parts other than leading segment
+ * @deprecated removeSingleDotExceptToStart() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
  */
 function removeSingleDotExceptToStart(path) {
     let parts = path.split("/");
@@ -441,14 +476,23 @@ function removeSingleDotExceptToStart(path) {
         "/" +
         parts
             .slice(1)
-            .filter(i => i !== ".")
+            .filter((i) => i !== ".")
             .join("/"));
 }
-/** converts a slash delimited filepath to a dot notation path */
+/**
+ * @deprecated dotNotation() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 function dotNotation(input) {
     return input.replace(/\//g, ".");
 }
 
+/**
+ * @deprecated createBindDeploymentConfig() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 function createBindDeploymentConfig(config, methodSettings) {
     const defaultMethodSettings = [
         {
@@ -456,8 +500,8 @@ function createBindDeploymentConfig(config, methodSettings) {
             HttpMethod: "*",
             LoggingLevel: "INFO",
             ResourcePath: "/*",
-            MetricsEnabled: true
-        }
+            MetricsEnabled: true,
+        },
     ];
     const stageName = `${config.service}-${config.stage}`;
     const defaultConfig = {
@@ -469,31 +513,31 @@ function createBindDeploymentConfig(config, methodSettings) {
                     Properties: {
                         DomainName: config.domainName ? config.domainName : undefined,
                         RestApiId: {
-                            Ref: "ApiGatewayRestApi"
+                            Ref: "ApiGatewayRestApi",
                         },
-                        Stage: stageName
-                    }
+                        Stage: stageName,
+                    },
                 },
                 __deployment__: {
                     Properties: {
-                        Description: "(default deployment description)"
-                    }
+                        Description: "(default deployment description)",
+                    },
                 },
                 ApiGatewayStage: {
                     Type: "AWS::ApiGateway::Stage",
                     Properties: {
                         DeploymentId: {
-                            Ref: "__deployment__"
+                            Ref: "__deployment__",
                         },
                         RestApiId: {
-                            Ref: "ApiGatewayRestApi"
+                            Ref: "ApiGatewayRestApi",
                         },
                         StageName: stageName,
-                        MethodSettings: methodSettings || defaultMethodSettings
-                    }
-                }
-            }
-        }
+                        MethodSettings: methodSettings || defaultMethodSettings,
+                    },
+                },
+            },
+        },
     };
     return { ...defaultConfig, ...config };
 }
@@ -518,12 +562,22 @@ const AWS_REGIONS = [
     "ap-southeast-2",
 ];
 
+/**
+ * @deprecated serverlessConfigHasApiGatewayTracing() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 function serverlessConfigHasApiGatewayTracing(config) {
     return (config.tracing && config.tracing === true) ||
         (typeof config.tracing === "object" && config.tracing.apiGateway)
         ? true
         : false;
 }
+/**
+ * @deprecated serverlessConfigHasLambdaTracing() is deprecated; the `common-types` library
+ * aims almost exclusively to provide _types_ and this does not fit this
+ * ambition.
+ */
 function serverlessConfigHasLambdaTracing(config) {
     return (config.tracing && config.tracing === true) ||
         (typeof config.tracing === "object" && config.tracing.lambda)
@@ -531,10 +585,16 @@ function serverlessConfigHasLambdaTracing(config) {
         : false;
 }
 
+/**
+ * @deprecated ParseStackError you should not use this class; consider using a library like `brilliant-errors`.
+ */
 function stackTrace(trace) {
     return trace ? trace.split("\n") : [];
 }
 
+/**
+ * @deprecated apiGatewayError you should not use this function; consider using a library like `brilliant-errors`.
+ */
 function apiGatewayError(code, message, priorError) {
     const messagePrefix = `[${code}] `;
     const e = new ApiGatewayError(priorError ? priorError.message : "");
@@ -544,34 +604,25 @@ function apiGatewayError(code, message, priorError) {
     e.name = priorError ? priorError.name : "ApiGatewayError";
     e.errorCode = code;
     e.stack = priorError
-        ? priorError.stack ||
-            stackTrace(e.stack)
-                .slice(2)
-                .join("\n")
-        : stackTrace(e.stack)
-            .slice(2)
-            .join("\n");
+        ? priorError.stack || stackTrace(e.stack).slice(2).join("\n")
+        : stackTrace(e.stack).slice(2).join("\n");
     return e;
 }
 class ApiGatewayError extends Error {
 }
 
+/**
+ * @deprecated createError you should not use this function; consider using a library like `brilliant-errors`.
+ */
 function createError(fullName, message, priorError) {
     const messagePrefix = `[${fullName}] `;
-    const e = new AppError(!priorError
-        ? messagePrefix + message
-        : messagePrefix + priorError.message + message);
+    const e = new AppError(!priorError ? messagePrefix + message : messagePrefix + priorError.message + message);
     e.name = priorError ? priorError.code || priorError.name : fullName;
     const parts = fullName.split("/");
     e.code = [...parts].pop();
     e.stack = priorError
-        ? priorError.stack ||
-            stackTrace(e.stack)
-                .slice(2)
-                .join("\n")
-        : stackTrace(e.stack)
-            .slice(2)
-            .join("\n");
+        ? priorError.stack || stackTrace(e.stack).slice(2).join("\n")
+        : stackTrace(e.stack).slice(2).join("\n");
     return e;
 }
 class AppError extends Error {
