@@ -79,6 +79,20 @@ export declare type pk = string;
 export declare type url = string;
 /** universal resource indicator */
 export declare type uri = string;
+/**
+ * A string which represents a UUID in it's standard
+ * dasherized format (aka, 32 random string values separated by
+ * dashes): `xxxxxxxx-xxxx-xxxx-xxxxxxxxxxxxx`.
+ *
+ * If you prefer to use the non-dasherized representation,
+ * you should use `uuid_unformatted` instead.
+ */
+export declare type uuid = string;
+/**
+ * A string which represents a UUID but in a _non_-dasherized version
+ * (aka., just 32 random string values with no separation)
+ */
+export declare type uuid_unformatted = string;
 /** a string which represents zipped content run through a base64 conversion process to a string */
 export declare type Base64Zip = string;
 /** a binary value (represented as a number in JS) */

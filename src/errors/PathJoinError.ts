@@ -1,3 +1,6 @@
+/**
+ * @deprecated PathJoinError you should not use this class; consider using a library like `brilliant-errors`.
+ */
 export class PathJoinError extends Error {
   public code: string;
   public name: string;
