@@ -2,9 +2,9 @@
 
 // #region autoindexed files
 
-// index last changed at: 10th Oct, 2020, 03:43 PM ( GMT-7 )
+// index last changed at: 10th Oct, 2020, 04:19 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: LambdaEventParser, LambdaResponse, async, aws-layers, aws, basics, github-commit, github-event, github-release, github-webhooks, github, http, npm, package, parseStack, path, serverless-alias, serverless-bind-deployment-id, serverless-constants, serverless-http, serverless.
+// files: LambdaEventParser, LambdaResponse, async, aws-layers, aws, basics, geography, github-commit, github-event, github-release, github-webhooks, github, http, npm, package, parseStack, path, serverless-alias, serverless-bind-deployment-id, serverless-constants, serverless-http, serverless.
 // directories: errors.
 
 // local file exports
@@ -14,6 +14,7 @@ export * from "./async";
 export * from "./aws-layers";
 export * from "./aws";
 export * from "./basics";
+export * from "./geography";
 export * from "./github-commit";
 export * from "./github-event";
 export * from "./github-release";
