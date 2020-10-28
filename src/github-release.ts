@@ -1,4 +1,4 @@
-import { datetime } from "./basics";
+import { datetime } from "./timing";
 import { IGithubUser } from "./github";
 
 // https://developer.github.com/v3/repos/releases/

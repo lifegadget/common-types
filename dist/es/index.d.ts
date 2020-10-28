@@ -20,4 +20,5 @@ export * from "./serverless-bind-deployment-id";
 export * from "./serverless-constants";
 export * from "./serverless-http";
 export * from "./serverless";
+export * from "./timing";
 export * from "./errors/index";

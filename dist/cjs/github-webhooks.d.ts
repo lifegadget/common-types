@@ -1,6 +1,7 @@
-import { url, datetime, IDictionary } from "./basics";
+import { url, IDictionary } from "./basics";
 import { IGithubCommit } from "./github-commit";
 import { IGithubRepo, IGithubUser } from "./github";
+import { datetime } from "./timing";
 export interface IGitHubWebhook_PushEvent {
     /**
      * The full Git ref that was pushed. Example: refs/heads/master.

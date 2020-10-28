@@ -1,5 +1,5 @@
 import { RestMethod } from "./aws";
-import { seconds } from "./basics";
+import { seconds } from "./timing";
 /**
  * In it's most basic form, an HTTP API can be
  * defined simply by a string. Examples include:

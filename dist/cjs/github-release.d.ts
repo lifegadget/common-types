@@ -1,4 +1,4 @@
-import { datetime } from "./basics";
+import { datetime } from "./timing";
 import { IGithubUser } from "./github";
 export interface IGithubRelease {
     url: string;
