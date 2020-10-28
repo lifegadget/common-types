@@ -1,5 +1,6 @@
-import { IDictionary, BooleanAsString, epoch } from "./basics";
+import { IDictionary, BooleanAsString } from "./basics";
 import { IHttpResponseHeaders } from "./http";
+import { epoch } from "./timing";
 
 export type arn = string;
 

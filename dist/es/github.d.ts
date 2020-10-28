@@ -1,4 +1,4 @@
-import { datetime } from "./basics";
+import { datetime } from "./timing";
 export interface IGithubRepo {
     id: number;
     name: string;

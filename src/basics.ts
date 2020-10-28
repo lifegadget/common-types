@@ -25,52 +25,7 @@ export interface INameValuePairWithKey<T = any> {
 
 /** A function for sorting JS arrays */
 export type SortingFunction = (a: any, b: any) => number;
-/** a string of the format: "YYYY-MM-DD" */
-export type datestring = string;
-/** a string of the format: "HH:mm:ss" */
-export type timestring = string;
-/**
- * an array containing hours and minutes since midnight with the optional
- * ability to add _seconds_ or even _miliseconds_
- * a useful way of representing _time of day_ that has human readable
- * elements, and is easily incorporated into a Javascript `Date`.
- *
- * example:
- * ```typescript
- * const tod: todStructured = [5,15]
- * const date = new Date();
- * date.setHours(...todStructured)
- * ```
- */
-export type todStructured =
-  | [hours, minutes]
-  | [hours, minutes, seconds]
-  | [hours, minutes, seconds, ms];
 
-export type hours = number;
-export type ms = number;
-/**
- * The _time-of-day_ expressed as the number of **minutes** since midnight
- */
-export type todMinutes = minutes;
-/**
- * The _time-of-day_ expressed as the number of **seconds** since midnight
- */
-export type todSeconds = seconds;
-/** a string of the format: "UTC" */
-export type timezone = string;
-/** string representation of datetime in format of "2016-07-17T13:29:11.652Z" */
-export type datetime = string;
-/** unix epoch datetime format (aka, seconds since 1970) */
-export type epoch = number;
-/** javascript datetime format (aka, milliseconds since 1970) */
-export type epochWithMilliseconds = number;
-/** a numeric value representing the number of minutes */
-export type minutes = number;
-/** a numeric value representing the number of seconds */
-export type seconds = number;
-/** a given year in the gregorian calendar*/
-export type year = number;
 /** a number which should represent a percentage value */
 export type percentage = number;
 /** a string blob that represents JSON structured data */

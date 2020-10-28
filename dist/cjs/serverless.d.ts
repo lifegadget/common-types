@@ -1,5 +1,6 @@
-import { IDictionary, datetime } from "./basics";
+import { IDictionary } from "./basics";
 import { IHttpApiComplex, IHttpApiSimple } from "./serverless-http";
+import { datetime } from "./timing";
 import { IApiGatewayAliasConfig } from "./serverless-alias";
 import { arn } from "./aws";
 /** A typing for the serverless framework's "serverless.yml" file */

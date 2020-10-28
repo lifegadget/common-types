@@ -19,48 +19,6 @@ export interface INameValuePairWithKey<T = any> {
 }
 /** A function for sorting JS arrays */
 export declare type SortingFunction = (a: any, b: any) => number;
-/** a string of the format: "YYYY-MM-DD" */
-export declare type datestring = string;
-/** a string of the format: "HH:mm:ss" */
-export declare type timestring = string;
-/**
- * an array containing hours and minutes since midnight with the optional
- * ability to add _seconds_ or even _miliseconds_
- * a useful way of representing _time of day_ that has human readable
- * elements, and is easily incorporated into a Javascript `Date`.
- *
- * example:
- * ```typescript
- * const tod: todStructured = [5,15]
- * const date = new Date();
- * date.setHours(...todStructured)
- * ```
- */
-export declare type todStructured = [hours, minutes] | [hours, minutes, seconds] | [hours, minutes, seconds, ms];
-export declare type hours = number;
-export declare type ms = number;
-/**
- * The _time-of-day_ expressed as the number of **minutes** since midnight
- */
-export declare type todMinutes = minutes;
-/**
- * The _time-of-day_ expressed as the number of **seconds** since midnight
- */
-export declare type todSeconds = seconds;
-/** a string of the format: "UTC" */
-export declare type timezone = string;
-/** string representation of datetime in format of "2016-07-17T13:29:11.652Z" */
-export declare type datetime = string;
-/** unix epoch datetime format (aka, seconds since 1970) */
-export declare type epoch = number;
-/** javascript datetime format (aka, milliseconds since 1970) */
-export declare type epochWithMilliseconds = number;
-/** a numeric value representing the number of minutes */
-export declare type minutes = number;
-/** a numeric value representing the number of seconds */
-export declare type seconds = number;
-/** a given year in the gregorian calendar*/
-export declare type year = number;
 /** a number which should represent a percentage value */
 export declare type percentage = number;
 /** a string blob that represents JSON structured data */
