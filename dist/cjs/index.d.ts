@@ -11,6 +11,7 @@ export * from "./github-release";
 export * from "./github-webhooks";
 export * from "./github";
 export * from "./http";
+export * from "./network";
 export * from "./npm";
 export * from "./package";
 export * from "./parseStack";
