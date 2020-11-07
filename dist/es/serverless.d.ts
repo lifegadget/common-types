@@ -1,7 +1,7 @@
 import { IDictionary } from "./basics";
 import { IHttpApiComplex, IHttpApiSimple } from "./serverless-http";
-import { datetime } from "./timing";
-import { IApiGatewayAliasConfig } from "./serverless-alias";
+import { datetime } from "./aliases/timing";
+import { IApiGatewayAliasConfig } from "./serverless-plugins/serverless-alias-plugin";
 import { arn } from "./aws";
 /** A typing for the serverless framework's "serverless.yml" file */
 export declare type IServerlessStage = "dev" | "prod" | "test" | "stage";
@@ -30,18 +30,6 @@ export interface IServerlessAccountInfo {
      */
     devDependencies: string[];
 }
-/**
- * @deprecated serverlessConfigHasApiGatewayTracing() is deprecated; the `common-types` library
- * aims almost exclusively to provide _types_ and this does not fit this
- * ambition.
- */
-export declare function serverlessConfigHasApiGatewayTracing(config: IServerlessAccountInfo): boolean;
-/**
- * @deprecated serverlessConfigHasLambdaTracing() is deprecated; the `common-types` library
- * aims almost exclusively to provide _types_ and this does not fit this
- * ambition.
- */
-export declare function serverlessConfigHasLambdaTracing(config: IServerlessAccountInfo): boolean;
 export interface IServerlessDiscreteTracingConfig {
     apiGateway?: boolean;
     lambda?: boolean;

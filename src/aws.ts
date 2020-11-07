@@ -1,6 +1,7 @@
-import { IDictionary, BooleanAsString } from "./basics";
+import { IDictionary } from "./basics";
 import { IHttpResponseHeaders } from "./http";
-import { epoch } from "./timing";
+import { epoch } from "./aliases/timing";
+import { BooleanAsString } from "./aliases";
 
 export type arn = string;
 
@@ -98,9 +99,10 @@ export interface IApiGatewayResponse {
 export type RestMethod = "GET" | "POST" | "PUT" | "DELETE";
 
 /**
- * Provides a logical test to see if the passed in event is a LambdaProxy request or just a
- * straight JS object response. This is useful when you have both an HTTP event and a Lambda-to-Lambda
- * or Step-Function-to-Lambda interaction.
+ * Provides a _type guard_ which identifies if the passed in event
+ * is a LambdaProxy request or not. This is useful when you have
+ * both an HTTP event and a Lambda-to-Lambda or Step-Function-to-Lambda
+ * interaction.
  *
  * @param message the body of the request (which is either of type T or a LambdaProxy event)
  */

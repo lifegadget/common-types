@@ -1,4 +1,5 @@
-import { IDictionary, url } from "./basics";
+import { url } from "./aliases";
+import { IDictionary } from "./basics";
 export interface INpmInfo {
     name: string;
     "dist-tags": INpmInfoDistTags;

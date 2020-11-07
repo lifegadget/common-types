@@ -25,8 +25,11 @@ export declare class LambdaEventParser {
      * properties. The `request` is typed to **T** and the `apiGateway` will be a
      * `IAWSLambdaProxyIntegrationRequest` object with the "body" removed _if_
      * the event came from **API Gateway** otherwise it will be undefined.
+     *
+     * @deprecated `common-types` should not have run-time code out of a the exception
+     * case of **enum** values and _type guards_.
      */
-    static parse<T extends IDictionary = IDictionary>(event: T | IAWSLambdaProxyIntegrationRequest): {
+    static parse<T extends IDictionary = IDictionary>(event: T | IAWSLambdaProxyIntegrationRequest): T | {
         request: T;
         apiGateway: Pick<IAWSLambdaProxyIntegrationRequest, "resource" | "path" | "httpMethod" | "headers" | "queryStringParameters" | "pathParameters" | "requestContext" | "isBase64Encoded">;
     };
