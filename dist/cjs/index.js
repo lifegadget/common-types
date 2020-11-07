@@ -306,29 +306,6 @@ const AWS_REGIONS = [
 ];
 
 /**
- * @deprecated serverlessConfigHasApiGatewayTracing() is deprecated; the `common-types` library
- * aims almost exclusively to provide _types_ and this does not fit this
- * ambition.
- */
-function serverlessConfigHasApiGatewayTracing(config) {
-    return (config.tracing && config.tracing === true) ||
-        (typeof config.tracing === "object" && config.tracing.apiGateway)
-        ? true
-        : false;
-}
-/**
- * @deprecated serverlessConfigHasLambdaTracing() is deprecated; the `common-types` library
- * aims almost exclusively to provide _types_ and this does not fit this
- * ambition.
- */
-function serverlessConfigHasLambdaTracing(config) {
-    return (config.tracing && config.tracing === true) ||
-        (typeof config.tracing === "object" && config.tracing.lambda)
-        ? true
-        : false;
-}
-
-/**
  * @deprecated createBindDeploymentConfig() is deprecated; the `common-types` library
  * aims almost exclusively to provide _types_ and this does not fit this
  * ambition.
@@ -387,7 +364,5 @@ exports.LambdaEventParser = LambdaEventParser;
 exports.createBindDeploymentConfig = createBindDeploymentConfig;
 exports.getBodyFromPossibleLambdaProxyRequest = getBodyFromPossibleLambdaProxyRequest;
 exports.isLambdaProxyRequest = isLambdaProxyRequest;
-exports.serverlessConfigHasApiGatewayTracing = serverlessConfigHasApiGatewayTracing;
-exports.serverlessConfigHasLambdaTracing = serverlessConfigHasLambdaTracing;
 exports.wait = wait;
 //# sourceMappingURL=index.js.map
