@@ -19,49 +19,8 @@ export interface INameValuePairWithKey<T = any> {
 }
 /** A function for sorting JS arrays */
 export declare type SortingFunction = (a: any, b: any) => number;
-/** a number which should represent a percentage value */
-export declare type percentage = number;
-/** a string blob that represents JSON structured data */
-export declare type json = string;
-/** a string blob that represents CSV structured data */
-export declare type csv = string;
-/** a _string_ variable which contains **Markdown** content */
-export declare type markdown = string;
-/** a _string_ variable which contains **HTML** content */
-export declare type html = string;
-/** foreign key reference */
-export declare type fk = string;
-/** primary key reference */
-export declare type pk = string;
-/** universal resource locator */
-export declare type url = string;
-/** universal resource indicator */
-export declare type uri = string;
-/**
- * A string which represents a UUID in it's standard
- * dasherized format (aka, 32 random string values separated by
- * dashes): `xxxxxxxx-xxxx-xxxx-xxxxxxxxxxxxx`.
- *
- * If you prefer to use the non-dasherized representation,
- * you should use `uuid_unformatted` instead.
- */
-export declare type uuid = string;
-/**
- * A string which represents a UUID but in a _non_-dasherized version
- * (aka., just 32 random string values with no separation)
- */
-export declare type uuid_unformatted = string;
-/** a string which represents zipped content run through a base64 conversion process to a string */
-export declare type Base64Zip = string;
-/** a binary value (represented as a number in JS) */
-export declare type binary = number;
-/** an email address (alias to string) */
-export declare type email = string;
-/** a numeric value which is represented as a string */
-export declare type numberAsString = string;
 export declare const STAGE_MAP: IDictionary<string>;
 export declare function STAGE(stage: string): string;
-export declare type BooleanAsString = "true" | "false";
 /**
  * Allows a type T to have certain properties "omitted" and thereby
  * creating a new type definition. Very useful for omitting an "id"
@@ -78,15 +37,4 @@ export declare type AsyncCallback<T, P extends Array<any> = any[]> = (...args: P
  */
 export declare type CallbackOption<T, K extends keyof T = keyof T> = {
     [key in keyof T]: T[K] | Callback<T[K]>;
-};
-/**
- * **Nullable**
- *
- * Allows properties of an object to be assigned either to their _defined type_
- * or alternatively to `null`. This has several use cases but is particularly
- * useful when working with a database like Firebase where setting a value to
- * `null` is equivalent to telling the DB to "remove" the property.
- */
-export declare type Nullable<T, K extends keyof T = keyof T> = {
-    [key in keyof T]: T[K] | null;
 };

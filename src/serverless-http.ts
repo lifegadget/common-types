@@ -1,5 +1,5 @@
 import { RestMethod } from "./aws";
-import { seconds } from "./timing";
+import { seconds } from "./aliases/timing";
 
 /**
  * In it's most basic form, an HTTP API can be

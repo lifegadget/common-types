@@ -1,4 +1,4 @@
-import { datetime } from "./timing";
+import { datetime } from "./aliases/timing";
 import { IGithubUser } from "./github";
 export interface IGithubRelease {
     url: string;

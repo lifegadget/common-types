@@ -1,7 +1,7 @@
-import { url, IDictionary } from "./basics";
+import { IDictionary } from "./basics";
 import { IGithubCommit } from "./github-commit";
 import { IGithubRepo, IGithubUser } from "./github";
-import { datetime } from "./timing";
+import { url, datetime } from "./aliases";
 
 export interface IGitHubWebhook_PushEvent {
   /**

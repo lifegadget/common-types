@@ -1,7 +1,7 @@
 import { IDictionary } from "./basics";
 import { IHttpApiComplex, IHttpApiSimple } from "./serverless-http";
-import { datetime } from "./timing";
-import { IApiGatewayAliasConfig } from "./serverless-alias";
+import { datetime } from "./aliases/timing";
+import { IApiGatewayAliasConfig } from "./serverless-plugins/serverless-alias-plugin";
 import { arn } from "./aws";
 /** A typing for the serverless framework's "serverless.yml" file */
 export declare type IServerlessStage = "dev" | "prod" | "test" | "stage";
