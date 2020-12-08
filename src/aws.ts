@@ -214,6 +214,7 @@ export interface IAWSLambdaProxyIntegrationRequestHeaders extends IHttpResponseH
   ["X-Forwarded-For"]: string;
   ["X-Forwarded-Proto"]: string;
   ["X-Correlation-Id"]?: string;
+  ["Cookie"]?: string;
 }
 
 export interface IAWSLambaContext {

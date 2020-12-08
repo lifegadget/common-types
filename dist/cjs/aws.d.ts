@@ -175,6 +175,7 @@ export interface IAWSLambdaProxyIntegrationRequestHeaders extends IHttpResponseH
     ["X-Forwarded-For"]: string;
     ["X-Forwarded-Proto"]: string;
     ["X-Correlation-Id"]?: string;
+    ["Cookie"]?: string;
 }
 export interface IAWSLambaContext {
     /** The default value is true. This property is useful only to modify the default behavior of the callback. By default, the callback will wait until the Node.js runtime event loop is empty before freezing the process and returning the results to the caller. You can set this property to false to request AWS Lambda to freeze the process soon after the callback is called, even if there are events in the event loop. AWS Lambda will freeze the process, any state data and the events in the Node.js event loop (any remaining events in the event loop processed when the Lambda function is called next and if AWS Lambda chooses to use the frozen process). For more information about callback, see Using the Callback Parameter. */
