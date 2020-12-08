@@ -182,7 +182,14 @@ export interface IAWSLambdaProxyIntegrationRequest {
   path: string;
   httpMethod: RestMethod;
   headers: IAWSLambdaProxyIntegrationRequestHeaders;
-  queryStringParameters?: any;
+  /**
+   * All modern versions of AWS Lambda functions now return a dictionary of
+   * name/value pairs; no longer need to parse this yourself.
+   *
+   * **Note:** this _might_ be always passed these days rather than being
+   * optional. This _does_ appear to be the case with Netlify's functions.
+   */
+  queryStringParameters?: Record<string, string | number | boolean>;
   pathParameters?: any;
   requestContext: IAwsLambdaProxyRequestContext;
   /** The payload that the client has sent to you; if the content was originally in JSON/object format you will need to parse it */
