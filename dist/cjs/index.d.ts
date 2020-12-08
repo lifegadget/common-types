@@ -10,6 +10,7 @@ export * from "./github-release";
 export * from "./github-webhooks";
 export * from "./github";
 export * from "./http";
+export * from "./netlify";
 export * from "./npm";
 export * from "./nullable";
 export * from "./package";
