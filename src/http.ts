@@ -3,7 +3,9 @@
  * in HTTP _**request**_ headers while leaving the structure the
  * flexibility to add more name/value pairs
  */
-export interface IHttpRequestHeaders {
+export type IHttpRequestHeaders<
+  T extends Record<string, unknown> = Record<string, unknown>
+> = T & {
   /**
    * The `Accept` _request_ HTTP header advertises which content types, expressed as
    * MIME types, the client is able to understand. Using content negotiation, the
@@ -51,14 +53,16 @@ export interface IHttpRequestHeaders {
    * a set of of message to _group_ them into a logical grouping.
    */
   "X-Correlation-Id"?: string;
-}
+};
 
 /**
  * Identifies the most common properties in the
  * HTTP _**Response**_ headers while leaving
  * the flexiblility to add more name/value pairs
  */
-export interface IHttpResponseHeaders {
+export type IHttpResponseHeaders<
+  T extends Record<string, unknown> = Record<string, unknown>
+> = T & {
   /**
    * The `Allow` header lists the set of methods supported by a resource.
    *
@@ -171,7 +175,11 @@ export interface IHttpResponseHeaders {
    * [...more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/WWW-Authenticate)
    */
   ["WWW-Authenticate"]?: string;
-}
+};
+
+export type IHttpHeaders<T extends Record<string, unknown> = Record<string, unknown>> =
+  | IHttpRequestHeaders<T>
+  | IHttpResponseHeaders<T>;
 
 export enum HttpStatusCodes {
   /**
