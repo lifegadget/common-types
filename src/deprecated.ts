@@ -4,4 +4,4 @@
  * tried to take on error handling in a way that had
  * implementation details included.
  */
-export type IStackFrame = string[];
+export type IStackFrame = Record<string, any>;
