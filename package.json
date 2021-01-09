@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.18.0",
+  "version": "1.18.1",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "dist/cjs/index.js",
@@ -15,8 +15,7 @@
     "test": "yarn tsc",
     "clear": "rimraf dist",
     "deploy": "rollup -c && yarn publish",
-    "build": "run-s clear build:autoindex build:rollup",
-    "build:autoindex": "yarn do autoindex",
+    "build": "run-s clear autoindex build:rollup",
     "build:rollup": "rollup -c",
     "build:tsc": "tsc -P tsconfig-es.json && tsc -P tsconfig-cjs.json && tsc -P tsconfig-umd.json",
     "watch": "run-p watch:*",
