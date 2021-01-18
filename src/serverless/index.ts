@@ -1,36 +1,18 @@
-// #autoindex:named
+// #autoindex
 
 // #region autoindexed files
 
-// index last changed at: 1st Jan, 2021, 03:20 PM ( GMT-8 )
+// index last changed at: 1st Jan, 2021, 02:43 PM ( GMT-8 )
 // export: named; exclusions: index, private.
-// files: LambdaEventParser, async, aws-layers, aws, basics, deprecated, geography, github-commit, github-event, github-release, github-webhooks, github, http, netlify, npm, nullable, package.
-// directories: aliases, aws, serverless, serverless-plugins.
+// files: open-api, serverless-constants, serverless-events, serverless-http-api, serverless, step-functions.
 
 // local file exports
-export * from "./LambdaEventParser";
-export * from "./async";
-export * from "./aws-layers";
-export * from "./aws";
-export * from "./basics";
-export * from "./deprecated";
-export * from "./geography";
-export * from "./github-commit";
-export * from "./github-event";
-export * from "./github-release";
-export * from "./github-webhooks";
-export * from "./github";
-export * from "./http";
-export * from "./netlify";
-export * from "./npm";
-export * from "./nullable";
-export * from "./package";
-
-// directory exports
-export * from "./aliases/index";
-export * from "./aws/index";
-export * from "./serverless/index";
-export * from "./serverless-plugins/index";
+export * from "./open-api";
+export * from "./serverless-constants";
+export * from "./serverless-events";
+export * from "./serverless-http-api";
+export * from "./serverless";
+export * from "./step-functions";
 
 // Note:
 // -----
