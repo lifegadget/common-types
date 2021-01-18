@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.18.4",
+  "version": "1.19.0",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "dist/cjs/index.js",
@@ -25,20 +25,20 @@
   "author": "Ken Snyder <ken@ken.net>",
   "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^16.0.0",
+    "@rollup/plugin-commonjs": "^17.0.0",
     "@types/chai": "^4.2.11",
     "@types/mocha": "^8.0.3",
     "@types/rimraf": "^3.0.0",
     "async-shelljs": "^0.1.4",
     "chai": "^4.2.0",
-    "do-devops": "^0.5.4",
-    "json-schema": "^0.2.5",
+    "do-devops": "^0.5.5",
+    "json-schema": "^0.3.0",
     "mocha": "^8.2.1",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
-    "rollup": "^2.33.1",
+    "rollup": "^2.36.2",
     "rollup-plugin-typescript2": "^0.29.0",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.5"
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
   }
 }

@@ -292,7 +292,7 @@ export interface ReflectionProperty<T> {
   configurable: boolean;
 }
 
-export interface ICloudWatchEvent {
+export interface ICloudWatchEvent_Old {
   messageType: string | "DATA_MESSAGE";
   owner: string;
   logGroup: string;
