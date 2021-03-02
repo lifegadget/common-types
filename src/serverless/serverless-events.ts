@@ -57,7 +57,7 @@ export interface IServerlessEvent {
    * [Serverless Docs](https://www.serverless.com/plugins/serverless-step-functions#cloudwatch-event),
    * [AWS Docs]()
    */
-  cloudwatchEvent: {
+  cloudwatchEvent?: {
     event: ICloudWatchConfigEvent;
   };
 }
