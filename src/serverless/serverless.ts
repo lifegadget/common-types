@@ -44,6 +44,7 @@ export type AWSRuntime =
   | "nodejs8.10"
   | "nodejs10.x"
   | "nodejs12.x"
+  | "nodejs14.x"
   | "node4"
   | "java8"
   | "python2.7"
