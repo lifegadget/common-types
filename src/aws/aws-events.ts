@@ -13,7 +13,7 @@ export interface ICloudWatchConfigEvent {
   "detail-type": string[];
   resources: arn[];
   detail: {
-    state?: string;
+    state?: "pending" | string;
     eventSource?: IAwsEventUrls[];
     eventName?: IAwsEventName[];
     requestParameters?: {

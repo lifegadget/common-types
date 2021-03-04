@@ -1,6 +1,11 @@
 /** a number which should represent a percentage value */
 export type percentage = number;
 
+export type scalar = string | number | boolean;
+
+/** a object which has been serialized to a string in JSON notation */
+export type JSONstring = string;
+
 /** foreign key reference */
 export type fk = string;
 /** primary key reference */

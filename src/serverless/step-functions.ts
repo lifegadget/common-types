@@ -3,6 +3,10 @@ import { arn } from "../aws";
 import { IDictionary } from "../basics";
 import { IServerlessEvent } from "./serverless-events";
 
+export interface IServerlessStepFunctions {
+  stateMachines: Record<string, IStateMachine>;
+}
+
 /** of the format of arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-FUNCTION */
 export declare type AwsFunctionArn = string;
 export declare type StepFunctionBuiltinStates =

@@ -2,14 +2,15 @@
 
 // #region autoindexed files
 
-// index last changed at: 11th Nov, 2020, 07:54 AM ( GMT-8 )
+// index last changed at: 3rd Mar, 2021, 11:24 AM ( GMT-8 )
 // export: named; exclusions: index, private.
-// files: fileTypeContent, network, other, timing, uuid.
+// files: fileTypeContent, network, other, stringAliases, timing, uuid.
 
 // local file exports
 export * from "./fileTypeContent";
 export * from "./network";
 export * from "./other";
+export * from "./stringAliases";
 export * from "./timing";
 export * from "./uuid";
 

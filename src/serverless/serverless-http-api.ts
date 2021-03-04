@@ -87,29 +87,3 @@ export interface IHttpApiAuthorizer {
   name: string;
   scopes?: string[];
 }
-
-/**
- * Allows configuration of the CloudWatch logs for your HTTP API
- * endpoints. For more info read the
- * [**AWS** docs](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-logging-variables.html)
- * on what variables are available but the default configuration is:
- *
- * ```typescript
- * {
- *   "requestId": "$context.requestId",
- *   "ip": "$context.identity.sourceIp",
- *   "requestTime": "$context.requestTime",
- *   "httpMethod": "$context.httpMethod",
- *   "routeKey": "$context.routeKey",
- *   "status": "$context.status",
- *   "protocol": "$context.protocol",
- *   "responseLength": "$context.responseLength"
- * }
- * ```
- */
-export interface IHttpApiLogging {
-  /**
-   * Change the format of the logs being written to Cloudwatch
-   */
-  format: string;
-}

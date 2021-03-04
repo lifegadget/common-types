@@ -1,7 +1,9 @@
+import { seconds, sql } from "../aliases";
+import { arn } from "../aws";
 import { ICloudWatchConfigEvent } from "../aws/aws-events";
 import { IDictionary } from "../basics";
 import {
-  IServerlessAuthorizer,
+  IServerlessHttpAuthorizer,
   IServerlessRequest,
   IServerlessStatusCode,
   IServerlessVariable,
@@ -48,8 +50,23 @@ export interface IServerlessEvent {
    * define with a hash which provides the "topicName" and "displayName" properties.
    **/
   sns?: string | IServerlessEventExistingSNS | IServerlessEventVerboseSNS;
+  sqs?: IServerlessSQSEvent;
   /** Sets a S3 Event as a Lambda trigger. */
   s3?: IServerlessEventS3;
+  stream?: IServerlessStreamEvent;
+  /**
+   * Config for Kafka events
+   */
+  msk?: IServerlessKafkaEvent;
+  alexaSkill?: {
+    appId: string;
+    enabled: boolean;
+  };
+  alexaSmartHome?: {
+    appId: string;
+    enabled: boolean;
+  };
+  iot?: IServerlessIotEvent;
 
   /**
    * Allow a cloudwatch event to trigger execution of a lambda function or a step-function
@@ -60,6 +77,105 @@ export interface IServerlessEvent {
   cloudwatchEvent?: {
     event: ICloudWatchConfigEvent;
   };
+
+  cloudwatchLog?: {
+    logGroup?: string;
+    filter?: string;
+  };
+
+  cognitoUserPool?: {
+    pool?: any;
+    trigger?: any;
+    existing?: boolean;
+  };
+
+  alb?: {
+    listenerArn?: arn;
+    priority?: number;
+    conditions?: Record<string, string>;
+    healthcheck?:
+      | boolean
+      | {
+          path?: string;
+          intervalSeconds?: seconds;
+          timeoutSeconds?: seconds;
+          healthyThresholdCount?: number;
+          unhealthyThresholdCount?: number;
+          matcher?: Record<string, string>;
+        };
+  };
+
+  eventBridge: {
+    /** using the default AWS event bus. Example might be "rate(10 minutes)" */
+    schedule: string;
+    /** creating or reusing an existing event-bus */
+    eventBus: string;
+    pattern: Record<"source" | "detail-type" | "detail" | string, any>;
+    inputTransformer: {
+      inputPathsMap: Record<string, string>;
+      inputTemplate: string;
+    };
+    input: Record<string, any>;
+    inputPath: string;
+  };
+
+  cloudFront?: {
+    eventType?: string;
+    includeBody?: boolean;
+    pathPattern?: string;
+    /** a cache policy is defined with either a `name` or `id` but not both */
+    cachePolicy?:
+      | {
+          /** Refers to a Cache Policy defined in provider.cloudFront.cachePolicies */
+          name: string;
+        }
+      | {
+          /** Refers to any external Cache Policy id */
+          id: string;
+        };
+    origin?: {
+      DomainName?: string;
+      OriginPath?: string;
+      CustomOrginConfig?: Record<
+        "OriginProtocolPolicy" | string,
+        "match-viewer" | string
+      >;
+    };
+  };
+}
+
+export interface IServerlessIotEvent {
+  name: string;
+  description?: string;
+  enabled?: boolean;
+  sql: sql;
+  sqlVersion?: "beta" | string | number;
+}
+
+export interface IServerlessKafkaEvent {
+  /** ARN of MSK Cluster */
+  arn?: arn;
+  /** name of Kafka topic to consume from */
+  topic?: string;
+  /** must be in 1-10000 range */
+  batchSize?: number;
+  startingPosition?: "LATEST" | "TRIM_HORIZON";
+  /** true by default, can be used to disable event without deleting resource */
+  enabled?: boolean;
+}
+export interface IServerlessSQSEvent {
+  arn?: arn;
+  batchSize?: number;
+  /** minimum is 0 and the maximum is 300 (seconds) */
+  maxiumBatchingWindow?: seconds;
+  enabled?: boolean;
+}
+
+export interface IServerlessStreamEvent {
+  arn?: arn;
+  maximumRecordAgeInSeconds?: number;
+  startingPosition?: "LATEST" | any;
+  enabled?: boolean;
 }
 
 /** used to attach a function to a pre-existing  */
@@ -110,14 +226,23 @@ export type IS3EventType =
   | "s3:ReducedRedundancyLostObject";
 
 export interface IServerlessEventHttp {
+  /** HTTP method for this endpoint */
   method: "get" | "put" | "post" | "delete";
+  /** Path for this endpoint */
   path: string;
+  /** Turn on CORS for this endpoint, but don't forget to return the right header in your response */
   cors?: boolean;
+  /**
+   * Requires clients to add API keys values in the `x-api-key` header of their request
+   */
+  private?: boolean;
+  /** An AWS API Gateway custom authorizer function */
+  authorizer?: IServerlessHttpAuthorizer | IServerlessVariable;
+
+  /** configure method request and integration request settings */
+  request?: IServerlessRequest;
   /** not sure what other values can be set here */
   integration?: "lambda";
-  authorizer?: IServerlessAuthorizer | IServerlessVariable;
-  private?: true;
-  request?: IServerlessRequest;
   statusCodes?: {
     [key: number]: IServerlessStatusCode;
   };
