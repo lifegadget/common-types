@@ -2,15 +2,26 @@
 
 // #region autoindexed files
 
-// index last changed at: 1st Jan, 2021, 02:43 PM ( GMT-8 )
+// index last changed at: 3rd Mar, 2021, 11:57 AM ( GMT-8 )
 // export: named; exclusions: index, private.
-// files: open-api, serverless-constants, serverless-events, serverless-http-api, serverless, step-functions.
+// files: open-api, serverless-api-gateway, serverless-authorizers, serverless-constants, serverless-events, serverless-function, serverless-global, serverless-http-api, serverless-iam, serverless-logging, serverless-package, serverless-provider, serverless-resources, serverless-tracing, serverless-vpc, serverless, step-functions.
 
 // local file exports
 export * from "./open-api";
+export * from "./serverless-api-gateway";
+export * from "./serverless-authorizers";
 export * from "./serverless-constants";
 export * from "./serverless-events";
+export * from "./serverless-function";
+export * from "./serverless-global";
 export * from "./serverless-http-api";
+export * from "./serverless-iam";
+export * from "./serverless-logging";
+export * from "./serverless-package";
+export * from "./serverless-provider";
+export * from "./serverless-resources";
+export * from "./serverless-tracing";
+export * from "./serverless-vpc";
 export * from "./serverless";
 export * from "./step-functions";
 
