@@ -1,7 +1,7 @@
 import { datetime } from "../aliases";
 import { arn } from "../aws";
 
-type Source = "ec2" | "s3" | "codestar";
+export type Source = "ec2" | "s3" | "codestar";
 export type IAwsEventSource = `aws.${Source}` | string;
 
 export type IAwsEventUrls = `${Source}.amazonaws.com` | string;

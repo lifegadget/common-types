@@ -7,6 +7,7 @@ import {
   IServerlessAuthorizer,
   IServerlessJwtAuthorizer,
 } from "./serverless-authorizers";
+import { IHttpApiCors } from "./serverless-http-api";
 import { IServerlessIAMRole } from "./serverless-iam";
 import {
   IHttpApiLogging,
@@ -22,7 +23,7 @@ export interface IServerlessProvider {
   /** this refers to the AWS profile in your ~/aws/credentials file */
   profile?: string;
   /** Service wide environment variables */
-  environment?: Record<string, scalar>;
+  environment?: Record<string, scalar> | string;
   /** Set the default stage used. Default is "dev". */
   stage?: "dev" | "test" | "prod" | string;
   /** Set the default region. Default is "us-east-1". */
@@ -57,11 +58,11 @@ export interface IServerlessProvider {
   };
 
   httpApi: {
-    id: string;
-    name: string;
-    payload: "1.0" | "2.0";
-    cors: boolean;
-    authorizers: Record<string, IServerlessJwtAuthorizer>;
+    id?: string;
+    name?: string;
+    payload?: "1.0" | "2.0";
+    cors?: boolean | IHttpApiCors;
+    authorizers?: Record<string, IServerlessJwtAuthorizer>;
   };
   /** Optional CF stack tags */
   stackTags?: Record<string, string>;

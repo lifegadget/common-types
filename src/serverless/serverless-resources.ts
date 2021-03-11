@@ -1,8 +1,8 @@
 export interface IServerlessResources {
   // TODO: see if we can model some other examples
   Resources: IDynamoDbTableResource | Record<string, IServerlessResource>;
-  extensions: any;
-  Outputs: Record<string, IServerlessOutput>;
+  extensions?: any;
+  Outputs?: Record<string, IServerlessOutput>;
 }
 
 export interface IServerlessResource {
