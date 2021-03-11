@@ -105,7 +105,7 @@ export interface IServerlessEvent {
         };
   };
 
-  eventBridge: {
+  eventBridge?: {
     /** using the default AWS event bus. Example might be "rate(10 minutes)" */
     schedule: string;
     /** creating or reusing an existing event-bus */
