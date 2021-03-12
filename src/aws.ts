@@ -110,8 +110,8 @@ export function isLambdaProxyRequest<T>(
   message: T | IAWSLambdaProxyIntegrationRequest
 ): message is IAWSLambdaProxyIntegrationRequest {
   return typeof message === "object" &&
-    (["1.0", "2.0"].includes(
-      (message as IAWSLambdaProxyIntegrationRequest).version
+    (["1.0", "2.0"].some(
+      (v) => v === (message as IAWSLambdaProxyIntegrationRequest).version
     ) ||
       ((message as IAWSLambdaProxyIntegrationRequestV1).resource &&
         (message as IAWSLambdaProxyIntegrationRequestV1).path &&
