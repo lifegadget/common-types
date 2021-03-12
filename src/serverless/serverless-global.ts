@@ -61,3 +61,8 @@ export interface IServerlessRootConfig {
   /** Disable deprecation logs by their codes. Default is empty. */
   disableDeprecations?: undefined | "DEP_CODE_1" | "*";
 }
+
+/**
+ * This string should follow its format and it will be used to populate values read from yaml file
+ */
+export type YamlExpression<T extends string = string> = `$\{${string}${T}${string}\}`
