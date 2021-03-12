@@ -1,5 +1,6 @@
 import { RestMethod } from "../aws";
 import { seconds } from "../aliases/timing";
+import { YamlExpression } from "./serverless-global";
 
 /**
  * In it's most basic form, an HTTP API can be
@@ -75,7 +76,7 @@ export interface IHttpApiComplex {
  * interface. For more info see the [docs](https://serverless.com/framework/docs/providers/aws/events/http-api#cors-setup)
  */
 export interface IHttpApiCors {
-  allowedOrigins?: string[];
+  allowedOrigins?: string[] | YamlExpression;
   allowedHeaders?: string[];
   allowedMethods?: RestMethod[];
   allowCredentials?: boolean;

@@ -110,9 +110,12 @@ export function isLambdaProxyRequest<T>(
   message: T | IAWSLambdaProxyIntegrationRequest
 ): message is IAWSLambdaProxyIntegrationRequest {
   return typeof message === "object" &&
-    (message as IAWSLambdaProxyIntegrationRequest).resource &&
-    (message as IAWSLambdaProxyIntegrationRequest).path &&
-    (message as IAWSLambdaProxyIntegrationRequest).httpMethod
+    (["1.0", "2.0"].includes(
+      (message as IAWSLambdaProxyIntegrationRequest).version
+    ) ||
+      ((message as IAWSLambdaProxyIntegrationRequestV1).resource &&
+        (message as IAWSLambdaProxyIntegrationRequestV1).path &&
+        (message as IAWSLambdaProxyIntegrationRequestV1).httpMethod))
     ? true
     : false;
 }
@@ -152,6 +155,48 @@ export interface IAwsLambdaProxyRequestContext extends IDictionary {
   httpMethod: RestMethod;
   apiId: string;
 }
+export interface IAWSLambdaProxyJwtAuthorizer {
+  claims?: IDictionary;
+  scopes?: string[];
+}
+
+export interface IAWSLambdaProxyClientCert {
+  clientCertPem: string;
+  subjectDN: string;
+  issuerDN: string;
+  serialNumber: string;
+  validity: {
+    /** time format: "May 28 12:30:02 2019 GMT" */
+    notBefore: string;
+    /** time format: "May 28 12:30:02 2019 GMT" */
+    notAfter: string;
+  };
+}
+
+export interface IAwsLambdaProxyRequestContextV2 extends IDictionary {
+  accountId: string;
+  apiId: string;
+  authentication?: Record<"clientCert", IAWSLambdaProxyClientCert> &
+    IDictionary;
+  authorizer: Record<"jwt", IAWSLambdaProxyJwtAuthorizer> & IDictionary;
+  domainName: string;
+  domainPrefix: string;
+  http: {
+    method: RestMethod;
+    path: string;
+    protocol: "HTTP/1.1" | string;
+    sourceIp: string;
+    userAgent: string;
+  };
+  requestId: string;
+  routeKey: "$default" | string;
+  stage: "$default" | string;
+  /**
+   * time format: "12/Mar/2020:19:03:58 +0000"
+   */
+  time: string;
+  timeEpoch: number;
+}
 
 /**
  * **getBodyFromPossibleLambdaProxyRequest**
@@ -170,6 +215,38 @@ export function getBodyFromPossibleLambdaProxyRequest<T>(
 }
 
 /**
+ * **IAWSLambdaProxyIntegrationRequestV2**
+ *
+ */
+export interface IAWSLambdaProxyIntegrationRequestV2 {
+  version: "2.0";
+  routeKey: "$default" | string;
+  rawPath: string;
+  /**
+   * e.g. parameter1=value1&parameter1=value2&parameter2=value
+   */
+  rawQueryString: string;
+  cookies: string[];
+  /**
+   * multiValue headers now are in the same string separated by comma
+   */
+  headers: IAWSLambdaProxyIntegrationRequestHeaders;
+  /**
+   * multiValue queryString parameters now are in the same string separated by comma
+   */
+  queryStringParameters?: Record<string, string | number | boolean>;
+  requestContext: IAwsLambdaProxyRequestContextV2;
+  body: string;
+  pathParameters?: any;
+  isBase64Encoded: boolean;
+  stageVariables: IDictionary;
+}
+
+export type IAWSLambdaProxyIntegrationRequest =
+  | IAWSLambdaProxyIntegrationRequestV1
+  | IAWSLambdaProxyIntegrationRequestV2;
+
+/**
  * **IAWSLambdaProxyIntegrationRequest**
  *
  * When a Lambda function is executed by API Gateway, the default option is
@@ -177,7 +254,8 @@ export function getBodyFromPossibleLambdaProxyRequest<T>(
  * regarding the request. When this is on, the message payload will be found
  * in the "body" attribute as a JSON string.
  */
-export interface IAWSLambdaProxyIntegrationRequest {
+export interface IAWSLambdaProxyIntegrationRequestV1 {
+  version: "1.0";
   resource: string;
   path: string;
   httpMethod: RestMethod;
@@ -198,7 +276,8 @@ export interface IAWSLambdaProxyIntegrationRequest {
 }
 
 /** The header values of an AWS _proxy integration_ event/request */
-export interface IAWSLambdaProxyIntegrationRequestHeaders extends IHttpResponseHeaders {
+export interface IAWSLambdaProxyIntegrationRequestHeaders
+  extends IHttpResponseHeaders {
   Accept: string;
   /** CORs scoping  */
   ["Access-Control-Allow-Origin"]?: string;
@@ -280,7 +359,10 @@ export interface IAWSGatewayRequest {
   parentRequestId?: string;
 }
 /** A decorator signature for a class property */
-export declare type PropertyDecorator = (target: any, key: string | symbol) => void;
+export declare type PropertyDecorator = (
+  target: any,
+  key: string | symbol
+) => void;
 /** A decorator signature for a class */
 export declare type ClassDecorator = <TFunction extends Function>(
   target: TFunction
