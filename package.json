@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.20.3",
+  "version": "1.20.4",
   "description": "Common types not included in Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "dist/cjs/index.js",
@@ -25,7 +25,7 @@
   "author": "Ken Snyder <ken@ken.net>",
   "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-commonjs": "^18.0.0",
     "@types/chai": "^4.2.11",
     "@types/mocha": "^8.0.3",
     "@types/rimraf": "^3.0.0",
