@@ -14,6 +14,7 @@ import {
   IStepFunctionWait,
 } from "../src";
 
+// @ts-ignore
 const stepFns: IServerlessConfig = {
   service: "foobar",
   functions: {
@@ -208,6 +209,7 @@ const serverlessFun: IServerlessFunction = {
   ],
 };
 
+// @ts-ignore
 const xray: IServerlessAccountInfo = {
   devDependencies: [],
   pluginsInstalled: [],

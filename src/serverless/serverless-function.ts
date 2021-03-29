@@ -11,25 +11,51 @@ import { IServerlessVpcConfig } from "./serverless-vpc";
  * pointing to the function definition itself and the
  * function to call within the file.
  */
-export type IServerlessFunction = (
-  | {
-      /**
-       * the handler function in the form of "/path/to/file.HANDLER_FN" where
-       * HANDLER_FN is typically "handler".
-       *
-       * Note: Cannot be used when `image` is defined.
-       */
-      handler: string;
-    }
-  | {
-      /**
-       * Image to be used by function, cannot be used when `handler` is defined.
-       * It can be configured as concrete uri of Docker image in ECR or as a
-       * reference to image defined in `provider.ecr.images`
-       */
-      image: string;
-    }
-) & {
+export type IServerlessFunction = IServerlessFunctionHandler | IServerlessFunctionImage;
+
+export interface IServerlessFunctionHandler extends IServerlessFunctionConfig {
+  /**
+   * the handler function in the form of "/path/to/file.HANDLER_FN" where
+   * HANDLER_FN is typically "handler".
+   *
+   * Note: Cannot be used when `image` is defined.
+   */
+  handler: string;
+}
+export interface IServerlessFunctionImage extends IServerlessFunctionConfig {
+  /**
+   * Image to be used by function, cannot be used when `handler` is defined.
+   * It can be configured as concrete uri of Docker image in ECR or as a
+   * reference to image defined in `provider.ecr.images`
+   */
+  image: string;
+}
+
+/**
+ * A type guard to ensure the passed in serverless configuration defines a "handler"
+ * rather than an "image".
+ *
+ * @param config a serverless configuration
+ */
+export function isServerlessFunctionHandler(
+  config: IServerlessFunction
+): config is IServerlessFunctionHandler {
+  return (config as IServerlessFunctionHandler).handler ? true : false;
+}
+
+/**
+ * A type guard to ensure the passed in serverless configuration points to an
+ * "image" rather than a "handler"
+ *
+ * @param config a serverless configuration
+ */
+export function isServerlessFunctionImage(
+  config: IServerlessFunction
+): config is IServerlessFunctionImage {
+  return (config as IServerlessFunctionImage).image ? true : false;
+}
+
+export interface IServerlessFunctionConfig {
   /** optional, deployed Lambda name */
   name?: string;
   /** The description of your function. */
@@ -163,7 +189,7 @@ const fn: IServerlessFunction = {
    * The Events that trigger this Function
    */
   events?: IServerlessEvent[];
-};
+}
 
 export interface ICloudformationReference {
   Ref: string;
