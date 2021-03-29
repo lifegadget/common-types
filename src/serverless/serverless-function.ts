@@ -3,6 +3,7 @@ import { arn } from "../aws";
 import { IApiGatewayAliasConfig } from "../serverless-plugins";
 import { AWSRuntime, ILayerDefinition, ServerlessFunctionMemorySize } from "./serverless";
 import { IServerlessEvent } from "./serverless-events";
+import { IServerlessTracing } from "./serverless-tracing";
 import { IServerlessVpcConfig } from "./serverless-vpc";
 
 /**
