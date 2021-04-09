@@ -1,5 +1,5 @@
-import { IDictionary } from "./basics";
-import { datestring } from "./aliases/timing";
+import { IDictionary } from "../basics";
+import { datestring } from "../aliases/timing";
 
 /**
  * This represents a meta-data format that repos which push up an AWS Layer can export
@@ -43,7 +43,7 @@ export interface IAwsLayerMeta {
    * known at that time.
    */
   arn?: string;
-  versions: IAWSLayerVersion[];
+  versions: IAwsLayerVersion[];
 }
 
 /**
@@ -60,7 +60,7 @@ export interface IAwsLayerMeta {
  * documenting the range of options and ideally a description of what that version
  * brings is useful to consumers.
  */
-export interface IAWSLayerVersion {
+export interface IAwsLayerVersion {
   version: number;
   released?: datestring;
   /**

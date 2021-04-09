@@ -1,8 +1,5 @@
 import { numberAsString } from "./aliases";
-import {
-  IAWSLambdaProxyIntegrationRequest,
-  IAWSLambdaProxyIntegrationRequestHeaders,
-} from "./aws";
+import { IAwsLambdaProxyIntegrationRequest } from "./aws";
 
 export interface INetlifyRequestHeader {
   "content-type": string;
@@ -26,7 +23,7 @@ export interface INetlifyRequestHeader {
 }
 
 export interface INetlifyRequest
-  extends Omit<IAWSLambdaProxyIntegrationRequest, "headers"> {
+  extends Omit<IAwsLambdaProxyIntegrationRequest, "headers"> {
   queryStringParameters: Record<string, string | number | boolean>;
   headers: INetlifyRequestHeader;
 }

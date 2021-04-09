@@ -1,7 +1,7 @@
-import { IDictionary } from "./basics";
-import { IHttpResponseHeaders } from "./http";
-import { epoch } from "./aliases/timing";
-import { BooleanAsString } from "./aliases";
+import { IDictionary } from "../basics";
+import { IHttpResponseHeaders } from "../http";
+import { epoch } from "../aliases/timing";
+import { BooleanAsString } from "../aliases";
 
 export type arn = string;
 
@@ -26,13 +26,13 @@ export type arn = string;
  */
 export type IAwsHandlerFunction<T, R = IDictionary, E = Error> = (
   event: IAwsLambdaEvent<T>,
-  context: IAWSLambaContext,
+  context: IAwsLambdaContext,
   /**
    * callbacks are no longer required and it is preferred that you simply return
    * the results
    */
   cb?: IAwsLambdaCallback<R, E>
-) => Promise<void> | Promise<R> | Promise<IApiGatewayResponse>;
+) => Promise<void> | Promise<R> | Promise<IAwsApiGatewayResponse>;
 
 /**
  * **IAwsLambdaEvent**
@@ -41,13 +41,13 @@ export type IAwsHandlerFunction<T, R = IDictionary, E = Error> = (
  * type `T` or that it may be wrapped in a
  * [AWS Proxy Request](https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html).
  */
-export type IAwsLambdaEvent<T> = T | IAWSLambdaProxyIntegrationRequest;
+export type IAwsLambdaEvent<T> = T | IAwsLambdaProxyIntegrationRequest;
 
 /**
  * A hash/dictionary structure that will convey the aspects of an error
  * to AWS's **API Gateway**.
  */
-export interface IApiGatewayErrorResponse<T = any> {
+export interface IAwsApiGatewayErrorResponse<T = any> {
   headers?: IDictionary;
   /** the HTTP style error code number for this reponse */
   errorCode?: number;
@@ -89,7 +89,7 @@ export interface IAwsLambdaFailureCallback<E = any> {
  *
  * A Lambda function called that is returning to an API Gateway endpoint
  */
-export interface IApiGatewayResponse {
+export interface IAwsApiGatewayResponse {
   statusCode: number;
   headers?: IDictionary<string | boolean | number>;
   body?: string;
@@ -107,20 +107,20 @@ export type RestMethod = "GET" | "POST" | "PUT" | "DELETE";
  * @param message the body of the request (which is either of type T or a LambdaProxy event)
  */
 export function isLambdaProxyRequest<T>(
-  message: T | IAWSLambdaProxyIntegrationRequest
-): message is IAWSLambdaProxyIntegrationRequest {
+  message: T | IAwsLambdaProxyIntegrationRequest
+): message is IAwsLambdaProxyIntegrationRequest {
   return typeof message === "object" &&
     (["1.0", "2.0"].some(
-      (v) => v === (message as IAWSLambdaProxyIntegrationRequest).version
+      (v) => v === (message as IAwsLambdaProxyIntegrationRequest).version
     ) ||
-      ((message as IAWSLambdaProxyIntegrationRequestV1).resource &&
-        (message as IAWSLambdaProxyIntegrationRequestV1).path &&
-        (message as IAWSLambdaProxyIntegrationRequestV1).httpMethod))
+      ((message as IAwsLambdaProxyIntegrationRequestV1).resource &&
+        (message as IAwsLambdaProxyIntegrationRequestV1).path &&
+        (message as IAwsLambdaProxyIntegrationRequestV1).httpMethod))
     ? true
     : false;
 }
 
-function parsed(input: IAWSLambdaProxyIntegrationRequest) {
+function parsed(input: IAwsLambdaProxyIntegrationRequest) {
   try {
     const output = JSON.parse(input.body.replace(/[\n\t]/g, ""));
     return output;
@@ -155,12 +155,12 @@ export interface IAwsLambdaProxyRequestContext extends IDictionary {
   httpMethod: RestMethod;
   apiId: string;
 }
-export interface IAWSLambdaProxyJwtAuthorizer {
+export interface IAwsLambdaProxyJwtAuthorizer {
   claims?: IDictionary;
   scopes?: string[];
 }
 
-export interface IAWSLambdaProxyClientCert {
+export interface IAwsLambdaProxyClientCert {
   clientCertPem: string;
   subjectDN: string;
   issuerDN: string;
@@ -176,9 +176,8 @@ export interface IAWSLambdaProxyClientCert {
 export interface IAwsLambdaProxyRequestContextV2 extends IDictionary {
   accountId: string;
   apiId: string;
-  authentication?: Record<"clientCert", IAWSLambdaProxyClientCert> &
-    IDictionary;
-  authorizer: Record<"jwt", IAWSLambdaProxyJwtAuthorizer> & IDictionary;
+  authentication?: Record<"clientCert", IAwsLambdaProxyClientCert> & IDictionary;
+  authorizer: Record<"jwt", IAwsLambdaProxyJwtAuthorizer> & IDictionary;
   domainName: string;
   domainPrefix: string;
   http: {
@@ -199,26 +198,10 @@ export interface IAwsLambdaProxyRequestContextV2 extends IDictionary {
 }
 
 /**
- * **getBodyFromPossibleLambdaProxyRequest**
- *
- * Returns the message body/payload regardless of whether Lambda was called by API Gateway's LambdaProxy
- * or from another Lambda function.
- *
- * @param input either a [Lambda Proxy Request](https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html)
- * or type `T` as defined by consumer
- * @return type of `T`
- */
-export function getBodyFromPossibleLambdaProxyRequest<T>(
-  input: T | IAWSLambdaProxyIntegrationRequest
-): T {
-  return isLambdaProxyRequest<T>(input) ? (parsed(input) as T) : (input as T);
-}
-
-/**
  * **IAWSLambdaProxyIntegrationRequestV2**
  *
  */
-export interface IAWSLambdaProxyIntegrationRequestV2 {
+export interface IAwsLambdaProxyIntegrationRequestV2 {
   version: "2.0";
   routeKey: "$default" | string;
   rawPath: string;
@@ -230,7 +213,7 @@ export interface IAWSLambdaProxyIntegrationRequestV2 {
   /**
    * multiValue headers now are in the same string separated by comma
    */
-  headers: IAWSLambdaProxyIntegrationRequestHeaders;
+  headers: IAwsLambdaProxyIntegrationRequestHeaders;
   /**
    * multiValue queryString parameters now are in the same string separated by comma
    */
@@ -242,9 +225,9 @@ export interface IAWSLambdaProxyIntegrationRequestV2 {
   stageVariables: IDictionary;
 }
 
-export type IAWSLambdaProxyIntegrationRequest =
-  | IAWSLambdaProxyIntegrationRequestV1
-  | IAWSLambdaProxyIntegrationRequestV2;
+export type IAwsLambdaProxyIntegrationRequest =
+  | IAwsLambdaProxyIntegrationRequestV1
+  | IAwsLambdaProxyIntegrationRequestV2;
 
 /**
  * **IAWSLambdaProxyIntegrationRequest**
@@ -254,12 +237,12 @@ export type IAWSLambdaProxyIntegrationRequest =
  * regarding the request. When this is on, the message payload will be found
  * in the "body" attribute as a JSON string.
  */
-export interface IAWSLambdaProxyIntegrationRequestV1 {
+export interface IAwsLambdaProxyIntegrationRequestV1 {
   version: "1.0";
   resource: string;
   path: string;
   httpMethod: RestMethod;
-  headers: IAWSLambdaProxyIntegrationRequestHeaders;
+  headers: IAwsLambdaProxyIntegrationRequestHeaders;
   /**
    * All modern versions of AWS Lambda functions now return a dictionary of
    * name/value pairs; no longer need to parse this yourself.
@@ -276,8 +259,7 @@ export interface IAWSLambdaProxyIntegrationRequestV1 {
 }
 
 /** The header values of an AWS _proxy integration_ event/request */
-export interface IAWSLambdaProxyIntegrationRequestHeaders
-  extends IHttpResponseHeaders {
+export interface IAwsLambdaProxyIntegrationRequestHeaders extends IHttpResponseHeaders {
   Accept: string;
   /** CORs scoping  */
   ["Access-Control-Allow-Origin"]?: string;
@@ -303,7 +285,7 @@ export interface IAWSLambdaProxyIntegrationRequestHeaders
   ["Cookie"]?: string;
 }
 
-export interface IAWSLambaContext {
+export interface IAwsLambdaContext {
   /** The default value is true. This property is useful only to modify the default behavior of the callback. By default, the callback will wait until the Node.js runtime event loop is empty before freezing the process and returning the results to the caller. You can set this property to false to request AWS Lambda to freeze the process soon after the callback is called, even if there are events in the event loop. AWS Lambda will freeze the process, any state data and the events in the Node.js event loop (any remaining events in the event loop processed when the Lambda function is called next and if AWS Lambda chooses to use the frozen process). For more information about callback, see Using the Callback Parameter. */
   callbackWaitsForEmptyEventLoop?: boolean;
   /** Name of the Lambda function that is executing. */
@@ -342,7 +324,7 @@ export interface IAWSLambaContext {
   };
 }
 
-export interface IAWSGatewayRequest {
+export interface IAwsGatewayRequest {
   done?: () => void;
   succeed?: () => void;
   fail?: () => void;
@@ -358,11 +340,9 @@ export interface IAWSGatewayRequest {
   stage?: "dev" | "stage" | "prod";
   parentRequestId?: string;
 }
+
 /** A decorator signature for a class property */
-export declare type PropertyDecorator = (
-  target: any,
-  key: string | symbol
-) => void;
+export declare type PropertyDecorator = (target: any, key: string | symbol) => void;
 /** A decorator signature for a class */
 export declare type ClassDecorator = <TFunction extends Function>(
   target: TFunction
@@ -380,10 +360,10 @@ export interface ICloudWatchEvent_Old {
   logGroup: string;
   logStream: string;
   subscriptionFilters: string[];
-  logEvents: ICloudWatchLogEvent[];
+  logEvents: IAwsCloudWatchLogEvent[];
 }
 
-export interface ICloudWatchLogEvent {
+export interface IAwsCloudWatchLogEvent {
   id: string;
   timestamp: epoch;
   message: string;

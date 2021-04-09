@@ -2,12 +2,14 @@
 
 // #region autoindexed files
 
-// index last changed at: 1st Jan, 2021, 03:20 PM ( GMT-8 )
+// index last changed at: 4th Apr, 2021, 02:35 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: aws-events.
+// files: aws-events, aws-layers, aws.
 
 // local file exports
 export * from "./aws-events";
+export * from "./aws-layers";
+export * from "./aws";
 
 // Note:
 // -----
