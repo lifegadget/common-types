@@ -1,5 +1,6 @@
 import { IDictionary } from "../basics";
 import { arn } from "../aws";
+import { IServerlessTracing } from "./serverless-tracing";
 
 /** A typing for the serverless framework's "serverless.yml" file */
 
@@ -16,7 +17,7 @@ export interface IServerlessAccountInfo {
    * you are setting both but if you only want one you can state which one
    * as the value.
    */
-  tracing?: IServerlessDiscreteTracingConfig | boolean;
+  tracing?: IServerlessTracing | boolean;
   /**
    * if you want to forward logs to another lambda you can state the **ARN** here
    */
@@ -29,11 +30,6 @@ export interface IServerlessAccountInfo {
    * a list of all Development Dependencies
    */
   devDependencies: string[];
-}
-
-export interface IServerlessDiscreteTracingConfig {
-  apiGateway?: boolean;
-  lambda?: boolean;
 }
 
 export type AWSRuntime =

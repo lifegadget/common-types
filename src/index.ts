@@ -2,16 +2,13 @@
 
 // #region autoindexed files
 
-// index last changed at: 1st Jan, 2021, 03:20 PM ( GMT-8 )
+// index last changed at: 4th Apr, 2021, 02:35 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: LambdaEventParser, async, aws-layers, aws, basics, deprecated, geography, github-commit, github-event, github-release, github-webhooks, github, http, netlify, npm, nullable, package.
+// files: async, basics, deprecated, geography, github-commit, github-event, github-release, github-webhooks, github, http, netlify, npm, nullable, package.
 // directories: aliases, aws, serverless, serverless-plugins.
 
 // local file exports
-export * from "./LambdaEventParser";
 export * from "./async";
-export * from "./aws-layers";
-export * from "./aws";
 export * from "./basics";
 export * from "./deprecated";
 export * from "./geography";
