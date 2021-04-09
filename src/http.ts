@@ -1,10 +1,13 @@
+import { scalar } from "./aliases";
+import { IDictionary } from "./basics";
+
 /**
  * Identifies the most common properties included
  * in HTTP _**request**_ headers while leaving the structure the
  * flexibility to add more name/value pairs
  */
 export type IHttpRequestHeaders<
-  T extends Record<string, unknown> = Record<string, unknown>
+  T extends IDictionary<scalar> = IDictionary<scalar>
 > = T & {
   /**
    * The `Accept` _request_ HTTP header advertises which content types, expressed as
@@ -61,7 +64,7 @@ export type IHttpRequestHeaders<
  * the flexiblility to add more name/value pairs
  */
 export type IHttpResponseHeaders<
-  T extends Record<string, unknown> = Record<string, unknown>
+  T extends IDictionary<scalar> = IDictionary<scalar>
 > = T & {
   /**
    * The `Allow` header lists the set of methods supported by a resource.
@@ -177,7 +180,7 @@ export type IHttpResponseHeaders<
   ["WWW-Authenticate"]?: string;
 };
 
-export type IHttpHeaders<T extends Record<string, unknown> = Record<string, unknown>> =
+export type IHttpHeaders<T extends IDictionary<scalar> = IDictionary<scalar>> =
   | IHttpRequestHeaders<T>
   | IHttpResponseHeaders<T>;
 
