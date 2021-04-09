@@ -220,7 +220,7 @@ export interface IAwsLambdaProxyIntegrationRequestV2 {
   queryStringParameters?: Record<string, string | number | boolean>;
   requestContext: IAwsLambdaProxyRequestContextV2;
   body: string;
-  pathParameters?: any;
+  pathParameters?: Record<string, string | number | boolean>;
   isBase64Encoded: boolean;
   stageVariables: IDictionary;
 }
@@ -251,7 +251,7 @@ export interface IAwsLambdaProxyIntegrationRequestV1 {
    * optional. This _does_ appear to be the case with Netlify's functions.
    */
   queryStringParameters?: Record<string, string | number | boolean>;
-  pathParameters?: any;
+  pathParameters?: Record<string, string | number | boolean>;
   requestContext: IAwsLambdaProxyRequestContext;
   /** The payload that the client has sent to you; if the content was originally in JSON/object format you will need to parse it */
   body: string;
