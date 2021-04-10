@@ -1,5 +1,5 @@
 import { RestMethod } from "../aws";
-import { seconds } from "../aliases/timing";
+import { seconds } from "../aliases/datetime";
 import { YamlExpression } from "./serverless-global";
 
 /**

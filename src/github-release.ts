@@ -1,4 +1,4 @@
-import { datetime } from "./aliases/timing";
+import { datetime } from "./aliases/datetime";
 import { IGithubUser } from "./github";
 
 // https://developer.github.com/v3/repos/releases/

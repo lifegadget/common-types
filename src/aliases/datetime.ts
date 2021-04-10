@@ -1,7 +1,57 @@
-/** a string of the format: "YYYY-MM-DD" */
-export type datestring = string;
+import { NumericCharacter } from "./stringAliases";
+/** days of the week in 3-letter abbreviated form; first letter capitalized  */
+export type DayShort = "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
+
+/** days of the week in 3-letter abbreviated form; all lowercase */
+export type DayShortLower = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
+
+export type Day =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
+
+export type Month =
+  | "January"
+  | "February"
+  | "March"
+  | "April"
+  | "May"
+  | "June"
+  | "July"
+  | "August"
+  | "September"
+  | "October"
+  | "November"
+  | "December";
+
+export type MonthShort =
+  | "Jan"
+  | "Feb"
+  | "Mar"
+  | "Apr"
+  | "May"
+  | "Jun"
+  | "Jul"
+  | "Aug"
+  | "Sep"
+  | "Oct"
+  | "Nov"
+  | "Dec";
+
+/**
+ * Follows the general HTTP header standard for dates ([spec](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Date)).
+ * The format will look something like `Sat, 10 Apr 2021 19:10:26 GMT` and can be generated
+ * in Javascript with `new Date().toUTCString()`
+ */
+export type UtcDateString = `${DayShort}, ${NumericCharacter}${string}`;
+
 /** a string of the format: "HH:mm:ss" */
 export type timestring = string;
+
 /**
  * an array containing hours and minutes since midnight with the optional
  * ability to add _seconds_ or even _miliseconds_
@@ -53,9 +103,29 @@ export type year = number;
 /**
  * A 4-digit year in the gregorian calendar (represented as a string).
  *
- * > Note: use `year` for the same format represented numerically.
+ * > Note: due to TS limitations, can only represent years 1900-2999
+ * > if you need broader support use `yearString2`
  */
-export type yearString = string;
+export type yearString = `${
+  | 1
+  | 2}${NumericCharacter}${NumericCharacter}${NumericCharacter}`;
+
+/**
+ * A 4-digit year in the gregorian calendar (represented as a string).
+ */
+export type yearString2 = `${number}`;
+
+/**
+ * A string representing a month as a two digit string: "01", "11", etc.
+ */
+export type monthString = `${0 | 1}${NumericCharacter}`;
+
+export type dateAsString = `${0 | 1 | 2 | 3}${NumericCharacter}`;
+
+/**
+ * a string of the format: "YYYY-MM-DD"
+ */
+export type datestring = `${number}-${monthString}-${dateAsString}`;
 
 /**
  * A **2-digit** abbreviation for the year _ending in_ "xx".
@@ -69,4 +139,4 @@ export type yearString = string;
  * to preserve the form/structure and convey clearer meaning
  * in the first part of a century.
  */
-export type yearAbbreviated = string;
+export type yearAbbreviated = `${NumericCharacter}${NumericCharacter}`;

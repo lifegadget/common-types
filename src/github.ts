@@ -1,4 +1,4 @@
-import { datetime } from "./aliases/timing";
+import { datetime } from "./aliases/datetime";
 
 export interface IGithubRepo {
   id: number;
