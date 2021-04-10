@@ -1,5 +1,5 @@
 import { IDictionary } from "../basics";
-import { datestring } from "../aliases/timing";
+import { datestring } from "../aliases/datetime";
 
 /**
  * This represents a meta-data format that repos which push up an AWS Layer can export

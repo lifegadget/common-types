@@ -2,14 +2,15 @@
 
 // #region autoindexed files
 
-// index last changed at: 4th Apr, 2021, 02:35 PM ( GMT-7 )
+// index last changed at: 4th Apr, 2021, 01:11 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: async, basics, deprecated, geography, github-commit, github-event, github-release, github-webhooks, github, http, netlify, npm, nullable, package.
+// files: async, basics, cookies, deprecated, geography, github-commit, github-event, github-release, github-webhooks, github, http, netlify, npm, nullable, package.
 // directories: aliases, aws, serverless, serverless-plugins.
 
 // local file exports
 export * from "./async";
 export * from "./basics";
+export * from "./cookies";
 export * from "./deprecated";
 export * from "./geography";
 export * from "./github-commit";
