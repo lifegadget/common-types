@@ -7,7 +7,7 @@ import { IDictionary } from "./basics";
  * flexibility to add more name/value pairs
  */
 export type IHttpRequestHeaders<
-  T extends IDictionary<scalar> = IDictionary<scalar>
+  T extends IDictionary<scalar | undefined> = IDictionary<scalar | undefined>
 > = T & {
   /**
    * The `Accept` _request_ HTTP header advertises which content types, expressed as
@@ -64,7 +64,7 @@ export type IHttpRequestHeaders<
  * the flexiblility to add more name/value pairs
  */
 export type IHttpResponseHeaders<
-  T extends IDictionary<scalar> = IDictionary<scalar>
+  T extends IDictionary<scalar | undefined> = IDictionary<scalar | undefined>
 > = T & {
   /**
    * The `Allow` header lists the set of methods supported by a resource.
@@ -180,9 +180,9 @@ export type IHttpResponseHeaders<
   ["WWW-Authenticate"]?: string;
 };
 
-export type IHttpHeaders<T extends IDictionary<scalar> = IDictionary<scalar>> =
-  | IHttpRequestHeaders<T>
-  | IHttpResponseHeaders<T>;
+export type IHttpHeaders<
+  T extends IDictionary<scalar | undefined> = IDictionary<scalar | undefined>
+> = IHttpRequestHeaders<T> | IHttpResponseHeaders<T>;
 
 export enum HttpStatusCodes {
   /**

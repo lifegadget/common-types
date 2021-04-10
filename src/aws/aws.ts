@@ -261,6 +261,7 @@ export interface IAwsLambdaProxyIntegrationRequestV1 {
 /** The header values of an AWS _proxy integration_ event/request */
 export interface IAwsLambdaProxyIntegrationRequestHeaders extends IHttpResponseHeaders {
   Accept: string;
+  Authorization?: string;
   /** CORs scoping  */
   ["Access-Control-Allow-Origin"]?: string;
   /** CORs parameter */
