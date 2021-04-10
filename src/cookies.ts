@@ -1,4 +1,4 @@
-import { utcDateString } from "./aliases";
+import { UtcDateString } from "./aliases";
 
 /**
  * the most basic cookie assignment for `Set-Cookie` header
@@ -18,7 +18,7 @@ export type AttributedCookie = `${SimpleCookie};${string}`;
 export type Cookie = SimpleCookie | AttributedCookie;
 
 export type CookieSameSite = "Strict" | "Lax" | "None; Secure";
-export type CookieExpires = `Expires=${utcDateString}`;
+export type CookieExpires = `Expires=${UtcDateString}`;
 export type CookieMaxAge = `Max-Age=${number}`;
 export type CookieHttpOnly = "HttpOnly";
 export type CookieDomain = `Domain=${string}`;
