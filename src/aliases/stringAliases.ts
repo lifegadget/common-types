@@ -14,3 +14,5 @@ export function isTypeSubtype(str: string): str is TypeSubtype {
   const parts = str.split("/");
   return parts.length === 2;
 }
+
+export type DevelopmentStage = "dev" | "prod" | "test" | "stage";

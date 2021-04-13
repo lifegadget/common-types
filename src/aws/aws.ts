@@ -3,8 +3,6 @@ import { IHttpResponseHeaders } from "../http";
 import { epoch } from "../aliases/datetime";
 import { BooleanAsString } from "../aliases";
 
-export type arn = string;
-
 /**
  * **IAwsHandlerFunction**
  *
