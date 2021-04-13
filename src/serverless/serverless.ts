@@ -1,10 +1,11 @@
 import { IDictionary } from "../basics";
 import { arn } from "../aws";
 import { IServerlessTracing } from "./serverless-tracing";
+import { DevelopmentStage } from "../aliases/stringAliases";
 
 /** A typing for the serverless framework's "serverless.yml" file */
 
-export type IServerlessStage = "dev" | "prod" | "test" | "stage";
+export type IServerlessStage = DevelopmentStage;
 
 export type IServerlessVariable = string;
 export interface IServerlessAccountInfo {
