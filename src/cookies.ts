@@ -18,13 +18,14 @@ export type AttributedCookie = `${SimpleCookie};${string}`;
 export type Cookie = SimpleCookie | AttributedCookie;
 
 export type CookieSameSite = "Strict" | "Lax" | "None; Secure";
+
 export type CookieExpires = `Expires=${UtcDateString}`;
 export type CookieMaxAge = `Max-Age=${number}`;
 export type CookieHttpOnly = "HttpOnly";
 export type CookieDomain = `Domain=${string}`;
 export type CookieSecure = "Secure";
 export type CookieAttribute =
-  | CookieSameSite
+  | `SameSite=${CookieSameSite}`
   | CookieExpires
   | CookieMaxAge
   | CookieHttpOnly
