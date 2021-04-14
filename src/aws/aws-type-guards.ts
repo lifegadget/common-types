@@ -2,7 +2,7 @@ import {
   IAwsLambdaProxyIntegrationRequestV2,
   IAwsLambdaProxyIntegrationRequest,
 } from "./aws";
-import { AwsEventBridgeArn, AwsLambdaArn } from "./aws-arn";
+import { AwsArn, AwsEventBridgeArn, AwsLambdaArn, AwsStepFunctionArn } from "./aws-arn";
 import { AwsRegion } from "./aws-regions";
 import { AwsStage } from "./aws-stage";
 
@@ -34,7 +34,7 @@ export function isAwsRegion(region: string): region is AwsRegion {
  * Type guard to ensure that a given string is a valid `AwsStage`
  */
 export function isAwsStage(stage: string): stage is AwsStage {
-  return /$(dev|test|prod|stage)^/.test(stage);
+  return /(dev|test|prod|stage)/.test(stage);
 }
 
 /**
@@ -42,4 +42,16 @@ export function isAwsStage(stage: string): stage is AwsStage {
  */
 export function isEventBridgeArn(arn: string): arn is AwsEventBridgeArn {
   return /arn:(.*?):events:/.test(arn);
+}
+
+export function isStepFunctionArn(arn: string): arn is AwsStepFunctionArn {
+  return /arn:(aws|aws-cn|aws-us-gov):states:.*:stateMachine/.test(arn);
+}
+
+/**
+ * A reasonable strength type guard to validate that a string is in fact
+ * a fully qualified ARN.
+ */
+export function isArn(arn: string): arn is AwsArn {
+  return /arn:(aws|aws-cn|aws-us-gov):(.*):/.test(arn);
 }

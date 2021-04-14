@@ -35,6 +35,20 @@ export type AwsService =
   | string;
 
 /**
+ * AWS _resources_ are found in an ARN and tied to the parent _service_
+ * that precedes it in the ARN.
+ */
+export type AwsResource =
+  | "function"
+  | "logs"
+  | "states"
+  | "user"
+  | "group"
+  | "stateMachine"
+  | "event-bus"
+  | string;
+
+/**
  * Describes the shape of a fully-qualified AWS **ARN** for a _Lambda function_
  */
 export type AwsLambdaArn = `arn:${AwsPartition}:lambda:${AwsRegion}:${AwsAccountId}:function:${string}`;
