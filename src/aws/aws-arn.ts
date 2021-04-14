@@ -66,4 +66,4 @@ export type arn = string;
  * Provides reasonably good type support for a AWS ARN but to ensure its
  * not too restrictive.
  */
-export type AwsArn = `arn:${AwsPartition}:${AwsService}:${AwsAccountId}:${string}`;
+export type AwsArn = `arn:${AwsPartition}:${AwsService}:${AwsRegion}:${AwsAccountId}:${string}`;

@@ -4,6 +4,7 @@ import {
 } from "./aws";
 import { AwsLambdaArn } from "./aws-arn";
 import { AwsRegion } from "./aws-regions";
+import { AwsStage } from "./aws-stage";
 
 /**
  * Distinguishes between a V1 and V2 Proxy Integration Request
@@ -27,4 +28,11 @@ export function isLambdaArn(arn: string): arn is AwsLambdaArn {
  */
 export function isAwsRegion(region: string): region is AwsRegion {
   return /^(us|eu|af|ap|me|sa|ca)\-(\w+)\-[0-9]$/.test(region);
+}
+
+/**
+ * Type guard to ensure that a given string is a valid `AwsStage`
+ */
+export function isAwsStage(stage: string): stage is AwsStage {
+  return /$(dev|test|prod|stage)^/.test(stage);
 }
