@@ -2,7 +2,7 @@ import {
   IAwsLambdaProxyIntegrationRequestV2,
   IAwsLambdaProxyIntegrationRequest,
 } from "./aws";
-import { AwsLambdaArn } from "./aws-arn";
+import { AwsEventBridgeArn, AwsLambdaArn } from "./aws-arn";
 import { AwsRegion } from "./aws-regions";
 import { AwsStage } from "./aws-stage";
 
@@ -35,4 +35,11 @@ export function isAwsRegion(region: string): region is AwsRegion {
  */
 export function isAwsStage(stage: string): stage is AwsStage {
   return /$(dev|test|prod|stage)^/.test(stage);
+}
+
+/**
+ * Type guard to ensure a ARN string is EventBridge event
+ */
+export function isEventBridgeArn(arn: string): arn is AwsEventBridgeArn {
+  return /arn:(.*?):events:/.test(arn);
 }
