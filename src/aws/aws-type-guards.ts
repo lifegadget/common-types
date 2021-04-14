@@ -2,7 +2,13 @@ import {
   IAwsLambdaProxyIntegrationRequestV2,
   IAwsLambdaProxyIntegrationRequest,
 } from "./aws";
-import { AwsArn, AwsEventBridgeArn, AwsLambdaArn, AwsStepFunctionArn } from "./aws-arn";
+import {
+  AwsArn,
+  AwsEventBridgeArn,
+  AwsLambdaArn,
+  AwsPartition,
+  AwsStepFunctionArn,
+} from "./aws-arn";
 import { AwsRegion } from "./aws-regions";
 import { AwsStage } from "./aws-stage";
 
@@ -54,4 +60,11 @@ export function isStepFunctionArn(arn: string): arn is AwsStepFunctionArn {
  */
 export function isArn(arn: string): arn is AwsArn {
   return /arn:(aws|aws-cn|aws-us-gov):(.*):/.test(arn);
+}
+
+/**
+ * A type guard that tests whether a string is a valid AWS _partition_
+ */
+export function isArnPartition(partition: string): partition is AwsPartition {
+  return /(aws|aws-cn|aws-us-gov)/.test(partition);
 }
