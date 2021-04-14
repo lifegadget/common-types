@@ -34,7 +34,7 @@ export function isAwsRegion(region: string): region is AwsRegion {
  * Type guard to ensure that a given string is a valid `AwsStage`
  */
 export function isAwsStage(stage: string): stage is AwsStage {
-  return /$(dev|test|prod|stage)^/.test(stage);
+  return /(dev|test|prod|stage)/.test(stage);
 }
 
 /**
