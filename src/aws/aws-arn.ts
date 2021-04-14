@@ -31,6 +31,7 @@ export type AwsService =
   | "sqs"
   | "sns"
   | "dynamodb"
+  | "events"
   | string;
 
 /**
@@ -54,6 +55,13 @@ export type AwsIamResource = "user" | "group" | string;
  * Describes the shape of a fully-qualified AWS **ARN** for a _IAM Role_.
  */
 export type AwsIamArn = `arn:${AwsPartition}:iam:${AwsAccountId}:${AwsIamResource}/${string}`;
+
+export type AwsEventBridgeResource = "event-bus";
+
+/**
+ * Describes the shape of a fully-qualified AWS **ARN** for a _EventBridge event_.
+ */
+export type AwsEventBridgeArn = `arn:${AwsPartition}:events:${AwsRegion}:${AwsAccountId}:${AwsEventBridgeResource}/${string}`;
 
 /**
  * A type alias to indicate a AWS ARN.
