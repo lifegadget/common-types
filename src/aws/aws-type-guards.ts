@@ -10,6 +10,7 @@ import {
   ArnResource,
   ArnService,
   AwsStepFunctionArn,
+  AwsAccountId,
 } from "./aws-arn";
 import { AwsRegion } from "./aws-regions";
 import { AwsStage } from "./aws-stage";
@@ -32,19 +33,22 @@ export function isLambdaArn(arn: string): arn is AwsLambdaArn {
 }
 
 /**
- * Type guard to ensure that a given string is a `AwsRegion`
+ * Type guard to ensure that a given value is a `AwsRegion`
  */
-export function isAwsRegion(region: string): region is AwsRegion {
-  return /^(us|eu|af|ap|me|sa|ca)\-(north|south|east|west|central|northeast|southeast)\-[1-3]$/.test(
-    region
+export function isAwsRegion(region: unknown): region is AwsRegion {
+  return (
+    typeof region === "string" &&
+    /^(us|eu|af|ap|me|sa|ca)\-(north|south|east|west|central|northeast|southeast)\-[1-3]$/.test(
+      region
+    )
   );
 }
 
 /**
- * Type guard to ensure that a given string is a valid `AwsStage`
+ * Type guard to ensure that a given value is a valid `AwsStage`
  */
-export function isAwsStage(stage: string): stage is AwsStage {
-  return /(dev|test|prod|stage)/.test(stage);
+export function isAwsStage(stage: unknown): stage is AwsStage {
+  return typeof stage === "string" && /(dev|test|prod|stage)/.test(stage);
 }
 
 /**
@@ -85,4 +89,12 @@ export function isArnResource(resource: string): resource is ArnResource {
  */
 export function isArnService(service: string): service is ArnService {
   return /(lambda|iam|logs|states|sqs|sns|dynamodb|events)/.test(service);
+}
+
+/**
+ * validates that the provided input could be a valid
+ * `AwsAccountId`
+ */
+export function isAwsAccountId(accountId: unknown): accountId is AwsAccountId {
+  return typeof accountId === "string" && !isNaN(Number(accountId));
 }
