@@ -6,7 +6,9 @@ import {
   AwsArn,
   AwsEventBridgeArn,
   AwsLambdaArn,
-  AwsPartition,
+  ArnPartition,
+  ArnResource,
+  ArnService,
   AwsStepFunctionArn,
 } from "./aws-arn";
 import { AwsRegion } from "./aws-regions";
@@ -33,7 +35,9 @@ export function isLambdaArn(arn: string): arn is AwsLambdaArn {
  * Type guard to ensure that a given string is a `AwsRegion`
  */
 export function isAwsRegion(region: string): region is AwsRegion {
-  return /^(us|eu|af|ap|me|sa|ca)\-(\w+)\-[0-9]$/.test(region);
+  return /^(us|eu|af|ap|me|sa|ca)\-(north|south|east|west|central|northeast|southeast)\-[1-3]$/.test(
+    region
+  );
 }
 
 /**
@@ -55,7 +59,7 @@ export function isStepFunctionArn(arn: string): arn is AwsStepFunctionArn {
 }
 
 /**
- * A reasonable strength type guard to validate that a string is in fact
+ * A reasonable strong type guard to validate that a string is in fact
  * a fully qualified ARN.
  */
 export function isArn(arn: string): arn is AwsArn {
@@ -63,8 +67,22 @@ export function isArn(arn: string): arn is AwsArn {
 }
 
 /**
- * A type guard that tests whether a string is a valid AWS _partition_
+ * A type guard that tests whether a string is a valid AWS _partition_ (from the standpoint of a ARN)
  */
-export function isArnPartition(partition: string): partition is AwsPartition {
+export function isArnPartition(partition: string): partition is ArnPartition {
   return /(aws|aws-cn|aws-us-gov)/.test(partition);
+}
+
+/**
+ * A type guard that tests whether a string is a valid AWS _resource_ (from the standpoint of a ARN)
+ */
+export function isArnResource(resource: string): resource is ArnResource {
+  return /(function|logs|states|user|group|stateMachine|event-bus|table)/.test(resource);
+}
+
+/**
+ * A type guard that tests whether a string is a valid AWS _service_ (from the standpoint of a ARN)
+ */
+export function isArnService(service: string): service is ArnService {
+  return /(lambda|iam|logs|states|sqs|sns|dynamodb|events)/.test(service);
 }

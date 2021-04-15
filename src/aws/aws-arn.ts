@@ -4,7 +4,7 @@ import { AwsRegion } from "./aws-regions";
  * The partition in which the resource is located. A partition is a group of AWS Regions.
  * Each AWS account is scoped to one partition.
  */
-export type AwsPartition = "aws" | "aws-cn" | "aws-us-gov";
+export type ArnPartition = "aws" | "aws-cn" | "aws-us-gov";
 
 /**
  * A type alias for an AWS account id. Typically these accounts
@@ -23,7 +23,7 @@ export type AwsAccountId = `${number}`;
  * This type provides a set of common examples but allows
  * any string as well to provide a safety hatch.
  */
-export type AwsService =
+export type ArnService =
   | "lambda"
   | "iam"
   | "logs"
@@ -31,51 +31,51 @@ export type AwsService =
   | "sqs"
   | "sns"
   | "dynamodb"
-  | "events"
-  | string;
+  | "events";
 
 /**
  * AWS _resources_ are found in an ARN and tied to the parent _service_
  * that precedes it in the ARN.
  */
-export type AwsResource =
+export type ArnResource =
   | "function"
   | "logs"
   | "states"
   | "user"
   | "group"
+  | "role"
   | "stateMachine"
-  | "event-bus"
-  | string;
+  | "table"
+  | "event-bus";
 
 /**
  * Describes the shape of a fully-qualified AWS **ARN** for a _Lambda function_
  */
-export type AwsLambdaArn = `arn:${AwsPartition}:lambda:${AwsRegion}:${AwsAccountId}:function:${string}`;
+export type AwsLambdaArn = `arn:${ArnPartition}:lambda:${AwsRegion}:${AwsAccountId}:function:${string}`;
 
 /**
  * Describes the shape of a fully-qualified AWS **ARN** for a _log group_.
  */
-export type AwsLogGroupArn = `arn:${AwsPartition}:logs:${AwsRegion}:${AwsAccountId}:log-group:${string}`;
+export type AwsLogGroupArn = `arn:${ArnPartition}:logs:${AwsRegion}:${AwsAccountId}:log-group:${string}`;
 
 /**
  * Describes the shape of a fully-qualified AWS **ARN** for a _Step Function_.
  */
-export type AwsStepFunctionArn = `arn:${AwsPartition}:states:${AwsRegion}:${AwsAccountId}:stateMachine:${string}`;
+export type AwsStepFunctionArn = `arn:${ArnPartition}:states:${AwsRegion}:${AwsAccountId}:stateMachine:${string}`;
 
 export type AwsIamResource = "user" | "group" | string;
 
 /**
  * Describes the shape of a fully-qualified AWS **ARN** for a _IAM Role_.
  */
-export type AwsIamArn = `arn:${AwsPartition}:iam:${AwsAccountId}:${AwsIamResource}/${string}`;
+export type AwsIamArn = `arn:${ArnPartition}:iam:${AwsAccountId}:${AwsIamResource}/${string}`;
 
-export type AwsEventBridgeResource = "event-bus";
+export type ArnEventBridgeResource = "event-bus";
 
 /**
  * Describes the shape of a fully-qualified AWS **ARN** for a _EventBridge event_.
  */
-export type AwsEventBridgeArn = `arn:${AwsPartition}:events:${AwsRegion}:${AwsAccountId}:${AwsEventBridgeResource}/${string}`;
+export type AwsEventBridgeArn = `arn:${ArnPartition}:events:${AwsRegion}:${AwsAccountId}:${ArnEventBridgeResource}/${string}`;
 
 /**
  * A type alias to indicate a AWS ARN.
@@ -88,4 +88,6 @@ export type arn = string;
  * Provides reasonably good type support for a AWS ARN but to ensure its
  * not too restrictive.
  */
-export type AwsArn = `arn:${AwsPartition}:${AwsService}:${AwsRegion}:${AwsAccountId}:${string}`;
+export type AwsArn =
+  | `arn:${ArnPartition}:${ArnService}:${AwsRegion}:${AwsAccountId}:${string}`
+  | `arn:${ArnPartition}:${ArnService}::${AwsAccountId}:${string}`;
