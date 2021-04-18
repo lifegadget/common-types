@@ -15,4 +15,11 @@ export function isTypeSubtype(str: string): str is TypeSubtype {
   return parts.length === 2;
 }
 
-export type DevelopmentStage = "dev" | "prod" | "test" | "stage";
+/**
+ * Stages of development.
+ *
+ * Starting with "local" which is intended for local-only environment.
+ * After that each stage typically indicates a _server_ based
+ * environment your code should point to.
+ */
+export type DevelopmentStage = "local" | "dev" | "prod" | "test" | "stage";
