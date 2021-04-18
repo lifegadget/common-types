@@ -88,6 +88,7 @@ export interface IAwsLambdaFailureCallback<E = any> {
  * A Lambda function called that is returning to an API Gateway endpoint
  */
 export interface IAwsApiGatewayResponse {
+  isBase64Encoded?: boolean;
   statusCode: number;
   headers?: IDictionary<string | boolean | number>;
   body?: string;
