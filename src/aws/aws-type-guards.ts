@@ -4,13 +4,13 @@ import {
 } from "./aws";
 import {
   AwsArn,
-  AwsEventBridgeArn,
-  AwsLambdaArn,
-  ArnPartition,
-  ArnResource,
-  ArnService,
-  AwsStepFunctionArn,
+  AwsArnPartition,
+  AwsArnResource,
+  AwsArnService,
   AwsAccountId,
+  AwsArnLambda,
+  AwsArnEventBridge,
+  AwsArnStepFunction,
 } from "./aws-arn";
 import { AwsRegion } from "./aws-regions";
 import { AwsStage } from "./aws-stage";
@@ -25,11 +25,29 @@ export function isProxyRequestContextV2(
 }
 
 /**
- * Provides a type-guard to separate a generic string from a string which follows the
- * `AwsLambdaArn` string pattern.
+ * Provides a strong type guard for ARN's of Lambda _functions_ specifically.
+ *
+ * Note: this type-guard is often the best choice but because `AwsArn` can't
+ * provide typing down to the _resource_ level, the resulting type will not
+ * fit into broader `AwsArn` type. Use the more general `isLambdaArn()` if you
+ * want this.
  */
-export function isLambdaArn(arn: string): arn is AwsLambdaArn {
+export function isLambdaFunctionArn(arn: string): arn is AwsArnLambda<"function"> {
   return /arn:aws(-cn|-us-gov)*:lambda:[\w-]+:(\d+):function:.*/.test(arn);
+}
+
+/**
+ * A type-guard to detect a Lambda based ARN and return a constrained version of
+ * the `AwsArn` type.
+ *
+ * Note: if you want to constrain all the way down to a Lambda function you can
+ * use the `isLambdaFunctionArn()` type guard but while it is more constrained,
+ * it is no longer a subset of `AwsArn`.
+ */
+export function isLambdaArn(
+  arn: string
+): arn is AwsArn<string, AwsArnPartition, "lambda"> {
+  return /arn:aws(-cn|-us-gov)*:lambda:[\w-]+:(\d+):.*:.*/.test(arn);
 }
 
 /**
@@ -48,17 +66,29 @@ export function isAwsRegion(region: unknown): region is AwsRegion {
  * Type guard to ensure that a given value is a valid `AwsStage`
  */
 export function isAwsStage(stage: unknown): stage is AwsStage {
-  return typeof stage === "string" && /(dev|test|prod|stage)/.test(stage);
+  return (
+    typeof stage === "string" && /(dev|test|prod|stage|sb_\w+|feature_\w+)/.test(stage)
+  );
 }
 
 /**
  * Type guard to ensure a ARN string is EventBridge event
  */
-export function isEventBridgeArn(arn: string): arn is AwsEventBridgeArn {
+export function isEventBridgeArn(arn: string): arn is AwsArnEventBridge {
   return /arn:(.*?):events:/.test(arn);
 }
 
-export function isStepFunctionArn(arn: string): arn is AwsStepFunctionArn {
+/**
+ * Type guard to ensure that an ARN string is a Step Function definition.
+ *
+ * Note: this narrows to both the Service and Resource level and therefore
+ * is more detailed than the `AwsArn` type. For a slightly less strongly
+ * typed guard you can opt for `isStatesArn()` and while not as strong
+ * it will _roll up_ to `AwsArn`.
+ */
+export function isStepFunctionArn<T extends string = string>(
+  arn: string
+): arn is AwsArnStepFunction<T> {
   return /arn:(aws|aws-cn|aws-us-gov):states:.*:stateMachine/.test(arn);
 }
 
@@ -73,21 +103,21 @@ export function isArn(arn: string): arn is AwsArn {
 /**
  * A type guard that tests whether a string is a valid AWS _partition_ (from the standpoint of a ARN)
  */
-export function isArnPartition(partition: string): partition is ArnPartition {
+export function isArnPartition(partition: string): partition is AwsArnPartition {
   return /(aws|aws-cn|aws-us-gov)/.test(partition);
 }
 
 /**
  * A type guard that tests whether a string is a valid AWS _resource_ (from the standpoint of a ARN)
  */
-export function isArnResource(resource: string): resource is ArnResource {
+export function isArnResource(resource: string): resource is AwsArnResource {
   return /(function|logs|states|user|group|stateMachine|event-bus|table)/.test(resource);
 }
 
 /**
  * A type guard that tests whether a string is a valid AWS _service_ (from the standpoint of a ARN)
  */
-export function isArnService(service: string): service is ArnService {
+export function isArnService(service: string): service is AwsArnService {
   return /(lambda|iam|logs|states|sqs|sns|dynamodb|events)/.test(service);
 }
 
@@ -96,5 +126,7 @@ export function isArnService(service: string): service is ArnService {
  * `AwsAccountId`
  */
 export function isAwsAccountId(accountId: unknown): accountId is AwsAccountId {
-  return typeof accountId === "string" && !isNaN(Number(accountId));
+  return (
+    accountId === "aws" || (typeof accountId === "string" && !isNaN(Number(accountId)))
+  );
 }
