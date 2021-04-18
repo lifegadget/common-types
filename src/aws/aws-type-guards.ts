@@ -103,8 +103,8 @@ export function isArn(arn: string): arn is AwsArn {
 /**
  * A type guard that tests whether a string is a valid AWS _partition_ (from the standpoint of a ARN)
  */
-export function isArnPartition(partition: string): partition is AwsArnPartition {
-  return /(aws|aws-cn|aws-us-gov)/.test(partition);
+export function isArnPartition(partition: unknown): partition is AwsArnPartition {
+  return typeof partition === "string" && /(aws|aws-cn|aws-us-gov)/.test(partition);
 }
 
 /**
