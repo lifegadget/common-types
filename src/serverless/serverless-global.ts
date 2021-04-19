@@ -1,5 +1,3 @@
-import { IDictionary } from "../basics";
-import { IServerlessApiGatewayLoggingConfig } from "../serverless-plugins";
 import { ILayerDefinition, IServerlessConfigCustom } from "./serverless";
 import {
   IArnStringReference,
@@ -13,7 +11,11 @@ import { IServerlessResources } from "./serverless-resources";
 import { IServerlessTracing } from "./serverless-tracing";
 import { IStateMachine } from "./step-functions";
 
-export interface IServerlessConfig<T = IServerlessConfigCustom>
+/**
+ * The data structure of a `serverless.yml` file converted to
+ * typescript.
+ */
+export interface IServerlessYaml<T = IServerlessConfigCustom>
   extends IServerlessRootConfig {
   package: IServerlessPackage;
   custom?: T;
@@ -65,4 +67,4 @@ export interface IServerlessRootConfig {
 /**
  * This string should follow its format and it will be used to populate values read from yaml file
  */
-export type YamlExpression<T extends string = string> = `$\{${string}${T}${string}\}`
+export type YamlExpression<T extends string = string> = `$\{${string}${T}${string}\}`;
