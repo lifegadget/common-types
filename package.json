@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.23.2",
+  "version": "1.23.3",
   "description": "Common Types for Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "dist/cjs/index.js",
@@ -31,7 +31,7 @@
     "@types/rimraf": "^3.0.0",
     "async-shelljs": "^0.1.4",
     "chai": "^4.2.0",
-    "do-devops": "^0.5.5",
+    "do-devops": "^0.6.1",
     "json-schema": "^0.3.0",
     "mocha": "^8.2.1",
     "npm-run-all": "^4.1.5",
