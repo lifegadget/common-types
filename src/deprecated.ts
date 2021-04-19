@@ -12,6 +12,12 @@ import {
 import { IAwsApiGatewayErrorResponse } from "./aws/aws";
 import { IAwsLayerVersion } from "./aws/aws-layers";
 import { IDictionary, Omit } from "./basics";
+import { IServerlessYaml } from "./serverless";
+
+/**
+ * @deprecated prefer `IServerlessYaml` over this
+ */
+export type IServerlessConfig = IServerlessYaml;
 
 /**
  * @deprecated the `common-types` repo is moving toward a zero implementation target
