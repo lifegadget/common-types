@@ -86,4 +86,8 @@ export interface IPackageJson extends IDictionary {
   /** You can specify which operating systems your module will run on */
   os?: string[];
   cpu?: string[];
+  /**
+   * **eslint** lets you configure settings in the package.json
+   */
+  eslintConfig?: IDictionary;
 }
