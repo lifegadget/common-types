@@ -15,5 +15,5 @@ export function isTypeSubtype(input: unknown): input is TypeSubtype {
  * building block for other type guards.
  */
 export function isNonNullObject<T extends object>(input: unknown): input is T {
-  return typeof input === "object" && input !== null;
+  return typeof input === "object" && input !== null ? true : false;
 }
