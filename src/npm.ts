@@ -47,8 +47,10 @@ export interface INpmInfoDistTags extends IDictionary<string> {
 }
 
 /** type guard to distinguish an NPM repository representation */
-export function isNpmInfoRepository(repository: string | INpmInfoRepository) {
-  return isNonNullObject(repository) && repository.url;
+export function isNpmInfoRepository(
+  repository: string | INpmInfoRepository
+): repository is INpmInfoRepository {
+  return isNonNullObject(repository) && (repository as IDictionary).url;
 }
 
 /**
