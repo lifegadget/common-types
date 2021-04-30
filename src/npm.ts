@@ -24,7 +24,15 @@ export interface INpmInfo {
   /** latest version published */
   version: string;
   /** code entry point for CJS */
-  main: string;
+  main?: string;
+  /** code entry point for ES modules */
+  module?: string;
+  /** TS typings entry point */
+  typings?: string;
+  /** TS typings entry point */
+  types?: string;
+
+  type?: "module" | "commonjs";
   /**
    * binary executables this package exports; values are the
    * relative path to the file
