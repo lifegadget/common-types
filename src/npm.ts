@@ -1,5 +1,12 @@
 import { url } from "./aliases";
 import { IDictionary } from "./basics";
+import { isNonNullObject } from "./type-guards";
+
+export interface INpmInfoRepository {
+  type: "git" | string;
+  /** looks like "git+https://github.com/organization/repo.git" for github */
+  url: string;
+}
 
 export interface INpmInfo {
   name: string;
@@ -38,18 +45,18 @@ export interface INpmInfo {
 export interface INpmInfoDistTags extends IDictionary<string> {
   latest: string;
 }
+
+/** type guard to distinguish an NPM repository representation */
+export function isNpmInfoRepository(repository: string | INpmInfoRepository) {
+  return isNonNullObject(repository) && repository.url;
+}
+
 /**
  * named times and a time for each version `0.1.2`, etc
  */
 export interface INpmInfoTime extends IDictionary<string> {
   created: string;
   modified: string;
-}
-
-export interface INpmInfoRepository {
-  type: "git" | string;
-  /** looks like "git+https://github.com/organization/repo.git" for github */
-  url: string;
 }
 
 export interface INpmInfoPerson {
