@@ -17,7 +17,7 @@ export interface INpmInfo {
   description: string;
   homepage: string;
   keywords: string[];
-  respository: string | INpmInfoRepository;
+  repository: string | INpmInfoRepository;
   author: string | INpmInfoPerson;
   license: "MIT" | string;
   readmeFilename: "README.md" | string;
