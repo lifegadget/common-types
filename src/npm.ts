@@ -1,4 +1,4 @@
-import { url } from "./aliases";
+import { Iso8601DateTime, url } from "./aliases";
 import { IDictionary } from "./basics";
 import { isNonNullObject } from "./type-guards";
 
@@ -12,6 +12,7 @@ export interface INpmInfo {
   name: string;
   "dist-tags": INpmInfoDistTags;
   versions: string[];
+  /** The timings for creation, last modified, and all taged releases */
   time: INpmInfoTime;
   maintainers: INpmInfoPerson[];
   description: string;
@@ -64,9 +65,9 @@ export function isNpmInfoRepository(
 /**
  * named times and a time for each version `0.1.2`, etc
  */
-export interface INpmInfoTime extends IDictionary<string> {
-  created: string;
-  modified: string;
+export interface INpmInfoTime extends IDictionary<Iso8601DateTime> {
+  created: Iso8601DateTime;
+  modified: Iso8601DateTime;
 }
 
 export interface INpmInfoPerson {
