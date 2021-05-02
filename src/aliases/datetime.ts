@@ -123,6 +123,28 @@ export type monthString = `${0 | 1}${NumericCharacter}`;
 export type dateAsString = `${0 | 1 | 2 | 3}${NumericCharacter}`;
 
 /**
+ * An [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) compliant
+ * _date_ and _time_ string of the form: _YYYY-MM-DD**T**HH:mm:ss.sssZ_.
+ * Apparently another format for year which is 6 characters long is also
+ * allowed (this must be preceeded by a + or - character).
+ *
+ * Note: this is the format which you will get from JS with `.toISOString()`
+ */
+export type Iso8601DateTime = `${string}${number}-${number}-${number}T${number}:${number}:${number}.${number}Z`;
+
+/**
+ * Type guard to determine if a given timestamp is a valid ISO 8601
+ * datetime stamp.
+ */
+export function isIso8601DateTime(timestamp: unknown): timestamp is Iso8601DateTime {
+  return (
+    typeof timestamp === "string" &&
+    (timestamp.length === 24 || timestamp.length === 27) &&
+    /(\d{4}|[+-]\d{6})-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/.test(timestamp)
+  );
+}
+
+/**
  * a string of the format: "YYYY-MM-DD"
  */
 export type datestring = `${number}-${monthString}-${dateAsString}`;
