@@ -2,21 +2,23 @@
 
 // #region autoindexed files
 
-// index last changed at: 4th Apr, 2021, 12:17 PM ( GMT-7 )
+// index last changed at: 6th Jun, 2021, 10:32 AM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: datetime, fileTypeContent, network, other, stringAliases, uuid.
+// files: color, datetime, fileTypeContent, network, numeric, other, stringAliases, uuid.
 
 // local file exports
+export * from "./color";
 export * from "./datetime";
 export * from "./fileTypeContent";
 export * from "./network";
+export * from "./numeric";
 export * from "./other";
 export * from "./stringAliases";
 export * from "./uuid";
 
 // Note:
 // -----
-// This file was created by running: "do devops autoindex"; it assumes you have
+// This file was created by running: "dd devops autoindex"; it assumes you have
 // the 'do-devops' pkg installed as a dev dep.
 //
 // By default it assumes that exports are named exports but this can be changed by

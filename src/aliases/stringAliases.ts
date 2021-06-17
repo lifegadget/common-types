@@ -1,14 +1,12 @@
 export type sql = string;
 
-export type NumericCharacter = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
-
 /**
  * A string representation of the common Type/SubType classification.
  */
 export type TypeSubtype<
   T extends string = string,
   S extends string = string
-> = `${T}/${S}`;
+  > = `${T}/${S}`;
 
 /**
  * Stages of development.
@@ -17,4 +15,6 @@ export type TypeSubtype<
  * After that each stage typically indicates a _server_ based
  * environment your code should point to.
  */
-export type DevelopmentStage = "local" | "dev" | "prod" | "test" | "stage";
+export type DevelopmentStage<T extends string = ""> = "local" | "dev" | "prod" | "test" | "stage" & T;
+
+export type OptSpace = "" | " ";
