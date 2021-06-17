@@ -1,4 +1,4 @@
-import { NumericCharacter } from "./stringAliases";
+import { NumericCharacter } from "./numeric";
 /** days of the week in 3-letter abbreviated form; first letter capitalized  */
 export type DayShort = "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
 
@@ -106,8 +106,7 @@ export type year = number;
  * > Note: due to TS limitations, can only represent years 1900-2999
  * > if you need broader support use `yearString2`
  */
-export type yearString = `${
-  | 1
+export type yearString = `${| 1
   | 2}${NumericCharacter}${NumericCharacter}${NumericCharacter}`;
 
 /**
