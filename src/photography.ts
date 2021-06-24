@@ -570,5 +570,5 @@ export type ExifGps<T extends object = {}> = {
  * EXIF payload fields. Detailed info can be found here: 
  * [EXIF Tags](https://exiftool.org/TagNames/EXIF.html).
  */
-export type ExifMetadata<T extends object = {}> = Partial<ExifAttributionInfo & ExifCameraInfo & ExifDateTimeInfo & ExifGps & ExifExtraneous & ExifPhotoContext & ExifSoftwareInfo> & T;
+export type ExifMetadata<T extends object = {}> = Partial<ExifAttributionInfo & ExifCameraInfo & ExifDateTimeInfo & ExifGps & ExifExtraneous & ExifPhotoContext> & T;
 

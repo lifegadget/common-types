@@ -2,9 +2,9 @@
 
 // #region autoindexed files
 
-// index last changed at: 4th Apr, 2021, 05:36 PM ( GMT-7 )
+// index last changed at: 6th Jun, 2021, 04:10 PM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: async, basics, cookies, deprecated, geography, github-commit, github-event, github-release, github-webhooks, github, http, netlify, npm, nullable, package, security, string-modifiers, type-guards.
+// files: async, basics, cookies, deprecated, geography, github-commit, github-event, github-release, github-webhooks, github, http, netlify, npm, nullable, package, photography, security, string-modifiers, type-guards.
 // directories: aliases, aws, serverless, serverless-plugins.
 
 // local file exports
@@ -23,6 +23,7 @@ export * from "./netlify";
 export * from "./npm";
 export * from "./nullable";
 export * from "./package";
+export * from "./photography";
 export * from "./security";
 export * from "./string-modifiers";
 export * from "./type-guards";
@@ -35,7 +36,7 @@ export * from "./serverless-plugins/index";
 
 // Note:
 // -----
-// This file was created by running: "do devops autoindex"; it assumes you have
+// This file was created by running: "dd devops autoindex"; it assumes you have
 // the 'do-devops' pkg installed as a dev dep.
 //
 // By default it assumes that exports are named exports but this can be changed by
