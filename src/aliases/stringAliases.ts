@@ -18,3 +18,16 @@ export type TypeSubtype<
 export type DevelopmentStage<T extends string = ""> = "local" | "dev" | "prod" | "test" | "stage" & T;
 
 export type OptSpace = "" | " ";
+
+/**
+ * Lowercase alphabetic character
+ */
+export type LowerAlpha = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z";
+
+/** Uppercase alphabetic character */
+export type UpperAlpha = Uppercase<LowerAlpha>;
+
+/**
+ * An alphabetic character (upper or lower)
+ */
+export type Alpha = LowerAlpha | UpperAlpha;
