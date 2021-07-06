@@ -31,3 +31,8 @@ export type UpperAlpha = Uppercase<LowerAlpha>;
  * An alphabetic character (upper or lower)
  */
 export type Alpha = LowerAlpha | UpperAlpha;
+
+/**
+ * A [_semver_](https://semver.org/) version number
+ */
+export type semver = `${number}.${number}.${number}`;
