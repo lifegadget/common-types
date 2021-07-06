@@ -15,6 +15,7 @@
     "test": "yarn tsc",
     "clear": "rimraf dist",
     "prebuild": "run-s clear autoindex",
+    "prepublish": "run-s clear autoindex build",
     "build": "rollup -c",
     "build:tsc": "tsc -P tsconfig-es.json && tsc -P tsconfig-cjs.json && tsc -P tsconfig-umd.json",
     "watch": "run-p watch:*",
