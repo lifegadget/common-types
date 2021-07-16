@@ -7,6 +7,11 @@ export interface IPackageJsonPerson {
   url?: string;
 }
 
+export interface ExportBlock {
+  import?: string;
+  require?: string;
+}
+
 export interface IPackageJson extends IDictionary {
   name: string;
   version: string;
@@ -30,6 +35,7 @@ export interface IPackageJson extends IDictionary {
    * Indicates the module system exported; the default is _commonjs_
    */
   type?: "module" | "commonjs";
+  exports?: Record<string, ExportBlock>;
   /** the full list of SPDX license IDs (https://spdx.org/licenses/) */
   license?: string;
   author?: IPackageJsonPerson;
