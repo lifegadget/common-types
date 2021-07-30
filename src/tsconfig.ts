@@ -40,6 +40,7 @@ export interface ITsConfig {
   compileOnSave?: boolean;
 
   compilerOptions?: Record<string, unknown> & {
+    allowJs?: boolean;
     alwaysStrict?: boolean;
     /**
      * Specify what module code is generated. 
@@ -71,7 +72,29 @@ export interface ITsConfig {
      * See more: https://www.typescriptlang.org/tsconfig#composite
      */
     composite?: boolean;
+    /**
+     * Output compiler performance information after building. 
+     * See more: https://www.typescriptlang.org/tsconfig#diagnostics
+     */
     diagnostics?: boolean;
+    /**
+     * Output compiler performance information after building. 
+     * See more: https://www.typescriptlang.org/tsconfig#diagnostics
+     */
+    extendedDiagnostics?: boolean;
+    /**
+     * Differentiate between undefined and not present when type checking.
+     * See more: https://www.typescriptlang.org/tsconfig#exactOptionalPropertyTypes
+     * Default value: "profile.cpuprofile"
+     */
+    generateCpuProfile?: string | "profile.cpuprofile";
+
+    /**
+     * Differentiate between undefined and not present when type checking. 
+     * See more: https://www.typescriptlang.org/tsconfig#exactOptionalPropertyTypes
+     */
+    exactOptionalPropertyTypes?: boolean;
+
     /**
      * Ensure that each file can be safely transpiled without relying on other imports. 
      * See more: https://www.typescriptlang.org/tsconfig#isolatedModules
@@ -99,10 +122,60 @@ export interface ITsConfig {
      * See more: https://www.typescriptlang.org/tsconfig#declaration
      */
     declaration?: boolean;
+    /**
+     * Specify the output directory for generated declaration files. 
+     * See more: https://www.typescriptlang.org/tsconfig#declarationDir
+     */
     declarationDir?: string;
+    /**
+     * Create sourcemaps for d.ts files. 
+     * See more: https://www.typescriptlang.org/tsconfig#declarationMap
+     */
+    declarationMap?: boolean;
+    /**
+     * Enable incremental compilation. Requires TypeScript version 3.4 or later.
+     */
     incremental?: boolean;
+    /**
+     * Skip type checking all .d.ts files. 
+     * See more: https://www.typescriptlang.org/tsconfig#skipLibCheck
+     */
     skipLibCheck?: boolean;
+    /**
+     * Enable error reporting when a local variables aren't read. 
+     * See more: https://www.typescriptlang.org/tsconfig#noUnusedLocals
+     */
     noUnusedLocals?: boolean;
+    /**
+     * Disable generating custom helper functions like __extends in compiled output. 
+     * See more: https://www.typescriptlang.org/tsconfig#noEmitHelpers
+     */
+    noEmitHelpers?: boolean;
+    /**
+     * Disable truncating types in error messages. 
+     * See more: https://www.typescriptlang.org/tsconfig#noErrorTruncation
+     */
+    noErrorTruncation?: boolean;
+    /**
+     * Enable error reporting for fallthrough cases in switch statements. 
+     * See more: https://www.typescriptlang.org/tsconfig#noFallthroughCasesInSwitch
+     */
+    noFallthroughCasesInSwitch?: boolean;
+    /**
+     * Ensure overriding members in derived classes are marked with an override modifier. 
+     * See more: https://www.typescriptlang.org/tsconfig#noImplicitOverride
+     */
+    noImplicitOverride?: boolean;
+    /**
+     * Enable error reporting for codepaths that do not explicitly return in a function. 
+     * See more: https://www.typescriptlang.org/tsconfig#noImplicitReturns
+     */
+    noImplicitReturns?: boolean;
+    /**
+     * Enable error reporting when this is given the type any. 
+     * See more: https://www.typescriptlang.org/tsconfig#noImplicitThis
+     */
+    noImplicitThis?: boolean;
     /**
      * Disable strict checking of generic signatures in function types. 
      * See more: https://www.typescriptlang.org/tsconfig#noStrictGenericChecks
