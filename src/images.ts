@@ -23,6 +23,7 @@ export type WebImageFormat = Omit<
  * _do-devops_ image optimization flow.
  */
 export interface IOptimizedImage {
+  name: string;
   /** the relative path to the optimized image */
   path: string;
   /** the widths which the image has been optimized for */
