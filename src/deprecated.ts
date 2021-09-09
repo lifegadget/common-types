@@ -80,7 +80,8 @@ export type IApiGatewayResponse = IAwsApiGatewayResponse;
 /**
  * @deprecated use `IAwsLambdaProxyIntegrationRequestHeaders` instead.
  */
-export type IAWSLambdaProxyIntegrationRequestHeaders = IAwsLambdaProxyIntegrationRequestHeaders;
+export type IAWSLambdaProxyIntegrationRequestHeaders =
+  IAwsLambdaProxyIntegrationRequestHeaders;
 
 /**
  * @deprecated use `IAwsLambdaProxyIntegrationRequest` instead.
@@ -194,9 +195,9 @@ export function parseStack(
     if (limit) {
       parsed = parsed.slice(0, limit);
     }
-  } catch (e) {
-    e.message = `parsing-error: ${e.message}}`;
-    throw e;
+  } catch (error: any) {
+    error.message = `parsing-error: ${error.message}}`;
+    throw error;
   }
 
   return parsed;
