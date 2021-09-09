@@ -2,9 +2,9 @@
 
 // #region autoindexed files
 
-// index last changed at: 7th Jul, 2021, 03:08 PM ( GMT-7 )
+// index last changed at: 9th Sep, 2021, 11:13 AM ( GMT-7 )
 // export: named; exclusions: index, private.
-// files: async, basics, cookies, deprecated, geography, github-commit, github-event, github-release, github-webhooks, github, http, netlify, npm, nullable, package, photography, security, string-modifiers, tsconfig, type-guards.
+// files: async, basics, cookies, deprecated, geography, github-commit, github-event, github-release, github-webhooks, github, http, images, netlify, npm, nullable, package, photography, security, string-modifiers, tsconfig, type-guards.
 // directories: aliases, aws, serverless, serverless-plugins.
 
 // local file exports
@@ -19,6 +19,7 @@ export * from "./github-release";
 export * from "./github-webhooks";
 export * from "./github";
 export * from "./http";
+export * from "./images";
 export * from "./netlify";
 export * from "./npm";
 export * from "./nullable";
