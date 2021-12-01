@@ -57,7 +57,7 @@ export interface IServerlessProvider {
     authorizers?: Record<string, IServerlessAuthorizer>;
   };
 
-  httpApi: {
+  httpApi?: {
     id?: string;
     name?: string;
     payload?: "1.0" | "2.0";
@@ -100,7 +100,7 @@ export interface IServerlessProvider {
    */
   stackParameters?: Record<string, string>;
 
-  rollbackConfiguraiton?: {
+  rollbackConfiguration?: {
     MonitoringTimeInMinutes: minutes;
     RollbackTriggers: Array<{
       Arn: arn;
@@ -120,13 +120,7 @@ export interface IServerlessProvider {
       };
 
   iamRoleStatements?: any[];
-  /**
-   * **aliasStage**
-   *
-   * If using the the [serverless-aws-alias](https://github.com/HyperBrain/serverless-aws-alias)
-   * plugin then you can configure settings here.
-   */
-  aliasStage?: IApiGatewayAliasConfig;
+
   logs?: {
     restApi?: IRestApiLogging;
     websocket?: IWebsocketLogging;

@@ -14,6 +14,11 @@ export interface ExportBlock {
 
 export interface IPackageJson extends IDictionary {
   name: string;
+  /**
+   * If true, the package is considered private and pkg mgr will refuse to publish it regardless of the circumstances.
+   * Setting this flag also unlocks some features that wouldn't make sense in published packages, such as workspaces.
+   */
+  private?: boolean;
   version: string;
   description?: string;
   keywords?: string[];
@@ -78,11 +83,45 @@ export interface IPackageJson extends IDictionary {
     name: string;
     config: IDictionary<string>;
   };
+  /**
+   * This field lists some extra information related to the dependencies listed in the dependencies and devDependencies fields.
+   * In the context of a workspaced project most of these settings will affect all workspaces and as such must be specified at
+   * the root of the project (except if noted otherwise, the dependenciesMeta field will be ignored if found within a workspace).
+   */
+  dependenciesMeta?: {
+    fsevents: {
+      /**
+       * If false, the package will never be built (deny-list). This behavior is reversed when the enableScripts yarnrc setting is toggled off
+       * - when that happens, only packages with built explicitly set to true will be executed (allow-list), and those with built explicitly
+       * set to false will simply see their build script warnings downgraded into simple notices.
+       */
+      built: boolean;
+      /**
+       * If true, the build isn't required to succeed for the install to be considered a success, and the dependency may be skipped if its os
+       * and cpu fields don't match the current system architecture. It's what the optionalDependencies field compiles down to.
+       */
+      optional: boolean;
+      /**
+       * If true, the specified package will be automatically unplugged at install time. This should only be needed for packages that contain
+       * scripts in other languages than Javascript (for example nan contains C++ headers).
+       */
+      unplugged: boolean;
+    };
+    [key: string]: unknown;
+  };
   dependencies?: IDictionary<string>;
   /** If someone is planning on downloading and using your module in their program, then they probably don't want or need to download and build the external test or documentation framework that you use. */
   devDependencies?: IDictionary<string>;
   /** In some cases, you want to express the compatibility of your package with a host tool or library, while not necessarily doing a require of this host. This is usually referred to as a plugin. Notably, your module may be exposing a specific interface, expected and specified by the host documentation. */
   peerDependencies?: IDictionary<string>;
+  /** This field lists some extra information related to the dependencies listed in the peerDependencies field. */
+  peerDepedenciesMeta?: {
+    "react-dom": {
+      /** If true, the selected peer dependency will be marked as optional by the package manager and the consumer omitting it won't be reported as an error. */
+      optional: boolean;
+    };
+    [key: string]: unknown;
+  };
   /** This defines an array of package names that will be bundled when publishing the package. */
   bundledDependencies?: string[];
   /** If a dependency can be used, but you would like npm to proceed if it cannot be found or fails to install, then you may put it in the optionalDependencies object. This is a map of package name to version or url, just like the dependencies object. The difference is that build failures do not cause installation to fail. */
