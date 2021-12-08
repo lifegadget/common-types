@@ -55,18 +55,18 @@ export type CallbackOption<T, K extends keyof T = keyof T> = {
  *
  * @depreacted this type of abstraction tends to obfuscate rather than clarify
  */
-type FunctionPropertyNames<T> = {
+export type FunctionPropertyNames<T> = {
   [K in keyof T]: T[K] extends Function ? K : never;
 }[keyof T];
 
-type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
+export type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
 
 /**
  * The properties on a given hash/object
  *
  * @depreacted this type of abstraction tends to obfuscate rather than clarify
  */
-type NonFunctionPropertyNames<T> = {
+export type NonFunctionPropertyNames<T> = {
   [K in keyof T]: T[K] extends Function ? never : K;
 }[keyof T];
 
@@ -76,4 +76,4 @@ type NonFunctionPropertyNames<T> = {
  *
  * @depreacted this type of abstraction tends to obfuscate rather than clarify
  */
-type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>;
+export type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>;

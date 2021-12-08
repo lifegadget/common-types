@@ -1,6 +1,5 @@
 import { minutes, scalar } from "../aliases";
 import { arn } from "../aws";
-import { IApiGatewayAliasConfig } from "../serverless-plugins/serverless-alias-plugin";
 import { AWSRuntime, ServerlessFunctionMemorySize } from "./serverless";
 import { IServerlessApiGatewayConfig } from "./serverless-api-gateway";
 import {
