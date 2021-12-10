@@ -1,6 +1,5 @@
-import { seconds } from "~/aliases";
-import { arn, AwsResourceType, SqsArn } from ".";
-import { integer } from "..";
+import { seconds, integer } from "~/aliases";
+import { arn, AwsResourceType, SqsArn, IAwsResourceTag } from "~/aws";
 
 /** The custom parameters to be used when the target is an AWS Batch job. */
 export interface IAwsEventBatchParameters {
@@ -191,5 +190,22 @@ export interface IAwsEventRule<T extends string = string> {
      * [Authentication and Access Control in the Amazon EventBridge User Guide](https://docs.aws.amazon.com/eventbridge/latest/userguide/auth-and-access-control-eventbridge.html).
      */
     Targets?: IAwsEventRuleTarget[];
+  };
+}
+
+/**
+ * Use the AWS::EventSchemas::Schema resource to specify an event schema.
+ *
+ * [docs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eventschemas-schema.html)
+ */
+export interface IAwsEventSchema<T extends string = string> {
+  Type: AwsResourceType.eventBridgeSchema;
+  Properties: {
+    Content: string;
+    Description?: string;
+    RegistryName: string;
+    SchemaName?: T;
+    Tags?: IAwsResourceTag[];
+    Type: string;
   };
 }

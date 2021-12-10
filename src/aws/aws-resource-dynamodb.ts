@@ -7,25 +7,43 @@ export interface DynamoTableProjection {
   ProjectionType?: "KEYS_ONLY" | " INCLUDE" | "ALL";
 }
 
-export type DynamoKeySchema<P extends string = string> = [hash: P, range: P];
-
+/**
+ * A tuple with the hash/pk and then the range key/sk
+ */
+export type DynamoKeySchema = [hash: string, range: string];
 export interface DynamoLSI {
   IndexName: string;
-  KeySchema: DynamoKeySchema[];
+  KeySchema: DynamoKeySchema;
   Projection: DynamoTableProjection;
 }
-
+/**
+ * Throughput for the specified table, which consists of values for ReadCapacityUnits and WriteCapacityUnits.
+ * For more information about the contents of a provisioned throughput structure, see
+ * [Amazon DynamoDB Table ProvisionedThroughput](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-provisionedthroughput.html).
+ *
+ * If you set BillingMode as PROVISIONED, you must specify this property. If you set BillingMode as PAY_PER_REQUEST,
+ * you cannot specify this property.
+ */
 export interface IDynamoProvisionedThroughput {
   ReadCapacityUnits: number;
   WriteCapacityUnits: number;
 }
+
 export interface DynamoGSI {
   ContributorInsightsSpecification?: {
     Enabled: boolean;
   };
   IndexName: string;
-  KeySchema: DynamoKeySchema[];
+  KeySchema: DynamoKeySchema;
   Projection: DynamoTableProjection;
+  /**
+   * Throughput for the specified table, which consists of values for ReadCapacityUnits and WriteCapacityUnits.
+   * For more information about the contents of a provisioned throughput structure, see
+   * [Amazon DynamoDB Table ProvisionedThroughput](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-provisionedthroughput.html).
+   *
+   * If you set BillingMode as PROVISIONED, you must specify this property. If you set BillingMode as PAY_PER_REQUEST,
+   * you cannot specify this property.
+   */
   ProvisionedThroughput?: IDynamoProvisionedThroughput;
 }
 

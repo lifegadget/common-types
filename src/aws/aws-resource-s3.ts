@@ -252,7 +252,7 @@ export interface IAwsS3Bucket<T extends string = string> {
      * You can perform updates that require no or some interruption. If you need to replace the resource,
      * specify a new name.
      */
-    BucketName?: T;
+    BucketName?: `${T}${string}`;
     /**
      * Describes the cross-origin access configuration for objects in an Amazon S3 bucket.
      * For more information, see
