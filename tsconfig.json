@@ -1,17 +1,30 @@
 {
   "compilerOptions": {
-    "declaration": false,
-    "noEmit": true,
     "module": "commonjs",
-    "target": "es2020",
+    "target": "ES2020",
     "moduleResolution": "node",
-    "noImplicitAny": true,
+
+    "sourceMap": false,
+    "noEmit": true,
+    "incremental": true,
+    "resolveJsonModule": true,
+
     "strict": true,
-    "removeComments": false,
-    "preserveConstEnums": true,
-    "experimentalDecorators": true,
-    "emitDeclarationOnly": false,
-    "emitDecoratorMetadata": true
+    "tsBuildInfoFile": ".tsbuildinfo",
+    "skipLibCheck": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["jest", "node", "jest-extended"],
+
+    "baseUrl": ".",
+    "declaration": true,
+    "outDir": "dist",
+
+    "paths": {
+      "~/*": ["src/*"]
+    }
   },
-  "include": ["src/**/*"]
+  "include": ["src", "test"]
 }

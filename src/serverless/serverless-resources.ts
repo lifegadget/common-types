@@ -1,3 +1,5 @@
+import { IDynamoDbTableResource } from "~/aws";
+
 export interface IServerlessResources {
   // TODO: see if we can model some other examples
   Resources: IDynamoDbTableResource | Record<string, IServerlessResource>;
@@ -5,27 +7,12 @@ export interface IServerlessResources {
   Outputs?: Record<string, IServerlessOutput>;
 }
 
+/**
+ * A generic representation of a _resource_ for CloudFormation
+ */
 export interface IServerlessResource {
   Type: string;
   Properties: Record<string, any>;
-}
-
-export type DynamoDbAttributeType = "S" | "N" | "BOOL" | 0 | 1 | "B" | "SS" | "NS" | "BS";
-
-export interface IDynamoDbTableResource {
-  Type: "AWS::DynamoDB::Table";
-  Properties: {
-    TableName: string;
-    AttributeDefinitions: Array<{
-      AttributeName: string;
-      AttributeType: DynamoDbAttributeType;
-    }>;
-    KeySchema: Array<{ AttributeName: string; KeyType: "HASH" | string }>;
-    ProvisionedThroughput?: {
-      ReadCapacityUnits?: number;
-      WriteCapacityUnits?: number;
-    };
-  };
 }
 
 export interface IServerlessOutput {

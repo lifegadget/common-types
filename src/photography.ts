@@ -72,7 +72,7 @@ export enum ExifLightSource {
   D75,
   D50,
   ISOStudioTungten,
-  Other = 255
+  Other = 255,
 }
 
 export enum ExifFlashValues {
@@ -110,27 +110,27 @@ export enum ExifPreviewColorSpace {
   GrayGamma22,
   sRGB,
   AdobeRGB,
-  ProPhotoRGB
+  ProPhotoRGB,
 }
 
 export enum ExifEmbedPolicy {
   AllowCopying = 0,
   EmbedIfUsed,
   NeverEmbed,
-  NoRestrictions
+  NoRestrictions,
 }
 
 export enum ExifSubjectDistance {
   Unknown = 0,
   Macro,
   Close,
-  Distant
+  Distant,
 }
 
 export enum ExifSharpness {
   Normal = 0,
   Soft,
-  Hard
+  Hard,
 }
 
 export enum ExifSceneCaptureType {
@@ -138,7 +138,7 @@ export enum ExifSceneCaptureType {
   Landscape,
   Portrait,
   Night,
-  Other
+  Other,
 }
 
 export enum ExifGainControl {
@@ -146,21 +146,20 @@ export enum ExifGainControl {
   LowGainUp,
   HighGainUp,
   LowGainDown,
-  HighGainDown
+  HighGainDown,
 }
 
 export enum ExifContrast {
   Normal = 0,
   Low,
-  High
+  High,
 }
 
 export enum ExifSaturation {
   Normal = 0,
   Low,
-  High
+  High,
 }
-
 
 /**
  * Extraneous info in an EXIF metadata payload. Detailed info
@@ -169,13 +168,12 @@ export enum ExifSaturation {
 export type ExifExtraneous<T extends object = {}> = {
   /** [ `0x0001` ] */
   InteropIndex: string;
-  // InteropVersion: 
+  // InteropVersion:
 
-  /** called NewSubfileType by TIFF specfication. 
+  /** called NewSubfileType by TIFF specfication.
    * [More](https://exiftool.org/TagNames/EXIF.html).
    */
   SubfileType: number;
-
 } & T;
 
 /**
@@ -189,11 +187,11 @@ export type ExifDateTimeInfo<T extends object = {}> = {
   CreateDate: string;
   /** Formal EXIF property for created date */
   DateTimeDigitized: string;
-  /** 
-   * 1 or 2 values: 
-   * 
-   * 1. The time zone offset of DateTimeOriginal from GMT in hours, 
-   * 2. If present, the time zone offset of ModifyDate 
+  /**
+   * 1 or 2 values:
+   *
+   * 1. The time zone offset of DateTimeOriginal from GMT in hours,
+   * 2. If present, the time zone offset of ModifyDate
    */
   TimeZoneOffset: number | [number, number];
   OffsetTimeDigitized: string;
@@ -221,7 +219,6 @@ export type ExifAttributionInfo<T extends object = {}> = {
   BodySerialNumber: string;
   LensSerialNumber: string;
   HostComputer: string;
-
 } & T;
 
 export type ExifCameraInfo<T extends object = {}> = {
@@ -232,7 +229,7 @@ export type ExifCameraInfo<T extends object = {}> = {
   LensMake: string;
   LensModel: string;
   /**
-   * 4 rational values giving focal and aperture ranges, 
+   * 4 rational values giving focal and aperture ranges,
    * called `LensSpecification` by the EXIF spec.
    */
   LensInfo: [number, number, number, number];
@@ -253,7 +250,7 @@ export type ExifCameraInfo<T extends object = {}> = {
   /**
    * Details on compression values can be found here:
    * [Compression Values](https://exiftool.org/TagNames/EXIF.html#Compression).
-   * 
+   *
    * You may reference as a number or leverage the exposed `ExifCompression`
    * enumeration for more contextual info.
    */
@@ -278,7 +275,7 @@ export type ExifCameraInfo<T extends object = {}> = {
    * - `2` - RGB
    * - `3` - RGB Palettte
    * - `4` - Transparency Mask
-   * 
+   *
    * For full list reference [docs](https://exiftool.org/TagNames/EXIF.html)
    */
   PhotometricInterpretation: number;
@@ -291,7 +288,7 @@ export type ExifCameraInfo<T extends object = {}> = {
 
   /**
    * Applies to **EXIF:ISO** tag:
-   * 
+   *
    *   - `0` - Unknown
    *   - `1` - Standard Output Sensitivity
    *   - `2` - Recommended Exposure Index
@@ -337,7 +334,7 @@ export type ExifCameraInfo<T extends object = {}> = {
 
   /**
    * Only values `0` and `1` are to the EXIF spec but Apple IOS devices use all
-   * 
+   *
    * - `0` - Normal
    * - `1` - Custom
    * - `2` - HDR (no original saved)
@@ -370,9 +367,9 @@ export type ExifCameraInfo<T extends object = {}> = {
    * - `0xfffd` - Wide Gamut RGB
    * - `0xfffe` - ICC Profile
    * - `0xffff` - Uncalibrated
-   * 
-   * Note: the value of `0x2` is not standard EXIF. Instead, an Adobe RGB image 
-   * is indicated by "Uncalibrated" with an InteropIndex of "R03". The values 
+   *
+   * Note: the value of `0x2` is not standard EXIF. Instead, an Adobe RGB image
+   * is indicated by "Uncalibrated" with an InteropIndex of "R03". The values
    * 0xfffd and 0xfffe are also non-standard, and are used by some Sony cameras.
    */
   Colorspace: 0x1 | 0x2 | 0xfffd | 0xfffe | 0xffff;
@@ -472,7 +469,7 @@ export type ExifCameraInfo<T extends object = {}> = {
   EnhanceParams: string;
 
   /**
-   * 
+   *
    */
   FileSource: 1 | 2 | 3 | "\x03\x00\x00\x00";
 
@@ -505,10 +502,10 @@ export type ExifPhotoContext<T extends object = {}> = {
 } & T;
 
 /**
- * Typing for GPS properties that are part of EXIF spec. 
+ * Typing for GPS properties that are part of EXIF spec.
  * Details can be found: [here](https://exiftool.org/TagNames/GPS.html).
  */
-export type ExifGps<T extends object = {}> = {
+export type ExifGps = {
   GPSVersionID: number;
   GPSLatitudeRef: "N" | "S";
   GPSLatitude: number;
@@ -520,9 +517,9 @@ export type ExifGps<T extends object = {}> = {
    */
   GPSAltitudeRef: 0 | 1;
   GPSAltitude: number;
-  /** 
-   * UTC time of GPS fix. When writing, date is stripped off if present, 
-   * and time is adjusted to UTC if it includes a timezone 
+  /**
+   * UTC time of GPS fix. When writing, date is stripped off if present,
+   * and time is adjusted to UTC if it includes a timezone
    */
   GPSTimeStamp: string;
   GPSSatellites: string;
@@ -546,16 +543,16 @@ export type ExifGps<T extends object = {}> = {
   GPSDestBearingRef: "M" | "T";
   GPSDestBearing: number;
   /**
- * - `K` - Kilometers
- * - `M` - Miles
- * - `N` = Nautical Miles
- */
-  GPSDestDistanceRef: "K" | "M" | "N"
+   * - `K` - Kilometers
+   * - `M` - Miles
+   * - `N` = Nautical Miles
+   */
+  GPSDestDistanceRef: "K" | "M" | "N";
   GPSDestDistance: number;
   GPSProcessingMethod: "GPS" | "CELLID" | "WLAN" | "MANUAL";
   GPSAreaInformation: string;
   /**
-   * When writing, time is stripped off if present, after adjusting 
+   * When writing, time is stripped off if present, after adjusting
    * date/time to UTC if time includes a timezone. Format is `YYYY:mm:dd`.
    */
   GPSDateStamp: `${number}:${number}:${number}`;
@@ -565,10 +562,17 @@ export type ExifGps<T extends object = {}> = {
    */
   GPSDifferential: 0 | 1;
   GPSHPositioningError: number;
-}
+};
 /**
- * EXIF payload fields. Detailed info can be found here: 
+ * EXIF payload fields. Detailed info can be found here:
  * [EXIF Tags](https://exiftool.org/TagNames/EXIF.html).
  */
-export type ExifMetadata<T extends object = {}> = Partial<ExifAttributionInfo & ExifCameraInfo & ExifDateTimeInfo & ExifGps & ExifExtraneous & ExifPhotoContext> & T;
-
+export type ExifMetadata<T extends object = {}> = Partial<
+  ExifAttributionInfo &
+    ExifCameraInfo &
+    ExifDateTimeInfo &
+    ExifGps &
+    ExifExtraneous &
+    ExifPhotoContext
+> &
+  T;

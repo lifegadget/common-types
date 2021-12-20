@@ -1,8 +1,7 @@
-import {
+import type {
+  arn,
   IAwsLambdaProxyIntegrationRequestV2,
   IAwsLambdaProxyIntegrationRequest,
-} from "./aws";
-import {
   AwsArn,
   AwsArnPartition,
   AwsArnResource,
@@ -11,9 +10,9 @@ import {
   AwsArnLambda,
   AwsArnEventBridge,
   AwsArnStepFunction,
-} from "./aws-arn";
-import { AwsRegion } from "./aws-regions";
-import { AwsStage } from "./aws-stage";
+  AwsRegion,
+  AwsStage,
+} from "~/aws";
 
 /**
  * Distinguishes between a V1 and V2 Proxy Integration Request
@@ -96,7 +95,7 @@ export function isStepFunctionArn<T extends string = string>(
  * A reasonable strong type guard to validate that a string is in fact
  * a fully qualified ARN.
  */
-export function isArn(arn: string): arn is AwsArn {
+export function isArn(arn: string): arn is arn {
   return /arn:(aws|aws-cn|aws-us-gov):(.*):/.test(arn);
 }
 

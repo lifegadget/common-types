@@ -45,10 +45,10 @@ export type IAwsLambdaEvent<T> = T | IAwsLambdaProxyIntegrationRequest;
  * A hash/dictionary structure that will convey the aspects of an error
  * to AWS's **API Gateway**.
  */
-export interface IAwsApiGatewayErrorResponse<T = any> {
+export interface IAwsApiGatewayErrorResponse<T extends number = number> {
   headers?: IDictionary;
   /** the HTTP style error code number for this reponse */
-  errorCode?: number;
+  errorCode?: T;
   errorMessage?: string;
   errorType: "Error" | string;
   /**
@@ -117,15 +117,6 @@ export function isLambdaProxyRequest<T>(
         (message as IAwsLambdaProxyIntegrationRequestV1).httpMethod))
     ? true
     : false;
-}
-
-function parsed(input: IAwsLambdaProxyIntegrationRequest) {
-  try {
-    const output = JSON.parse(input.body.replace(/[\n\t]/g, ""));
-    return output;
-  } catch (e) {
-    return input.body;
-  }
 }
 
 export interface IAwsLambdaProxyRequestContext extends IDictionary {

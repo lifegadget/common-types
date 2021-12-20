@@ -78,9 +78,8 @@ export type AwsArnCloudwatchResource = "log-group";
 /**
  * Describes the shape of a fully-qualified AWS **ARN** for a _log group_.
  */
-export type AwsArnCloudwatch<
-  T extends string = AwsArnCloudwatchResource
-> = `arn:${AwsArnPartition}:logs:${AwsRegion}:${AwsAccountId}:${T}:${string}`;
+export type AwsArnCloudwatch<T extends string = AwsArnCloudwatchResource> =
+  `arn:${AwsArnPartition}:logs:${AwsRegion}:${AwsAccountId}:${T}:${string}`;
 
 /**
  * An AWS ARN for the `states` service. Typically this means a Step Function.
@@ -91,9 +90,8 @@ export type AwsArnCloudwatch<
  * This further typing can be good but doing so makes it narrower than
  * the type `AwsArn` and so it should be seen as a tradeoff.
  */
-export type AwsArnStepFunction<
-  T extends string = string
-> = `arn:${AwsArnPartition}:states:${AwsRegion}:${AwsAccountId}:${T}:${string}`;
+export type AwsArnStepFunction<T extends string = string> =
+  `arn:${AwsArnPartition}:states:${AwsRegion}:${AwsAccountId}:${T}:${string}`;
 
 export type AwsIamResource = "user" | "group" | "role" | "policy";
 export type AwsIamResourceName = string;
@@ -124,17 +122,13 @@ export type AwsArnEventBridge<
  * Describes the shape of a fully-qualified AWS **ARN** for an _SNS topic_
  * where the generic `<T>` is the _name_ of the topic.
  */
-export type AwsArnSnsTopic<
-  T extends string = string
-> = `arn:${AwsArnPartition}:sns:${AwsRegion}:${AwsAccountId}:${T}`;
+export type AwsArnSnsTopic<T extends string = string> =
+  `arn:${AwsArnPartition}:sns:${AwsRegion}:${AwsAccountId}:${T}`;
 
 /**
- * A type alias to express the _intent_ that string should be a AWS ARN.
- *
- * **Note:** _this does not provide strong typing, if you want that use_
- * `AwsArn` _instead._
+ * An AWS ARN string
  */
-export type arn = string;
+export type arn = `arn:${string}`;
 
 /**
  * Provides good type support for a AWS ARN.
@@ -160,3 +154,6 @@ export type AwsGlobalArn<
   S extends string = AwsArnService,
   A extends string = AwsAccountId
 > = `arn:${P}:${S}::${A}:${string}` | `arn:${P}:${S}::${A}:${X}`;
+
+export type SqsArn = AwsArn<string, string, "sqs", string>;
+export type SnsArn = AwsArn<string, string, "sns", string>;
