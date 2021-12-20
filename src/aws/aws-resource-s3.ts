@@ -191,6 +191,7 @@ export interface IAwsS3BucketRule {
  */
 export interface IAwsS3Bucket<T extends string = string> {
   Type: AwsResourceType.s3Bucket;
+  DeletionPolicy?: "Retain" | "Delete";
   Properties: {
     /** Configures the transfer acceleration state for an Amazon S3 bucket. */
     AccelerateConfiguration?: {

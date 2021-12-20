@@ -16,7 +16,7 @@
     "clean": "rimraf dist",
     "prebuild": "run-s clean autoindex",
     "prepublish": "run-s clean autoindex build",
-    "build": "tsup src/index.ts --format='cjs,es' --dts",
+    "build": "tsup src/index.ts --format='cjs,esm' --dts",
     "watch": "run-s clean autoindex watch:bundle",
     "watch:bundle": "tsup src/index.ts --format='cjs,esm' --dts --watch"
   },
