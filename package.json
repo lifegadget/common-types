@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.31.0",
+  "version": "1.31.1",
   "description": "Common Types for Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "dist/index.js",
@@ -24,15 +24,16 @@
   "license": "MIT",
   "devDependencies": {
     "@type-challenges/utils": "^0.1.1",
-    "@types/rimraf": "^3.0.0",
-    "dd": "^0.15.4",
-    "jest": "^27.0.4",
+    "@types/node": "14",
+    "@types/rimraf": "^3.0.2",
+    "dd": "^0.18.0",
+    "jest": "^27.4.7",
     "jest-extended": "^1.2.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
-    "ts-jest": "^27.0.3",
+    "ts-jest": "^27.1.2",
     "ts-node": "^10.4.0",
-    "tsup": "^5.10.3",
-    "typescript": "^4.5.2"
+    "tsup": "^5.11.11",
+    "typescript": "^4.5.4"
   }
 }
