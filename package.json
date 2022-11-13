@@ -13,6 +13,7 @@
     "autoindex": "dd autoindex",
     "lint": "npx tsc --noEmit",
     "test": "vitest",
+    "test:ci": "vitest run",
     "clean": "rimraf dist",
     "prepublish": "run-s clean autoindex build",
     "build": "tsup src/index.ts --clean --format='cjs,esm' --dts",
