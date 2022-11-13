@@ -1,7 +1,6 @@
 import { minutes, scalar } from "../aliases";
 import { arn } from "../aws";
 import { AWSRuntime, ServerlessFunctionMemorySize } from "./serverless";
-import { IServerlessApiGatewayConfig } from "./serverless-api-gateway";
 import {
   IServerlessAuthorizer,
   IServerlessJwtAuthorizer,
@@ -49,7 +48,7 @@ export interface IServerlessProvider {
   /** default is EDGE */
   endpointType?: "REGIONAL" | "EDGE";
   /** Optional API Gateway global config */
-  apiGateway?: IServerlessApiGatewayConfig;
+  apiGateway?: any;
 
   alb?: {
     targetGroupPrefix?: string;

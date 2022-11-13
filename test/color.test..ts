@@ -1,5 +1,6 @@
 import { Expect, ExpectFalse, ExpectExtends } from "@type-challenges/utils";
 import { HexColor, HtmlHexColor, RgbStr } from "../src/index";
+import { describe, expect, it } from "vitest"; 
 
 describe("Color types", () => {
 

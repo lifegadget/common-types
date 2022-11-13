@@ -8,7 +8,6 @@
 
 // local file exports
 export * from "./open-api";
-export * from "./serverless-api-gateway";
 export * from "./serverless-authorizers";
 export * from "./serverless-constants";
 export * from "./serverless-events";

@@ -1,6 +1,6 @@
 {
   "name": "common-types",
-  "version": "1.31.1",
+  "version": "1.32.0",
   "description": "Common Types for Typescript",
   "repository": "https://github.com/lifegadget/common-types",
   "main": "dist/index.js",
@@ -12,11 +12,10 @@
   "scripts": {
     "autoindex": "dd autoindex",
     "lint": "npx tsc --noEmit",
-    "test": "npx tsc --noEmit",
+    "test": "vitest",
     "clean": "rimraf dist",
-    "prebuild": "run-s clean autoindex",
     "prepublish": "run-s clean autoindex build",
-    "build": "tsup src/index.ts --format='cjs,esm' --dts",
+    "build": "tsup src/index.ts --clean --format='cjs,esm' --dts",
     "watch": "run-s clean autoindex watch:bundle",
     "watch:bundle": "tsup src/index.ts --format='cjs,esm' --dts --watch"
   },
@@ -24,16 +23,16 @@
   "license": "MIT",
   "devDependencies": {
     "@type-challenges/utils": "^0.1.1",
-    "@types/node": "14",
+    "@types/node": "16",
     "@types/rimraf": "^3.0.2",
-    "dd": "^0.18.0",
-    "jest": "^27.4.7",
-    "jest-extended": "^1.2.0",
+    "@vitest/ui": "^0.25.1",
+    "dd": "^0.18.5",
     "npm-run-all": "^4.1.5",
+    "pathe": "^0.3.9",
     "rimraf": "^3.0.2",
-    "ts-jest": "^27.1.2",
-    "ts-node": "^10.4.0",
-    "tsup": "^5.11.11",
-    "typescript": "^4.5.4"
+    "tsup": "^6.4.0",
+    "typescript": "^4.8.4",
+    "vite": "^3.2.3",
+    "vitest": "^0.25.1"
   }
 }
