@@ -31,6 +31,7 @@
     "@types/node": "16",
     "@types/rimraf": "^3.0.2",
     "@vitest/ui": "^0.25.1",
+    "bumpp": "^8.2.1",
     "dd": "^0.18.5",
     "npm-run-all": "^4.1.5",
     "pathe": "^0.3.9",
