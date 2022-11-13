@@ -17,7 +17,11 @@
     "prepublish": "run-s clean autoindex build",
     "build": "tsup src/index.ts --clean --format='cjs,esm' --dts",
     "watch": "run-s clean autoindex watch:bundle",
-    "watch:bundle": "tsup src/index.ts --format='cjs,esm' --dts --watch"
+    "watch:bundle": "tsup src/index.ts --format='cjs,esm' --dts --watch",
+    "audit:fix": "pnpm audit --fix",
+    "release": "run-s lint release:latest test:ci audit:fix release:bump",
+    "release:latest": "pnpm install",
+    "release:bump": "bumpp"
   },
   "author": "Ken Snyder <ken@ken.net>",
   "license": "MIT",
